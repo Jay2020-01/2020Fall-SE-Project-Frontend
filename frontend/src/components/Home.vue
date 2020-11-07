@@ -12,7 +12,11 @@
         </el-col>
         <el-col :span="5" :offset="6">
           <div class="grid-content head-box2 bg-purple-light">
-            <el-input placeholder="搜索内容" v-model="input" clearable></el-input>
+            <el-input
+              placeholder="搜索内容"
+              v-model="input"
+              clearable
+            ></el-input>
           </div>
         </el-col>
         <el-col :span="6">
@@ -27,7 +31,10 @@
     <!-- 页面主体区域 -->
     <el-container>
       <!-- 右侧内容主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <!-- 路由占位符 -->
+        <router-view />
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -83,13 +90,13 @@ body > .el-container {
   display: flex;
 }
 .el-avatar {
-  margin: 5px 20px 5px 0;
+  margin: 5px 5px 5px 0;
   color: #ea6f5a;
-  font-size: 25px;
+  font-size: 23px;
   background-color: #ffffff;
 }
 .site-name {
-  font-size: 30px;
+  font-size: 25px;
   color: #ea6f5a;
 }
 .head-box3 {
