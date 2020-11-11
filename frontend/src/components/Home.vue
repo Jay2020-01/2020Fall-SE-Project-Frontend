@@ -3,8 +3,8 @@
     <!-- 头部区域 -->
     <el-header height="70px" direction="horizontal">
       <el-row type="flex" class="row-bg">
-        <el-col :span="6" :offset="1">
-          <div class="grid-content head-box1 bg-purple">
+        <el-col :span="4" :offset="1">
+          <div class="grid-content head-box1 bg-purple" @click="home">
             <!-- 头像区域 -->
             <el-avatar :size="50" class="fa fa-coffee"></el-avatar>
             <span class="site-name">咖啡学术</span>
@@ -45,6 +45,9 @@ export default {
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
+    },
+    home(){
+      this.$router.push("/");
     },
   },
 };

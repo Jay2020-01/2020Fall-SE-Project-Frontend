@@ -21,7 +21,7 @@
             <el-option label="计算机科学" value="2"></el-option>
             <el-option label="经济管理" value="3"></el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -71,6 +71,11 @@ export default {
       select: "1",
     };
   },
+  methods: {
+    search() {
+      this.$router.push("/search");
+    },
+  }
 };
 </script>
 
