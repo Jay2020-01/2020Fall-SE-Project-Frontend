@@ -1,7 +1,7 @@
 <template>
   <div class="total-container">
     <!-- 最外层 -->
-    <el-row class="total-container">
+    <el-row class="total-container" gutter="20">
       <!-- 左边论文详情竖列 -->
       <el-col class="details-col" span="16" offset="1">
         <!-- 论文详情卡片 -->
@@ -79,7 +79,9 @@
       </el-col>
       <!-- 右边趋势图竖列 -->
       <el-col class="analyse-col" span="6">
-
+        <el-card shadow="hover">
+          <ve-line :data="chartData" :settings="chartSettings" height="350px"></ve-line>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -87,11 +89,24 @@
 
 <script>
 export default {
-  data() {
-    return {
-      
-    };
-  },
+  data () {
+      this.chartSettings = {
+        area: true
+      }
+      return {
+        chartData: {
+          columns: ['日期', '引用量'],
+          rows: [
+            { '日期': '2015', '引用量': 0},
+            { '日期': '2016', '引用量': 0},
+            { '日期': '2017', '引用量': 10},
+            { '日期': '2018', '引用量': 30},
+            { '日期': '2019', '引用量': 40},
+            { '日期': '2020', '引用量': 55}
+          ]
+        }
+      }
+    },
   methods: {
     
   }

@@ -7,6 +7,11 @@ import './assets/css/global.css'
 // 引入font-awesome
 import 'font-awesome/css/font-awesome.css'
 
+// 引入v-charts
+import VCharts from 'v-charts'
+
+Vue.use(VCharts)
+
 Vue.config.productionTip = false
 
 new Vue({
