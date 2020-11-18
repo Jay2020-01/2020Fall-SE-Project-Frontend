@@ -44,6 +44,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+//tab样式
+/deep/.el-tabs__active-bar {
+  background-color:#ea6f5a;
+}
+/deep/.el-tabs__item.is-active {
+    color: #ea6f5a;
+}
+/deep/.el-tabs__item:hover {
+    color: #ea6f5a;
+}
 // 搜索栏样式
 .search-row{
   margin-top: 5px;
