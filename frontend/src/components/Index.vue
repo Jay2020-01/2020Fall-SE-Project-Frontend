@@ -4,7 +4,6 @@
     <el-row class="logo-row">
       <el-col class="logo-col" span="12" offset="6">
         <el-avatar :size="100" class="fa fa-coffee"></el-avatar>
-        <!-- <img class="logo-img" src="../assets/logo.png" alt /> -->
         <span class="site-name">学术搜索</span>
       </el-col>
     </el-row>

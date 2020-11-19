@@ -10,9 +10,11 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "css-loader": "^5.0.1",
+    "echarts": "^4.9.0",
     "element-ui": "^2.4.5",
     "font-awesome": "^4.7.0",
     "sass-loader": "^10.0.5",
+    "v-charts": "^1.19.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-style-loader": "^4.1.2"
