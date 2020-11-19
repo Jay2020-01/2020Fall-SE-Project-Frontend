@@ -5,7 +5,7 @@
         <el-card>
           <el-col :span="6" class="avator_zone">
             <img
-              src="../static/avator.jpg"
+              src="../assets/avator.jpg"
               style="width: 90%; margin: auto; display: block"
             />
           </el-col>
@@ -86,7 +86,7 @@
           </div>
           <div>
             <!-- <img
-              src="../static/relationship_net.png"
+              src="../assets/relationship_net.png"
               style="width: 250px; margin: auto; display: block"
             /> -->
           </div>
@@ -188,7 +188,7 @@
           <div class="similar_author_pics">
             <el-row v-for="o in 3" :key="o">
               <el-col :span="8" v-for="o in 3" :key="o">
-                <img src="../static/avator.jpg" class="similar_author_pic" />
+                <img src="../assets/avator.jpg" class="similar_author_pic" />
                 <span> Name </span>
               </el-col>
             </el-row>
@@ -250,7 +250,7 @@ export default {
 };
 </script>
 
-<style scoped src = "../static/profile.css">
+<style scoped src = "../assets/css/profile.css">
 </style>
 
 <script>
