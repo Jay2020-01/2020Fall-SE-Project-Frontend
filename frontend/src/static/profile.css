@@ -1,0 +1,129 @@
+.basic-info {
+    line-height: 10px;
+    text-align: -webkit-auto;
+    margin-bottom: 10px;
+}
+
+.basic-info .el-card {
+    height: max-content;
+    padding-bottom: 10px;
+}
+
+.research-field {
+    line-height: 10px;
+    margin-bottom: 10px;
+}
+
+.research-field .el-card {
+    height: 250px;
+}
+
+.introduction {
+    line-height: 10px;
+    /* margin-bottom: 10px; */
+}
+
+.work {
+    /* width: auto; */
+    line-height: 10px;
+    /* text-align: -webkit-auto; */
+    margin-bottom: 10px;
+}
+
+p {
+    /* border: 3px solid red; */
+    margin: 0 10px;
+    /* padding: 0 10px;  */
+    text-align: justify;
+    line-height: 24px;
+    font-size: 14px;
+}
+
+/deep/ .introduction .el-card {
+    margin-bottom: 10px;
+}
+
+/deep/ .work .el-card {
+    margin-bottom: 10px;
+}
+
+/deep/ .el-card__header {
+    padding: 20px 20px 10px;
+    letter-spacing: 5px;
+    text-align: left;
+    font-weight: bold;
+    /* background-color: rgba(240, 240, 240); */
+}
+
+/deep/ .el-card__body {
+    padding: 10px;
+}
+
+.avator_zone {
+    padding: 10px;
+    /* border: 1px solid red; */
+}
+
+.info_zone {
+    line-height: 24px;
+    /* border: 3px solid red; */
+}
+
+.info_name {
+    font-size: 24px;
+    letter-spacing: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+/deep/ .el-button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    float: right;
+}
+
+.divider {
+    margin: 3px 0 3px;
+}
+
+.info_line {
+    height: auto;
+    font-size: 14px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: baseline;
+    margin-top: 5px;
+}
+
+.info_icon {
+    margin-right: 8px;
+}
+
+.relation_net {
+    height: auto;
+    /* margin-top: 5px; */
+}
+
+.similar_author_pics {
+    line-height: 24px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.similar_author_pic {
+    width: 80px;
+    margin: auto;
+    display: block;
+}
+
+/deep/ .el-menu {
+    text-align: center;
+    /* height: auto; */
+    letter-spacing: 3px;
+    /* position: -webkit-sticky; */
+    position: sticky;
+    top: 0;
+    /* display: block; */
+}
