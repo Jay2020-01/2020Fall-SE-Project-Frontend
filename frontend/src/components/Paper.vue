@@ -2,7 +2,7 @@
   <div>
     <el-row class="paper-row">
       <!-- 日期选择器区域 -->
-      <el-col class="date-col" span="1" offset="1">
+      <el-col class="date-col" span="1" offset="0">
         <div class="block">
           <el-date-picker
             v-model="activeDate"
@@ -19,7 +19,7 @@
       </el-col>
 
       <!-- 论文表格区域 -->
-      <el-col class="paper-col" span="13" offset="3">
+      <el-col class="paper-col" span="14" offset="3">
         <el-tabs type="border-card">
           <!-- 按时间排序 -->
           <el-tab-pane label="最新">
@@ -28,7 +28,7 @@
               <div class="title-zone">
                 <!-- 论文名称 -->
 			          <div class="title-line">
-                  <span class="paper-title">
+                  <span class="paper-title" @click="paper">
                     {{item.paper}}
                   </span>
                 </div>
@@ -185,7 +185,7 @@
       </el-col>
 
       <!-- 备用栏 -->
-      <el-col class="card-col" span="4" offset="1">
+      <el-col class="card-col" span="5" offset="1">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
@@ -207,6 +207,12 @@ export default {
         paperId:'2',paper:'Finite time blowup for a supercritical defocusing nonlinear Schrödinger system',person:'陶哲轩',abstract:"We consider the global regularity problem for defocusing nonlinear Schrodinger systems i partial derivative t+Delta u=(del F-Rm)(u) + G on Galilean spacetime RxR(d), where the field u : R1+d -> C-m is vector-valued, F : C-m -> R is a smooth potential which is positive, phase-rota...",time:'2018',reference:'2'
         },{
         paperId:'3',paper:'AN INTEGRATION APPROACH TO THE TOEPLITZ SQUARE PEG PROBLEM',person:'陶哲轩',abstract:"The peg or square of Toeplitz asks if every simple closed curve in the plane inscribes a (non-degenerate) square, in the sense that all four vertices of that square lie on the curve. By a variety of arguments of a nature, it is known that the answer this question is positiv...",time:'2017',reference:'3'
+        },{
+        paperId:'4',paper:'An Inverse Theorem for an Inequality of Kneser',person:'陶哲轩',abstract:"Let G = (G, +) be a compact connected abelian group, and let μG denote its probability Haar measure. A theorem of Kneser (generalising previous results of Macbeath, Raikov, and Shields) establishes the bound μG(A + B) ≥ min(μG(A) + μG(B), 1) whenever A and B are compact subsets o...",time:'2019',reference:'0'
+        },{
+        paperId:'5',paper:'Finite time blowup for a supercritical defocusing nonlinear Schrödinger system',person:'陶哲轩',abstract:"We consider the global regularity problem for defocusing nonlinear Schrodinger systems i partial derivative t+Delta u=(del F-Rm)(u) + G on Galilean spacetime RxR(d), where the field u : R1+d -> C-m is vector-valued, F : C-m -> R is a smooth potential which is positive, phase-rota...",time:'2018',reference:'2'
+        },{
+        paperId:'6',paper:'AN INTEGRATION APPROACH TO THE TOEPLITZ SQUARE PEG PROBLEM',person:'陶哲轩',abstract:"The peg or square of Toeplitz asks if every simple closed curve in the plane inscribes a (non-degenerate) square, in the sense that all four vertices of that square lie on the curve. By a variety of arguments of a nature, it is known that the answer this question is positiv...",time:'2017',reference:'3'
       }],
       pickerOptions: {
         shortcuts: [{
@@ -256,6 +262,11 @@ export default {
         }]
         },      
     }
+  },
+  methods: {
+    paper() {
+      this.$router.push("/details_paper");
+    },
   }
 }
 </script>

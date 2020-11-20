@@ -2,7 +2,7 @@
   <div>
     <el-row class="basic-info" :gutter="10">
       <el-col :span="11" :offset="4">
-        <el-card>
+        <el-card shadow="hover">
           <el-col :span="6" class="avator_zone">
             <img
               src="../assets/avator.jpg"
@@ -12,7 +12,7 @@
           <el-col :span="18" class="info_zone" style="padding-left: 10px">
             <el-row class="info_name">
               <el-col :span="18">
-                <span>赵东岩</span>
+                <span @click="center">赵东岩</span>
               </el-col>
               <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o">
@@ -80,15 +80,15 @@
       </el-col>
 
       <el-col class="relation_net" :span="5">
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 关系网络</span>
           </div>
           <div>
-            <!-- <img
+            <img
               src="../assets/relationship_net.png"
               style="width: 250px; margin: auto; display: block"
-            /> -->
+            />
           </div>
         </el-card>
       </el-col>
@@ -96,7 +96,7 @@
 
     <el-row class="research-field" :gutter="10">
       <el-col :span="11" :offset="4">
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 研究领域</span>
           </div>
@@ -104,7 +104,7 @@
       </el-col>
 
       <el-col :span="5">
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 作者统计 </span>
           </div>
@@ -114,7 +114,7 @@
 
     <el-row class="introduction" :gutter="10">
       <el-col :span="11" :offset="4">
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 工作经历 </span>
           </div>
@@ -128,7 +128,7 @@
           </p>
         </el-card>
 
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 教育背景 </span>
           </div>
@@ -141,7 +141,7 @@
           </p>
         </el-card>
 
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 个人简介 </span>
           </div>
@@ -180,7 +180,7 @@
       </el-col>
 
       <el-col :span="5">
-        <el-card class="box-card">
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 相似作者 </span>
           </div>
@@ -199,13 +199,13 @@
 
     <el-row class="work" :gutter="10">
       <el-col :span="11" :offset="4" class="left">
-        <el-card class="paper box-card">
+        <el-card shadow="hover" class="paper box-card">
           <div slot="header" class="clearfix">
             <span> 论文 </span>
           </div>
         </el-card>
 
-        <el-card class="project box-card">
+        <el-card shadow="hover" class="project box-card">
           <div slot="header" class="clearfix">
             <span> 科研项目 </span>
           </div>
@@ -259,6 +259,9 @@ export default {
     goto(pos) {
       document.querySelector(pos).scrollIntoView();
     },
+    center() {
+      this.$router.push("/personal_center");
+    }
   },
 };
 </script>

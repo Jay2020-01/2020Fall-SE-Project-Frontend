@@ -15,7 +15,7 @@
     </el-row>
     <!-- 搜索结果 -->
     <el-row class="result-row">
-      <el-col class="result-col" span="24">
+      <el-col class="result-col" span="20" offset="2">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="专家" name="person" ><router-view></router-view></el-tab-pane>
           <el-tab-pane label="论文" name="paper" ><router-view></router-view></el-tab-pane>

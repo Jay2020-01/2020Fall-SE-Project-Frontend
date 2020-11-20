@@ -155,7 +155,7 @@
 
     <el-row class="person-row">
       <!--学者表格区域-->
-      <el-col class="person-col" span="17" offset="1">
+      <el-col class="person-col" span="18" offset="0">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
@@ -174,7 +174,7 @@
                 <div class="name-zone">
                   <!-- 学者名区域 -->
 			            <div class="name-line">
-                    <span class="person-name">
+                    <span class="person-name" @click="person">
                       {{item.person}}
                     </span>
                   </div>
@@ -434,7 +434,7 @@
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
-      <el-col class="card-col" span="4" offset="1">
+      <el-col class="card-col" span="5" offset="1">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
@@ -455,8 +455,19 @@ export default {
         personId:'2',person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',department:'Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China'
         },{
         personId:'3',person:'陶哲轩',hIndex:'81',paperNum:'402',reference:'59997',department:'Department of Mathematics,University of California,Los Angeles'
+        },{
+        personId:'4',person:'何恺明',hIndex:'60',paperNum:'81',reference:'132732',department:'Facebook AI Research'
+        },{
+        personId:'5',person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',department:'Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China'
+        },{
+        personId:'6',person:'陶哲轩',hIndex:'81',paperNum:'402',reference:'59997',department:'Department of Mathematics,University of California,Los Angeles'
       }]
     }
+  },
+  methods: {
+    person() {
+      this.$router.push("/profile");
+    },
   }
 }
 </script>
