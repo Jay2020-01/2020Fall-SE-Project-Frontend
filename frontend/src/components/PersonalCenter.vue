@@ -1,7 +1,7 @@
 <template>
-<div>
-    <div style="float:left; width:250px ; ">
-        <el-row class="tac" style="width:500px;">
+<div style="height:100%">
+    <div style="float:left; width:250px ; height:100%">
+        <el-row class="tac" style="width:500px;height:100%">
             <el-col :span="12">
             <el-menu
             default-active="1"
