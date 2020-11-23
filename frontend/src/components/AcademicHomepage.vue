@@ -1,37 +1,6 @@
 <template>
     <div>
         <div >
-            <!-- 当前登陆的用户的card -->
-            <el-card class="box-card_1" shadow="hover" >
-                <div style="line-height:10px;" @click="click_name_1()">
-                    <!-- 头像 -->
-                    <div style="float:left;height:120px;">
-                        <img src="../assets/coffeelogo.png" alt="头像" style="width:80px;height:80px;"/>
-                    </div>
-
-                    <!-- 名字 -->
-                    <div style="line-height:20px;padding:0px;margin:-20px 0px -10px 90px;text-align:left;">
-                        <h4>{{this.user.person}}</h4>
-                    </div>
-                    <!-- 指数 -->
-                    <div style="line-height:20px;padding:0px;margin:0px 0px 0px 90px;text-align:left;font-size: 13px">
-                        <span>h-index：</span><span style="color:#409EFF ;">{{this.user.hIndex}}</span>
-                        <el-divider direction="vertical"></el-divider>
-                        <span>论文数：</span><span style="color:#409EFF ;">{{this.user.paperNum}}</span>
-                        <el-divider direction="vertical"></el-divider>
-                        <span>引用数：</span><span style="color:#409EFF ;">{{this.user.reference}}</span>
-                        
-                    </div>
-                    <br>
-                    <!-- 地址&身份 -->
-                    <div style="line-height:20px;padding:0px;margin:0px 0px 0px 90px;text-align:left;font-size: 13px">
-                        <span>身份：</span><span style="font-style: italic">{{this.user.occupation}}</span>
-                        <el-divider direction="vertical"></el-divider>
-                        <span>单位：</span><span style="font-style: italic">{{this.user.company}}</span>
-                    </div>
-                </div>
-            </el-card>
-
             <!-- 根据名字检索的可能是该用户的card -->
             <el-card class="box-card_1" shadow="hover" v-for="(item,index) in person_list" :key="index" >
                 <div style="line-height:10px;" @click="click_name(item)">
@@ -65,7 +34,14 @@
         </div>
 
 <!-- 想在展示了8个card后分页，但是element-ui分页没有效果出现 -->
-<!-- 需求里没有绑定学者这个，是不是可以把这一页改成绑定门户啥的？？我猜的。不要也可 -->
+        <div>
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination> 
+        </div>
+
 
         <div style="" >
             <el-card style="width:400px;">
@@ -98,7 +74,8 @@
                 </div>
                 <div></div>
             </el-card>
-        </div>
+        </div>    
+
 
         
     </div>
@@ -107,7 +84,7 @@
 export default {
     data () {
       return {
-          user:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
+          //user:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
           person_list:[
             {
                 person:'何铭凯',hIndex:'60',paperNum:'81',reference:'132732',occupation:'教授',company:'北京航空航天大学'
@@ -155,21 +132,21 @@ export default {
                 person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
             }
           ],
-          person_now:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
+          //person_now:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
           //flag:false,
+          person_now:'',
       }
     },
+    mounted:function() {
+            //alert("!!!")
+            this.person_now=this.person_list[0]
+        },
     methods: {
         click_name(item){
             //this.flag=true;
             this.person_now=item;
             //this.$alert('这是一段内容')
         },
-        click_name_1(){
-            //this.flag=true;
-            this.person_now=this.user;
-            //this.$alert('这是一段内容')
-        }
     }
 }
 </script>
