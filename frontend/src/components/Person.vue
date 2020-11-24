@@ -10,43 +10,43 @@
         <ul>
           <span class="filter-item">
             >=60
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             50-59
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             40-49
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             30-39
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             20-29
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             10-19
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             0-10
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
@@ -61,13 +61,13 @@
         <ul>
           <span class="filter-item">
             男
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             女
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
@@ -82,37 +82,37 @@
         <ul>
           <span class="filter-item">
             China
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             USA
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             Russia
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             UK
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             Japan
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             Other
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
@@ -127,55 +127,55 @@
         <ul>
           <span class="filter-item">
             Chinese
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             English
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             Japanese
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
           <span class="filter-item">
             Other
-            <span style="padding: 0px 2px;">
+            <span style="padding: 0px 2px">
               (<span class="filter-count">?</span>)
             </span>
           </span>
         </ul>
-      </div>            
+      </div>
     </div>
 
-    <el-row class="person-row">
+    <el-row class="person-row" gutter="20">
       <!--学者表格区域-->
       <el-col class="person-col" span="18" offset="0">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
-            <div class="box" v-for="(item) in personList" :key="item.personId">
+            <div class="box" v-for="item in personList" :key="item.personId">
               <!-- 头像区域 -->
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg">
+                    <img src="../assets/default.jpg" />
                   </div>
                 </div>
               </div>
-              
+
               <!-- 学者主要信息区域 -->
               <div class="person-right-zone">
                 <div class="name-zone">
                   <!-- 学者名区域 -->
-			            <div class="name-line">
+                  <div class="name-line">
                     <span class="person-name" @click="person">
-                      {{item.person}}
+                      {{ item.person }}
                     </span>
                   </div>
                   <!-- 右侧关注按钮 -->
@@ -201,25 +201,21 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.hIndex}}
+                        {{ item.hIndex }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        论文数
-                      </span>
+                      <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.paperNum}}
+                        {{ item.paperNum }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        引用数
-                      </span>
+                      <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.reference}}
+                        {{ item.reference }}
                       </span>
                     </span>
                   </div>
@@ -227,9 +223,7 @@
 
                 <!-- 学者机构区域 -->
                 <div class="department-zone">
-                  <span class="department">
-                    机构：{{item.department}}
-                  </span>
+                  <span class="department"> 机构：{{ item.department }} </span>
                 </div>
 
                 <!-- 学者标签区域 -->
@@ -246,28 +240,25 @@
                     </span>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </el-tab-pane>
           <!-- 按论文数排序 -->
           <el-tab-pane label="论文数">
-            <div class="box" v-for="(item) in personList" :key="item.personId">
+            <div class="box" v-for="item in personList" :key="item.personId">
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg">
+                    <img src="../assets/default.jpg" />
                   </div>
                 </div>
               </div>
 
               <div class="person-right-zone">
                 <div class="name-zone">
-
-			            <div class="name-line">
+                  <div class="name-line">
                     <span class="person-name">
-                      {{item.person}}
+                      {{ item.person }}
                     </span>
                   </div>
 
@@ -293,34 +284,28 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.hIndex}}
+                        {{ item.hIndex }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        论文数
-                      </span>
+                      <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.paperNum}}
+                        {{ item.paperNum }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        引用数
-                      </span>
+                      <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.reference}}
+                        {{ item.reference }}
                       </span>
                     </span>
                   </div>
                 </div>
 
                 <div class="department-zone">
-                  <span class="department">
-                    机构：{{item.department}}
-                  </span>
+                  <span class="department"> 机构：{{ item.department }} </span>
                 </div>
 
                 <div class="tag-zone">
@@ -336,28 +321,25 @@
                     </span>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </el-tab-pane>
           <!-- 按引用数排序 -->
           <el-tab-pane label="引用数">
-            <div class="box" v-for="(item) in personList" :key="item.personId">
+            <div class="box" v-for="item in personList" :key="item.personId">
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg">
+                    <img src="../assets/default.jpg" />
                   </div>
                 </div>
               </div>
 
               <div class="person-right-zone">
                 <div class="name-zone">
-
-			            <div class="name-line">
+                  <div class="name-line">
                     <span class="person-name">
-                      {{item.person}}
+                      {{ item.person }}
                     </span>
                   </div>
 
@@ -383,34 +365,28 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.hIndex}}
+                        {{ item.hIndex }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        论文数
-                      </span>
+                      <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.paperNum}}
+                        {{ item.paperNum }}
                       </span>
                     </span>
                     <span class="info-item">
-                      <span>
-                        引用数
-                      </span>
+                      <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{item.reference}}
+                        {{ item.reference }}
                       </span>
                     </span>
                   </div>
                 </div>
 
                 <div class="department-zone">
-                  <span class="department">
-                    机构：{{item.department}}
-                  </span>
+                  <span class="department"> 机构：{{ item.department }} </span>
                 </div>
 
                 <div class="tag-zone">
@@ -426,15 +402,13 @@
                     </span>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
-      <el-col class="card-col" span="5" offset="1">
+      <el-col class="card-col" span="6" offset="0">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
@@ -447,45 +421,86 @@
 
 <script>
 export default {
-  data(){
-    return{
-      personList:[{
-        personId:'1',person:'何恺明',hIndex:'60',paperNum:'81',reference:'132732',department:'Facebook AI Research'
-        },{
-        personId:'2',person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',department:'Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China'
-        },{
-        personId:'3',person:'陶哲轩',hIndex:'81',paperNum:'402',reference:'59997',department:'Department of Mathematics,University of California,Los Angeles'
-        },{
-        personId:'4',person:'何恺明',hIndex:'60',paperNum:'81',reference:'132732',department:'Facebook AI Research'
-        },{
-        personId:'5',person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',department:'Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China'
-        },{
-        personId:'6',person:'陶哲轩',hIndex:'81',paperNum:'402',reference:'59997',department:'Department of Mathematics,University of California,Los Angeles'
-      }]
-    }
+  data() {
+    return {
+      personList: [
+        {
+          personId: "1",
+          person: "何恺明",
+          hIndex: "60",
+          paperNum: "81",
+          reference: "132732",
+          department: "Facebook AI Research",
+        },
+        {
+          personId: "2",
+          person: "何明凯",
+          hIndex: "0",
+          paperNum: "2",
+          reference: "0",
+          department:
+            "Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China",
+        },
+        {
+          personId: "3",
+          person: "陶哲轩",
+          hIndex: "81",
+          paperNum: "402",
+          reference: "59997",
+          department:
+            "Department of Mathematics,University of California,Los Angeles",
+        },
+        {
+          personId: "4",
+          person: "何恺明",
+          hIndex: "60",
+          paperNum: "81",
+          reference: "132732",
+          department: "Facebook AI Research",
+        },
+        {
+          personId: "5",
+          person: "何明凯",
+          hIndex: "0",
+          paperNum: "2",
+          reference: "0",
+          department:
+            "Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China",
+        },
+        {
+          personId: "6",
+          person: "陶哲轩",
+          hIndex: "81",
+          paperNum: "402",
+          reference: "59997",
+          department:
+            "Department of Mathematics,University of California,Los Angeles",
+        },
+      ],
+    };
   },
   methods: {
     person() {
       this.$router.push("/profile");
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="less" scoped>
 //搜索筛选器样式
-.filter-zone{
+.filter-zone {
   display: flex;
   flex-direction: column;
   border-radius: 2px;
   border: 1px solid #e8e8e8;
   border-radius: 0;
-  padding: 2px 10px;  
+  padding: 2px 10px;
   box-shadow: none;
   margin-bottom: 11px;
 }
 
-.filter-row{
+.filter-row {
   display: flex;
   flex-direction: row;
   flex: 2 1;
@@ -496,14 +511,14 @@ export default {
   padding-left: 0;
 }
 
-.filter-title{
+.filter-title {
   display: flex;
   flex: 0 1 72px;
   color: #000;
   font-size: 12px;
 }
 
-.filter-item{
+.filter-item {
   margin: 0 2px;
   cursor: pointer;
   padding: 0 4px;
@@ -512,24 +527,26 @@ export default {
   border-color: transparent;
 }
 
-.filter-count{
+.filter-count {
   font-weight: 600;
   color: #3c80bc;
 }
 
 //tab样式
 /deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
-    color: #ea6f5a;
-    background-color: #FFF;
-    border-right-color: #DCDFE6;
-    border-left-color: #DCDFE6;
+  color: #ea6f5a;
+  background-color: #fff;
+  border-right-color: #dcdfe6;
+  border-left-color: #dcdfe6;
 }
-/deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item:not(.is-disabled):hover {
-    color: #ea6f5a;
+/deep/.el-tabs--border-card
+  > .el-tabs__header
+  .el-tabs__item:not(.is-disabled):hover {
+  color: #ea6f5a;
 }
 
 //论文表格样式
-.box{
+.box {
   // display: flex;
   // position: relative;
   // width: 100%;
@@ -545,26 +562,26 @@ export default {
   top: -2px;
   line-height: 18px;
   width: calc(100% - 49px);
-  background-color:transparent;
+  background-color: transparent;
   border-bottom: 1px solid #d5d5d5;
   /*在父容器中输入display: flex就是启动了flex布局*/
 }
 
 //学者头像样式
-.person-left-zone{
+.person-left-zone {
   margin-right: 14px;
   width: 90px;
   min-width: 90px;
   margin-top: 10px;
 }
 
-.imgBox{
+.imgBox {
   margin-right: 14px;
   width: 90px;
   min-width: 90px;
 }
 
-.person-img{
+.person-img {
   max-height: 100px;
   overflow: hidden;
   min-height: 90px;
@@ -572,7 +589,7 @@ export default {
 }
 
 //学者信息样式
-.person-right-zone{
+.person-right-zone {
   text-align: left;
   position: relative;
   flex-direction: column;
@@ -582,17 +599,17 @@ export default {
 }
 
 //学者名样式
-.name-zone{
+.name-zone {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-right: 0;
   margin-top: 15px;
 }
-.name-line{
+.name-line {
   line-height: 22px;
 }
-.person-name{
+.person-name {
   margin-right: 5px;
   margin-bottom: 5px;
   overflow: hidden;
@@ -603,17 +620,17 @@ export default {
 }
 
 //关注按钮样式
-.name-right-zone{
+.name-right-zone {
   min-width: 100px;
 }
-.mark{
+.mark {
   display: flex;
   justify-content: flex-end;
   position: relative;
   align-items: center;
   line-height: 18px;
 }
-.btn{
+.btn {
   height: 24px;
   padding: 0 10px;
   border: none;
@@ -625,50 +642,50 @@ export default {
 }
 
 //学者各项信息展示样式
-.info-row{
+.info-row {
   display: flex;
   flex-wrap: wrap;
   font-size: 13px;
 }
 
-.info-item{
+.info-item {
   color: #181818;
   display: flex;
   align-items: center;
 }
 
-.info-count{
+.info-count {
   color: #0095ff;
   font-weight: 700;
   margin-left: 2px;
 }
 
-.info-item::after{
+.info-item::after {
   margin: 0 15px;
   width: 0;
   height: 11px;
   border-right: 1px solid #181818;
   display: inline-block;
   content: "";
-  position: relative; 
+  position: relative;
 }
 
 //机构样式
-.department-zone{
+.department-zone {
   font-size: 13px;
 }
 
-.department{
+.department {
   margin: 2px 0;
 }
 
 //标签样式
-.tags{
+.tags {
   max-height: 24px;
   overflow: hidden;
   margin: 8px 0 6px;
 }
-.tag{
+.tag {
   border: 1px solid #e7e7e7;
   border-radius: 2px;
   margin: 0 5px 4px 0;
@@ -681,8 +698,8 @@ export default {
   color: #555;
   display: inline-block;
 }
-.tag:hover{
-  border-color:#ea6f5a;
+.tag:hover {
+  border-color: #ea6f5a;
 }
 // 卡片样式
 .el-card:hover {
@@ -707,7 +724,7 @@ export default {
 }
 
 .box-card {
-  width: 100%;
+  // width: 100%;
   height: 300px;
 }
 </style>

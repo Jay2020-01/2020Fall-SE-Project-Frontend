@@ -1,7 +1,9 @@
 <template>
   <div>
+    <!-- 第一行 -->
     <el-row class="basic-info" :gutter="10">
-      <el-col :span="11" :offset="4">
+      <!-- 左边人物详情 -->
+      <el-col :span="14" :offset="2">
         <el-card shadow="hover">
           <el-col :span="6" class="avator_zone">
             <img
@@ -16,7 +18,7 @@
               </el-col>
               <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o">
-                  <span style="margin-left: 5px;"> 关 注 </span>
+                  <span style="margin-left: 5px"> 关 注 </span>
                 </el-button>
               </el-col>
             </el-row>
@@ -78,8 +80,8 @@
           </el-col>
         </el-card>
       </el-col>
-
-      <el-col class="relation_net" :span="5">
+      <!-- 右边关系网络 -->
+      <el-col class="relation_net" :span="6">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 关系网络</span>
@@ -94,8 +96,9 @@
       </el-col>
     </el-row>
 
+    <!-- 第二行 -->
     <el-row class="research-field" :gutter="10">
-      <el-col :span="11" :offset="4">
+      <el-col :span="14" :offset="2">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 研究领域</span>
@@ -103,7 +106,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="5">
+      <el-col :span="6">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 作者统计 </span>
@@ -112,19 +115,19 @@
       </el-col>
     </el-row>
 
+    <!-- 第三行 -->
     <el-row class="introduction" :gutter="10">
-      <el-col :span="11" :offset="4">
+      <el-col :span="14" :offset="2">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 工作经历 </span>
           </div>
           <p>
-              Professor in Peking University, Aug.2007 ~ now, Peking University
-              arrowAssociate Professor in Peking University, Aug.2001 ~ July
-              2007 , Peking University arrowAssistant Professor in Peking
-              University, Aug.1996 ~ July 2001 , Peking University
-              arrowAssistant Researcher in Peking University, July.1994 ~ July
-              1996 , Peking University
+            Professor in Peking University, Aug.2007 ~ now, Peking University
+            arrowAssociate Professor in Peking University, Aug.2001 ~ July 2007
+            , Peking University arrowAssistant Professor in Peking University,
+            Aug.1996 ~ July 2001 , Peking University arrowAssistant Researcher
+            in Peking University, July.1994 ~ July 1996 , Peking University
           </p>
         </el-card>
 
@@ -145,41 +148,40 @@
           <div slot="header" class="clearfix">
             <span> 个人简介 </span>
           </div>
-          <p style="text-indent: 2em;">
+          <p style="text-indent: 2em">
             My major research interests include Natural Language Processing,
             Semantic Data Management and Knowledge-based Intelligent System.
             Recently, I am interested in several research topics including
             Information Extraction, Knowledge Graph, Question Answering &
             Reading Comprehension, Dialogue System and Knowledge-based
-            Intelligence applications. 
+            Intelligence applications.
           </p>
-          <p style="text-indent: 2em;">
-            I am a distinguished member of China
-            Computer Federation (CCF), the secretary-general of CCF TCCI
-            (Technical Committee on Chinese Information Technology), a member of
-            CCF Task Force on Big Data, a member of CCF Network and Data
-            Communications, a senior member of CIPS Social Media Processing
-            Committee. I undertook 15 national research projects (include
-            National Natural Science Foundation of China, National Hi-Tech
-            Project) and is/was the PI in 7 of them. I also undertook 8
-            provincial and ministerial level scientific research projects, and
-            was the PI in 4 of them. 
+          <p style="text-indent: 2em">
+            I am a distinguished member of China Computer Federation (CCF), the
+            secretary-general of CCF TCCI (Technical Committee on Chinese
+            Information Technology), a member of CCF Task Force on Big Data, a
+            member of CCF Network and Data Communications, a senior member of
+            CIPS Social Media Processing Committee. I undertook 15 national
+            research projects (include National Natural Science Foundation of
+            China, National Hi-Tech Project) and is/was the PI in 7 of them. I
+            also undertook 8 provincial and ministerial level scientific
+            research projects, and was the PI in 4 of them.
           </p>
-          <p style="text-indent: 2em;">
-            I published over 100 referred papers (more
-            than 40 of them are top ranked by CCF, such as ACL, AAAI, IJCAI,
-            KDD, WWW, SIGMOD, VLDB; AI, TODS, VLDB Journal, TKDE etc.), obtained
-            20 patents, and won 7 official awards in national and
-            provincial/ministerial level, including National Awards of
-            Scientific and Technological Process, Second Prize (Ranking the
-            first one). I also won China Youth Science and Technology Award
-            (2007) and Special Award of Technological Innovation titled "Honor
-            of Science and Technology" by Beijing Municipal Government (2007).
+          <p style="text-indent: 2em">
+            I published over 100 referred papers (more than 40 of them are top
+            ranked by CCF, such as ACL, AAAI, IJCAI, KDD, WWW, SIGMOD, VLDB; AI,
+            TODS, VLDB Journal, TKDE etc.), obtained 20 patents, and won 7
+            official awards in national and provincial/ministerial level,
+            including National Awards of Scientific and Technological Process,
+            Second Prize (Ranking the first one). I also won China Youth Science
+            and Technology Award (2007) and Special Award of Technological
+            Innovation titled "Honor of Science and Technology" by Beijing
+            Municipal Government (2007).
           </p>
         </el-card>
       </el-col>
 
-      <el-col :span="5">
+      <el-col :span="6">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 相似作者 </span>
@@ -197,8 +199,9 @@
       </el-col></el-row
     >
 
+    <!-- 第四行 -->
     <el-row class="work" :gutter="10">
-      <el-col :span="11" :offset="4" class="left">
+      <el-col :span="14" :offset="2" class="left">
         <el-card shadow="hover" class="paper box-card">
           <div slot="header" class="clearfix">
             <span> 论文 </span>
@@ -261,7 +264,7 @@ export default {
     },
     center() {
       this.$router.push("/personal_center");
-    }
+    },
   },
 };
 </script>

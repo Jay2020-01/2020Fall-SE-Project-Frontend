@@ -5,7 +5,8 @@
 }
 
 .basic-info .el-card {
-    height: max-content;
+    /* height: max-content; */
+    min-height: 400px;
     padding-bottom: 10px;
 }
 
@@ -15,7 +16,7 @@
 }
 
 .research-field .el-card {
-    height: 250px;
+    min-height: 300px;
 }
 
 .introduction {
