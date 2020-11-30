@@ -2,7 +2,7 @@
   <div>
     <!-- 搜索框 -->
     <el-row class="search-row">
-      <el-col class="search-col" span="12" offset="4">
+      <el-col class="search-col" span="12" offset="6">
         <el-input class="search-input input-with-select" clearable placeholder="请输入内容" v-model="input">
           <el-select v-model="activeValue" slot="prepend" placeholder="请选择">
             <el-option label="所有学科" value="1"></el-option>
@@ -17,8 +17,8 @@
     <el-row class="result-row">
       <el-col class="result-col" span="20" offset="2">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="专家" name="person" ><router-view></router-view></el-tab-pane>
           <el-tab-pane label="论文" name="paper" ><router-view></router-view></el-tab-pane>
+          <el-tab-pane label="专家" name="person" ><router-view></router-view></el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -31,7 +31,7 @@ export default {
       return {
         input: '',
         activeValue:"1",
-        activeName:"person"
+        activeName:"paper"
     }
   },
 
@@ -45,6 +45,13 @@ export default {
 
 <style lang="less" scoped>
 //tab样式
+// 取消下方横线
+/deep/.el-tabs__nav-wrap::after {
+  position: static !important;
+}
+/deep/ .el-tabs__nav {
+  left: 20%;
+}
 /deep/.el-tabs__active-bar {
   background-color:#ea6f5a;
 }

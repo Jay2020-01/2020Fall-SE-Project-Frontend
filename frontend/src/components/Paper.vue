@@ -333,6 +333,9 @@ export default {
   width: 180px;
 }
 //tab样式
+/deep/ .el-tabs__nav {
+  left: 0%;
+}
 /deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   color: #ea6f5a;
   background-color: #fff;

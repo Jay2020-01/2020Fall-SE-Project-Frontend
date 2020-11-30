@@ -31,11 +31,11 @@ const routes = [
             { path: '/index', component: Index },
             {
                 path: '/search',
-                redirect: '/search/person',
+                redirect: '/search/paper',
                 component: Search,
                 children: [
-                    { path: 'person', component: Person },
-                    { path: 'paper', component: Paper }
+                    { path: 'paper', component: Paper },
+                    { path: 'person', component: Person }
                 ]
             },
             { path: '/profile', name: "profile", component: Profile },

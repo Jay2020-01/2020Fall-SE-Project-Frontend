@@ -497,6 +497,7 @@ export default {
   border-radius: 0;
   padding: 2px 10px;
   box-shadow: none;
+  margin-top: 0px;
   margin-bottom: 11px;
 }
 
@@ -533,6 +534,9 @@ export default {
 }
 
 //tab样式
+/deep/ .el-tabs__nav {
+  left: 0%;
+}
 /deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   color: #ea6f5a;
   background-color: #fff;

@@ -19,11 +19,34 @@
             ></el-input>
           </div>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="7">
           <div class="grid-content head-box3 bg-purple">
-            <div>
+            <!-- <div>
               <el-button size="medium" @click="logout">退出</el-button>
-            </div>
+            </div> -->
+            <!-- 这里是右上角的头像 -->
+            <el-dropdown style="height: 60px; display:flex; align-items: center;" @visible-change="get_user_info">
+              <span class="el-dropdown-link">
+                <div style="display:flex; align-items: center;">
+                  <el-avatar :size="40" :src="imageUrl" />
+                </div>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item disabled>{{ username }}</el-dropdown-item>
+                <el-dropdown-item disabled>{{ mail_address }}</el-dropdown-item>
+                <!-- <el-divider></el-divider> -->
+                <!-- <el-dropdown-item >个人信息</el-dropdown-item> -->
+                <el-divider>
+                  <i class="el-icon-mobile-phone" />
+                </el-divider>
+                <el-dropdown-item @click.native="toPersonalCenter"
+                  >个人空间</el-dropdown-item
+                >
+                <el-dropdown-item style="color: red" @click.native="logout"
+                  >退出登录</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </el-col>
       </el-row>
@@ -41,13 +64,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      // 右上角头像
+      username: "username",
+      mail_address: "123123@126.com",
+      imageUrl:
+        "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+    }
+  },
   methods: {
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
     },
-    home(){
+    home() {
       this.$router.push("/");
+    },
+    toPersonalCenter() {
+      window.sessionStorage.clear();
+      this.$router.push("/personal_center");
     },
   },
 };
@@ -104,8 +140,12 @@ body > .el-container {
 }
 .head-box3 {
   display: flex;
+  align-items: center;
+  height: 60px;
+  box-sizing: border-box;
   // 居右对齐
   justify-content: flex-end;
+  // border: 1px solid red;
 }
 
 // .bg-purple {
@@ -121,5 +161,10 @@ body > .el-container {
 .row-bg {
   margin: 5px 0;
   // background-color: #f9fafc;
+}
+
+// 右上角头像
+.el-dropdown-menu__item {
+  text-align: center;
 }
 </style>
