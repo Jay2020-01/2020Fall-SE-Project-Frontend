@@ -12,6 +12,7 @@ import PersonalCenter from '../components/PersonalCenter'
 import AcademicHomepage from '../components/AcademicHomepage'
 import Collection from '../components/Collection'
 import Follow from '../components/Follow'
+import Chat from '../components/Chat'
 import IndividualAccount from '../components/IndividualAccount'
 import Profile from '../components/Profile.vue'
 
@@ -49,6 +50,7 @@ const routes = [
                     { path: 'collection', component: Collection },
                     { path: 'follow', component: Follow },
                     { path: 'individual_account', component: IndividualAccount },
+                    { path: 'chat', component: Chat },
                 ]
             },
         ]
