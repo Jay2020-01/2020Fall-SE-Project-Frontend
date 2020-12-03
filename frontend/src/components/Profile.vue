@@ -32,10 +32,16 @@
                 基本信息块右边未填满
                 mail和homepage不换行
              -->
-            <el-row>
+             <!-- 完成编辑按钮啦
+              -->
+            <el-row></el-row>
+            <el-row  v-if="basic_flag==false">
+              <i class="el-icon-edit" @click="change_basic_flag" style="float:right"></i>
               <el-row class="info_line">
                 <i class="fa fa-id-card-o info_icon"></i><span>教授</span>
               </el-row>
+
+              
 
               <el-row class="info_line">
                 <i class="fa fa-institution info_icon"></i>
@@ -78,6 +84,37 @@
               </el-row>
             </el-row>
           </el-col>
+
+          <i class="el-icon-close" @click="change_basic_flag" style="float:right" v-if="basic_flag==true"></i>
+           <el-form v-if="basic_flag==true" style="float:left" label-position="right" label-width="100px">
+             
+              <el-form-item label="姓名：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="职业：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="电话：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="单位：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="地址：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="个人主页：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-form-item label="性别：" >
+                <el-input v-model="edit_list" style="width:500px"></el-input>
+              </el-form-item>
+              <el-button  v-if="basic_flag==true" @click="edit_basic">保存</el-button>
+           </el-form>
+
         </el-card>
       </el-col>
       <!-- 右边关系网络 -->
@@ -118,37 +155,57 @@
     <!-- 第三行 -->
     <el-row class="introduction" :gutter="10">
       <el-col :span="14" :offset="2">
-        <el-card shadow="hover" class="box-card">
+        <el-card shadow="hover" class="box-card" >
           <div slot="header" class="clearfix">
-            <span> 工作经历 </span>
+            <span> 工作经历 </span><i class="el-icon-edit" @click="change_work_flag" style="float:right" v-if="work_flag==false"></i>
+            <i class="el-icon-close" @click="change_work_flag" style="float:right" v-if="work_flag==true"></i>
           </div>
-          <p>
+          <p v-if="work_flag==false">
             Professor in Peking University, Aug.2007 ~ now, Peking University
             arrowAssociate Professor in Peking University, Aug.2001 ~ July 2007
             , Peking University arrowAssistant Professor in Peking University,
             Aug.1996 ~ July 2001 , Peking University arrowAssistant Researcher
             in Peking University, July.1994 ~ July 1996 , Peking University
           </p>
+          
+           <el-form v-if="work_flag==true" style="float:left" label-width="100px">
+              <el-form-item  >
+                <el-input v-model="edit_list" style="width:500px" type="textarea"></el-input>
+              </el-form-item>
+              <el-button  v-if="work_flag==true" @click="edit_work">保存</el-button>
+           </el-form>
+
         </el-card>
+
+      
+
 
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
-            <span> 教育背景 </span>
+            <span> 教育背景 </span><i class="el-icon-edit" @click="change_edu_flag" style="float:right"  v-if="edu_flag==false"></i>
+            <i class="el-icon-close" @click="change_edu_flag" style="float:right" v-if="edu_flag==true"></i>
           </div>
-          <p>
+          <p  v-if="edu_flag==false">
             Ph.D., Computer Science, Peking University, Beijing, China, 2000
             <br />
             M.S., Computer Science, Peking University, Beijing, China, 1994 B.
             <br />
             S., Computer Science, Peking University, Beijing, China, 1991
           </p>
+          <el-form v-if="edu_flag==true" style="float:left" label-width="100px">
+              <el-form-item  >
+                <el-input v-model="edit_list" style="width:500px" type="textarea"></el-input>
+              </el-form-item>
+              <el-button  v-if="edu_flag==true" @click="edit_edu">保存</el-button>
+           </el-form>
         </el-card>
 
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
-            <span> 个人简介 </span>
+            <span> 个人简介 </span><i class="el-icon-edit" @click="change_profile_flag" style="float:right"  v-if="profile_flag==false"></i>
+            <i class="el-icon-close" @click="change_profile_flag" style="float:right" v-if="profile_flag==true"></i>
           </div>
-          <p style="text-indent: 2em">
+          <p style="text-indent: 2em"  v-if="profile_flag==false">
             My major research interests include Natural Language Processing,
             Semantic Data Management and Knowledge-based Intelligent System.
             Recently, I am interested in several research topics including
@@ -156,7 +213,7 @@
             Reading Comprehension, Dialogue System and Knowledge-based
             Intelligence applications.
           </p>
-          <p style="text-indent: 2em">
+          <p style="text-indent: 2em"  v-if="profile_flag==false">
             I am a distinguished member of China Computer Federation (CCF), the
             secretary-general of CCF TCCI (Technical Committee on Chinese
             Information Technology), a member of CCF Task Force on Big Data, a
@@ -167,7 +224,7 @@
             also undertook 8 provincial and ministerial level scientific
             research projects, and was the PI in 4 of them.
           </p>
-          <p style="text-indent: 2em">
+          <p style="text-indent: 2em"  v-if="profile_flag==false">
             I published over 100 referred papers (more than 40 of them are top
             ranked by CCF, such as ACL, AAAI, IJCAI, KDD, WWW, SIGMOD, VLDB; AI,
             TODS, VLDB Journal, TKDE etc.), obtained 20 patents, and won 7
@@ -178,6 +235,13 @@
             Innovation titled "Honor of Science and Technology" by Beijing
             Municipal Government (2007).
           </p>
+          <el-form v-if="profile_flag==true" style="float:left" label-width="100px">
+              <el-form-item  >
+                <el-input v-model="edit_list" style="width:500px" type="textarea"></el-input>
+              </el-form-item>
+              <el-button  v-if="profile_flag==true" @click="edit_pro">保存</el-button>
+           </el-form>
+
         </el-card>
       </el-col>
 
@@ -244,20 +308,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {},
-};
-</script>
+
 
 <style scoped src = "../assets/css/profile.css">
 </style>
 
 <script>
 export default {
+  data(){
+    return{
+      academic_home_id:'',
+      list:{},//保存从后端返回的信息
+      user_id:'',
+      basic_flag:false,
+      work_flag:false,
+      edu_flag:false,
+      profile_flag:false,
+      edit_list:{},//复制上文list，用于保存更改的内容
+    }
+  },
+  created(){
+            //alert(1);
+            const _this=this;
+            axios.post('/ajax/profile/view/'+_this.academic_home_id).then(function (resp) {
+                     //console.log(resp.data);
+                     _this.list=resp.data;
+                 })
+        },
   methods: {
     goto(pos) {
       document.querySelector(pos).scrollIntoView();
@@ -265,6 +342,52 @@ export default {
     center() {
       this.$router.push("/personal_center");
     },
+    edit_basic(){
+      alert('basic');
+      this.basic_flag=!this.basic_flag;
+      const _this=this;
+      axios.post('/ajax/profile/modify/'+_this.academic_home_id+'/'+_this.user_id+'/'+_this.edit_list).then(function (resp) {
+                     //console.log(resp.data);
+      })
+    },
+    edit_work(){
+      alert('work');
+      this.work_flag=!this.work_flag;
+      const _this=this;
+      axios.post('/ajax/profile/modify/'+_this.academic_home_id+'/'+_this.user_id+'/'+_this.edit_list).then(function (resp) {
+                     //console.log(resp.data);
+      })
+    },
+    edit_edu(){
+      alert('edu');
+      this.edu_flag=!this.edu_flag;
+      const _this=this;
+      axios.post('/ajax/profile/modify/'+_this.academic_home_id+'/'+_this.user_id+'/'+_this.edit_list).then(function (resp) {
+                     //console.log(resp.data);
+      })
+
+    },
+    edit_pro(){
+      alert('pro');
+      this.profile_flag=!this.profile_flag;
+      const _this=this;
+      axios.post('/ajax/profile/modify/'+_this.academic_home_id+'/'+_this.user_id+'/'+_this.edit_list).then(function (resp) {
+                     //console.log(resp.data);
+      })
+
+    },
+    change_basic_flag(){
+      this.basic_flag=!this.basic_flag;
+    },
+    change_work_flag(){
+      this.work_flag=!this.work_flag;
+    },
+    change_edu_flag(){
+      this.edu_flag=!this.edu_flag;
+    },
+    change_profile_flag(){
+      this.profile_flag=!this.profile_flag;
+    }
   },
 };
 </script>
