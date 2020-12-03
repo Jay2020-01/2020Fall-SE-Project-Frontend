@@ -20,7 +20,6 @@
               <!-- 操作 -->
               <div style="float:right;margin:-50px 30px 0px 0px;"> <el-button type="primary">回复</el-button></div>
 
-
               <!-- 单位&身份 -->
               <div style="line-height:20px;text-align:left;float:left;margin:10px 0px 0px 40px;width:70%;">
                 <span>身份：{{item.occupation}}</span>
@@ -28,16 +27,10 @@
                 <span>单位：{{item.company}}</span>
               </div>
 
-
               <div style="line-height:120px;"><br></div>
-              
               <el-divider></el-divider>
             </div>
-            
         </el-card>
-
-
-
     </div>
 </template>
 <script>
@@ -57,7 +50,20 @@ export default {
           ]
       }
     },
+    created: function () {
+      this.getTargetUserList();
+    },
     methods: {
+      getTargetUserList() {
+        axios.get("http://localhost:8000/ajax/get_person_list/").then((res) => {
+          this.person_list = res.data.person_list;
+        });
+      },
+      getMessageContent() {
+        axios.get("http://localhost:8000/ajax/get_message_content/").then((res) => {
+          // 未完成
+        })
+      }
   }
 }
 </script>
