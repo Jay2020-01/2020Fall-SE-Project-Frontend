@@ -57,7 +57,7 @@
             <el-card class="box-card" style="float:left;margin:0 0 0 40px;width:40%;">
                 <h1 style="margin:-40px 0 0 40px;height:120px;width:100px">密码管理</h1>
                 <div v-if="flag==false">
-                    <el-form :model="pwdForm" ref="pwdForm" label-width="100px" class="demo-ruleForm"  style="margin:0 0 0 40px;width:460px">
+                    <el-form :model="pwdForm" :rules="rules" ref="pwdForm" label-width="100px" class="demo-ruleForm"  style="margin:0 0 0 40px;width:460px">
                         <el-form-item label="旧密码" prop="old">
                             <el-input placeholder="请输入密码" v-model="pwdForm.old" show-password></el-input>
                         </el-form-item>
@@ -116,6 +116,15 @@ export default {
             { required: true,  trigger: 'blur' },
           ],
           occupation: [
+            { required: true,  trigger: 'blur' },
+          ],
+          new: [
+            { required: true,  trigger: 'blur' },
+          ],
+          old: [
+            { required: true,  trigger: 'blur' },
+          ],
+          confirm: [
             { required: true,  trigger: 'blur' },
           ],
         },
@@ -185,7 +194,18 @@ export default {
       modifyPwd(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            if (this.pwdForm.new != this.pwdForm.confirm) 
+            {
+              this.$message({
+                message:"密码不一致",
+                type:"error"
+              })
+              this.resetForm('pwdForm');
+              return false;
+            }
+            
             var data = Qs.stringify({
+              old_pwd:this.pwdForm.old,
               new_pwd:this.pwdForm.new
             })
           //   axios.post('http://localhost:8000/ajax/user/change_password/', data).then(res => {
@@ -195,7 +215,6 @@ export default {
           //     type: "success",
           //   });
           // })
-            console.log(data)
           } else {
             alert('提交失败!');
             return false;
