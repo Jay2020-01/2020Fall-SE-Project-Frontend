@@ -420,6 +420,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -479,7 +480,19 @@ export default {
       ],
     };
   },
+  created: function () {
+    this.getPersonList();
+  },
   methods: {
+    getPersonList() {
+      var data = Qs.stringify({
+        key_word: this.$route.query.key_word,
+      });
+      console.log(data);
+      axios.post("http://localhost:8000/search/search_scholar/", data).then((res) => {
+        this.personList = res.data.scholar_list;
+      });
+    },
     person() {
       this.$router.push("/profile");
     },

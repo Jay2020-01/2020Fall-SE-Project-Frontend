@@ -71,7 +71,21 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push("/search");
+      if(this.select == 1) {  // 搜索论文
+        this.$router.push({
+          path: '/search/paper',
+          query: {
+            key_word: this.input
+          }
+        })
+      }else{
+        this.$router.push({
+          path: '/search/person',
+          query: {
+            key_word: this.input
+          }
+        })
+      }
     },
   }
 };
