@@ -196,6 +196,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -314,7 +315,20 @@ export default {
       },
     };
   },
+  created: function () {
+    this.getPaperList();
+  },
   methods: {
+    getPaperList() {
+      var data = Qs.stringify({
+        start_year: 1800,
+        end_year: 2100,
+        key_word: this.$route.query.key_word,
+      });
+      axios.post("http://localhost:8000/search/search_paper/", data).then((res) => {
+        this.paperList = res.data.paper_list;
+      });
+    },
     paper() {
       this.$router.push("/details_paper");
     },
