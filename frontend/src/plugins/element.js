@@ -3,7 +3,7 @@ import { Button, Form, FormItem, Input, Container, Header, Aside, Main,
     Menu, Submenu, MenuItemGroup, MenuItem, Row, Col, Avatar, Tabs, TabPane,
     Card, Dropdown, DropdownMenu,DropdownItem, Table, TableColumn, Popconfirm,
     Upload, Tooltip, Dialog, MessageBox, Message , Divider, Select, Option,
-    Drawer, Popover, Badge, Image ,DatePicker} from 'element-ui'
+    Drawer, Popover, Badge, Image ,DatePicker, Pagination} from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -40,7 +40,7 @@ Vue.use(Popover)
 Vue.use(Badge)
 Vue.use(Image)
 Vue.use(DatePicker)
-
+Vue.use(Pagination)
 //全局挂载
 Vue.prototype.$message=Message
 Vue.prototype.$confirm=MessageBox.confirm
