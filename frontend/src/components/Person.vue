@@ -182,7 +182,7 @@
                   <div class="name-right-zone">
                     <div class="mark">
                       <div>
-                        <el-button type="info" class="btn">
+                        <el-button type="info" class="btn" @click="followScholar(item.personId)">
                           <div>
                             <span>关注</span>
                           </div>
@@ -420,6 +420,7 @@
 </template>
 
 <script>
+import Qs from "qs"
 export default {
   data() {
     return {
@@ -483,6 +484,30 @@ export default {
     person() {
       this.$router.push("/profile");
     },
+    followScholar(personId) {
+      var data = Qs.stringify({
+        person_id: personId,
+      });
+      axios
+        .post("http://localhost:8000/ajax/follow/follow_scholar/", data)
+        .then((res) => {
+          const flag = res.data.success;
+          if (flag == "yes") {
+            this.$message({
+              showClose: true,
+              message: "已关注",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.msg,
+              type: "warning",
+            });
+          }
+        });
+      console.log(data)
+    }
   },
 };
 </script>

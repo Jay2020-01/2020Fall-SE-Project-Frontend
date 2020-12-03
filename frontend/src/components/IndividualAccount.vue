@@ -13,11 +13,11 @@
                     <el-form-item label="名字" prop="name">
                         <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="性别">
-                        <el-radio-group v-model="ruleForm.sex">
-                            <input type="radio" name="sex" value="Male" v-model="ruleForm.sex" >男 
+                    <el-form-item label="性别" prop="gender">
+                        <el-radio-group v-model="ruleForm.gender">
+                            <input type="radio" value="Male" v-model="ruleForm.gender" >男 
                             <!-- <p>&nbsp;&nbsp;&nbsp;&nbsp;</p> -->
-                            <input type="radio" name="sex" value="Female" v-model="ruleForm.sex">女
+                            <input type="radio" value="Female" v-model="ruleForm.gender">女
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="职业" prop="occupation">
@@ -30,16 +30,17 @@
                         </el-option>
                     </el-select>
                     </el-form-item>
-                    <el-form-item label="单位">
+                    <el-form-item label="单位" prop="institution">
                         <el-input
                             type="textarea"
                             :rows="2"
                             placeholder="请输入内容"
-                            v-model="ruleForm.textarea">
+                            v-model="ruleForm.institution">
                         </el-input>
                     </el-form-item> 
                 </el-form>
-                <el-button style="float:left;margin: 20px 0 35px 60px ">保存</el-button>
+                <!-- <el-button style="float:left;margin: 20px 0 35px 60px " @click="modifyInfo('ruleForm')">展示</el-button> -->
+                <el-button style="float:left;margin: 20px 0 35px 60px " @click="modifyInfo('ruleForm')">保存</el-button>
             </el-card>
         </div>
         <!-- {{ruleForm.occupation}} -->
@@ -56,15 +57,15 @@
             <el-card class="box-card" style="float:left;margin:0 0 0 40px;width:40%;">
                 <h1 style="margin:-40px 0 0 40px;height:120px;width:100px">密码管理</h1>
                 <div v-if="flag==false">
-                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="margin:0 0 0 40px;width:460px">
+                    <el-form :model="pwdForm" ref="pwdForm" label-width="100px" class="demo-ruleForm"  style="margin:0 0 0 40px;width:460px">
                         <el-form-item label="旧密码" prop="old">
-                            <el-input placeholder="请输入密码" v-model="ruleForm.old" show-password></el-input>
+                            <el-input placeholder="请输入密码" v-model="pwdForm.old" show-password></el-input>
                         </el-form-item>
                         <el-form-item label="新密码" prop="new">
-                           <el-input placeholder="请输入密码" v-model="ruleForm.new" show-password></el-input>
+                           <el-input placeholder="请输入密码" v-model="pwdForm.new" show-password></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="confirm">
-                            <el-input placeholder="请输入密码" v-model="ruleForm.confirm" show-password></el-input>
+                            <el-input placeholder="请输入密码" v-model="pwdForm.confirm" show-password></el-input>
                         </el-form-item>
                         <router-link :to="{path:'/personal_center/academic_homepage'}" style="text-decoration: none; ">
                             <el-form-item style="margin: 20px 0 0px 20px ">忘记密码？</el-form-item>
@@ -75,8 +76,8 @@
                     <h4>密码用于保护账号信息和登录安全</h4>
                 </div>
                 <div v-if="flag==false">
-                    <el-button style="float:left;margin: 20px 0 30px 60px " @click="change_flag">取消</el-button>
-                    <el-button style="float:left;margin: 20px 0 30px 20px ">保存</el-button>
+                    <el-button style="float:left;margin: 20px 0 30px 60px " @click="change_flag();resetForm('pwdForm')">取消</el-button>
+                    <el-button style="float:left;margin: 20px 0 30px 20px " @click="modifyPwd('pwdForm')">保存</el-button>
                 </div>
                 <div v-else>
                     <el-button style="float:left;margin: 45px 0 30px 60px " @click="change_flag">修改</el-button>
@@ -86,17 +87,20 @@
     </div>
 </template>
 <script>
+import Qs from "qs"
 export default {
     data() {
       return {
-          flag:true,
+        flag:true,
         ruleForm: {
           nickname: '',
           family_name: '',
           name: '',
-          sex:'',
-          occupation:'',
-          textarea:'',
+          gender:'Male',
+          occupation:'教授',
+          institution:'',
+        },
+        pwdForm: {
           new:'',
           old:'',
           confirm:'',
@@ -116,43 +120,84 @@ export default {
           ],
         },
         options: [{
-          occupation: '选项1',
+          occupation: '教授',
           label: '教授'
         }, {
-          occupation: '选项2',
+          occupation: '副教授',
           label: '副教授'
         }, {
-          occupation: '选项3',
+          occupation: '助理教授',
           label: '助理教授'
         }, {
-          occupation: '选项4',
+          occupation: '研究员',
           label: '研究员'
         }, {
-          occupation: '选项5',
+          occupation: '博士后',
           label: '博士后'
         },
         {
-          occupation: '选项6',
+          occupation: '博士生',
           label: '博士生'
         },
         {
-          occupation: '选项7',
+          occupation: '研究生',
           label: '研究生'
         },
         {
-          occupation: '选项8',
+          occupation: '其他',
           label: '其他'
         }
         ],
       };
     },
+    created: function() {
+      this.getMyInfo()
+    },
     methods: {
-      submitForm(formName) {
+      getMyInfo () {
+      // axios.get('http://localhost:8000/ajax/user/my_info/').then(res => {
+      //   this.ruleForm.nickname = res.data.nickname
+      //   this.ruleForm.family_name = res.data.family_name
+      //   this.ruleForm.name = res.data.name
+      //   this.ruleForm.gender = res.data.gender
+      //   this.ruleForm.occupation = res.data.occupation
+      //   this.ruleForm.institution = res.data.institution
+      // })
+    },
+      modifyInfo(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            var data = Qs.stringify(this.ruleForm)
+          //   axios.post('http://localhost:8000/ajax/user/change_info/', data).then(res => {
+          //   // this.$router.push('/home');
+          //   this.$message({
+          //     message: "修改成功",
+          //     type: "success",
+          //   });
+          // })
+            console.log(data)
           } else {
-            console.log('error submit!!');
+            alert('提交失败!');
+            return false;
+          }
+        });
+      },
+      modifyPwd(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var data = Qs.stringify({
+              new_pwd:this.pwdForm.new
+            })
+          //   axios.post('http://localhost:8000/ajax/user/change_password/', data).then(res => {
+          //   // this.$router.push('/home');
+          //   this.$message({
+          //     message: "修改成功",
+          //     type: "success",
+          //   });
+          // })
+            console.log(data)
+          } else {
+            alert('提交失败!');
             return false;
           }
         });

@@ -37,7 +37,7 @@
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
-                      <el-button type="info" class="btn">
+                      <el-button type="info" class="btn" @click="collectPaper(item.paperId)">
                         <div>
                           <span>收藏</span>
                         </div>
@@ -196,6 +196,7 @@
 </template>
 
 <script>
+import Qs from "qs"
 export default {
   data() {
     return {
@@ -317,6 +318,30 @@ export default {
   methods: {
     paper() {
       this.$router.push("/details_paper");
+    },
+    collectPaper(paperId) {
+      var data = Qs.stringify({
+        paper_id: paperId,
+      });
+      // axios
+      //   .post("http://localhost:8000/ajax/favor/collect_/", data)
+      //   .then((res) => {
+      //     const flag = res.data.success;
+      //     if (flag == "yes") {
+      //       this.$message({
+      //         showClose: true,
+      //         message: "已收藏",
+      //         type: "success",
+      //       });
+      //     } else {
+      //       this.$message({
+      //         showClose: true,
+      //         message: res.data.msg,
+      //         type: "warning",
+      //       });
+      //     }
+      //   });
+      console.log(data)
     },
   },
 };

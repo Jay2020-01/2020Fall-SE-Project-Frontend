@@ -6,23 +6,23 @@
         <img src="../assets/coffeelogo.png" alt />
       </div>
       <!-- 注册表单区域 -->
-      <el-form :model="registerForm" class="register_form" label-width="0px">
+      <el-form ref="registerForm" :model="registerForm" class="register_form" label-width="0px">
         <!-- 用户名 -->
-        <el-form-item label>
+        <el-form-item label prop="username">
           <el-input v-model="registerForm.username" prefix-icon="fa fa-user" placeholder="用户名"></el-input>
         </el-form-item>
         <!-- 邮箱 -->
-        <el-form-item label>
+        <el-form-item label prop="email">
           <el-input v-model="registerForm.email" prefix-icon="fa fa-envelope" placeholder="邮箱"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label>
+        <el-form-item label prop="password">
           <el-input v-model="registerForm.password" show-password prefix-icon="fa fa-lock" placeholder="密码"></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns" label>
-          <el-button type="primary">注册</el-button>
-          <el-button type="info">重置</el-button>
+          <el-button type="primary" @click="register('registerForm')">注册</el-button>
+          <el-button type="info" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -41,6 +42,45 @@ export default {
       },
     };
   },
+  methods: {
+    reset () {
+      this.$refs.registerForm.resetFields()
+    },
+    register (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var data = Qs.stringify({
+            username: this.registerForm.username,
+            email: this.registerForm.email,
+            password: this.registerForm.password
+          })
+          // 向后端发送数据
+          this.$store.dispatch('register', data)
+            .then((res) => {
+              if(!res.data.success) {
+                this.$message({
+                  showClose: true,
+                  message: res.data.message,
+                  type: "error",
+                });
+                this.reset()
+
+              } else {  // 注册成功
+                this.$message({
+                  showClose: true,
+                  message: res.data.message,
+                  type: "success",
+                });
+                this.$router.push("/index");
+              }
+            })
+            .catch(err => console.log(err))
+        } else {
+          alert('出现错误，请重试')
+        }
+      })
+    }
+  }
 };
 </script>
 

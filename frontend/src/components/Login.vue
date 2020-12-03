@@ -6,19 +6,19 @@
         <img src="../assets/coffeelogo.png" alt />
       </div>
       <!-- 登录表单区域 -->
-      <el-form :model="loginForm" class="login_form" label-width="0px">
+      <el-form ref="loginForm" :model="loginForm" class="login_form" label-width="0px">
         <!-- 用户名 -->
-        <el-form-item label>
+        <el-form-item label prop="username">
           <el-input v-model="loginForm.username" prefix-icon="fa fa-user" placeholder="用户名"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label>
+        <el-form-item label prop="password">
           <el-input v-model="loginForm.password" show-password prefix-icon="fa fa-lock" placeholder="密码"></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns" label>
-          <el-button type="primary">登录</el-button>
-          <el-button type="info">重置</el-button>
+          <el-button type="primary" @click="login('loginForm')">登录</el-button>
+          <el-button type="info" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -35,6 +36,48 @@ export default {
         password: "",
       },
     };
+  },
+  methods: {
+    toregister() {
+      this.$router.push("/register");
+    },
+    reset() {
+      this.$refs.loginForm.resetFields();
+    },
+    // 登录
+    login(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var data = Qs.stringify({
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+          });
+          // 向后端发送请求
+          this.$store
+            .dispatch("login", data)
+            .then((res) => {
+              if(!res.data.success) {
+                this.$message({
+                  showClose: true,
+                  message: "登录失败",
+                  type: "error",
+                });
+                this.reset()
+              } else {  // 登录成功
+                this.$message({
+                  showClose: true,
+                  message: "登录成功",
+                  type: "success",
+                });
+                this.$router.push("/index");
+              }
+            })
+            .catch((err) => console.log(err));
+        } else {
+          alert("提交表单出现错误");
+        }
+      });
+    },
   },
 };
 </script>
