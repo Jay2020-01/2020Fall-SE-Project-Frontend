@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 搜素筛选器区域 -->
-    <div class="filter-zone">
+    <!-- <div class="filter-zone">
       <div class="filter-row">
         <span class="filter-title">
           <span>H指数</span>
@@ -151,7 +151,7 @@
           </span>
         </ul>
       </div>
-    </div>
+    </div> -->
 
     <el-row class="person-row" gutter="20">
       <!--学者表格区域-->

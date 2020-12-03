@@ -5,9 +5,8 @@
       <el-col class="search-col" span="12" offset="6">
         <el-input class="search-input input-with-select" clearable placeholder="请输入内容" v-model="input">
           <el-select v-model="activeValue" slot="prepend" placeholder="请选择">
-            <el-option label="所有学科" value="1"></el-option>
-            <el-option label="计算机科学" value="2"></el-option>
-            <el-option label="经济管理" value="3"></el-option>
+            <el-option label="搜索论文" value="1"></el-option>
+            <el-option label="搜索专家" value="2"></el-option>
           </el-select>
           <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
@@ -16,10 +15,12 @@
     <!-- 搜索结果 -->
     <el-row class="result-row">
       <el-col class="result-col" span="20" offset="2">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <!-- 路由占位符 -->
+        <router-view />
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="论文" name="paper" ><router-view></router-view></el-tab-pane>
           <el-tab-pane label="专家" name="person" ><router-view></router-view></el-tab-pane>
-        </el-tabs>
+        </el-tabs> -->
       </el-col>
     </el-row>
   </div>

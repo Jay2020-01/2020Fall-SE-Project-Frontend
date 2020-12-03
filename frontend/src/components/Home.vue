@@ -12,11 +12,12 @@
         </el-col>
         <el-col :span="5" :offset="6">
           <div class="grid-content head-box2 bg-purple-light">
-            <el-input
+            <!-- 搜索框 -->
+            <!-- <el-input
               placeholder="搜索内容"
               v-model="input"
               clearable
-            ></el-input>
+            ></el-input> -->
           </div>
         </el-col>
         <el-col :span="7">
