@@ -196,7 +196,7 @@
 </template>
 
 <script>
-import Qs from "qs"
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -315,7 +315,20 @@ export default {
       },
     };
   },
+  created: function () {
+    this.getPaperList();
+  },
   methods: {
+    getPaperList() {
+      var data = Qs.stringify({
+        start_year: 1800,
+        end_year: 2100,
+        key_word: this.$route.query.key_word,
+      });
+      axios.post("http://localhost:8000/search/search_paper/", data).then((res) => {
+        this.paperList = res.data.paper_list;
+      });
+    },
     paper() {
       this.$router.push("/details_paper");
     },
@@ -358,6 +371,9 @@ export default {
   width: 180px;
 }
 //tab样式
+/deep/ .el-tabs__nav {
+  left: 0%;
+}
 /deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   color: #ea6f5a;
   background-color: #fff;

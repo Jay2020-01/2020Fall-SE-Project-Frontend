@@ -27,6 +27,10 @@
                         <el-menu-item index="4"><i class="el-icon-star-on"></i>论文收藏</el-menu-item>
                 </router-link>
 
+                <router-link :to="{path:'/personal_center/chat'}" style="text-decoration: none; ">
+                        <el-menu-item index="5"><i class="el-icon-chat-round-solid"></i>我的私信</el-menu-item>
+                </router-link>
+
             </el-menu>
             </el-col>
         </el-row>

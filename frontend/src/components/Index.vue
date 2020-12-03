@@ -16,9 +16,8 @@
           v-model="input"
         >
           <el-select v-model="select" slot="prepend" placeholder="请选择">
-            <el-option label="所有学科" value="1"></el-option>
-            <el-option label="计算机科学" value="2"></el-option>
-            <el-option label="经济管理" value="3"></el-option>
+            <el-option label="搜索论文" value="1"></el-option>
+            <el-option label="搜索专家" value="2"></el-option>
           </el-select>
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
@@ -72,7 +71,21 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push("/search");
+      if(this.select == 1) {  // 搜索论文
+        this.$router.push({
+          path: '/search/paper',
+          query: {
+            key_word: this.input
+          }
+        })
+      }else{
+        this.$router.push({
+          path: '/search/person',
+          query: {
+            key_word: this.input
+          }
+        })
+      }
     },
   }
 };

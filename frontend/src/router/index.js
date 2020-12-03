@@ -12,6 +12,7 @@ import PersonalCenter from '../components/PersonalCenter'
 import AcademicHomepage from '../components/AcademicHomepage'
 import Collection from '../components/Collection'
 import Follow from '../components/Follow'
+import Chat from '../components/Chat'
 import IndividualAccount from '../components/IndividualAccount'
 import Profile from '../components/Profile.vue'
 
@@ -31,11 +32,11 @@ const routes = [
             { path: '/index', component: Index },
             {
                 path: '/search',
-                redirect: '/search/person',
+                redirect: '/search/paper',
                 component: Search,
                 children: [
-                    { path: 'person', component: Person },
-                    { path: 'paper', component: Paper }
+                    { path: 'paper', component: Paper },
+                    { path: 'person', component: Person }
                 ]
             },
             { path: '/profile', name: "profile", component: Profile },
@@ -49,6 +50,7 @@ const routes = [
                     { path: 'collection', component: Collection },
                     { path: 'follow', component: Follow },
                     { path: 'individual_account', component: IndividualAccount },
+                    { path: 'chat', component: Chat },
                 ],
                 meta: { requiresAuth: true }
             },

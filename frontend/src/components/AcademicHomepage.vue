@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div >
+        <div>
             <!-- 根据名字检索的可能是该用户的card -->
             <el-card class="box-card_1" shadow="hover" v-for="(item,index) in person_list" :key="index" >
                 <div style="line-height:10px;" @click="click_name(item)">
@@ -32,18 +32,18 @@
                 </div>
             </el-card>
         </div>
-
-<!-- 想在展示了8个card后分页，但是element-ui分页没有效果出现 -->
-        <div>
+        <!-- 展示了8个card后分页 -->
+        <div style="float:left">
             <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="1000">
+                page-size="8"
+                :total="total"
+                @current-change="page">
             </el-pagination> 
         </div>
 
-
-        <div style="" >
+        <div style="position:absolute;margin:0px 0px 0px 1200px;" >
             <el-card style="width:400px;">
                 <div style="line-height:20px;">
                   <!-- 头像 -->
@@ -70,7 +70,26 @@
                         <span>单位：{{this.person_now.company}}</span>
                     </div>
                     <br>
-                    <el-button type="primary">绑定</el-button>
+                    <el-button type="primary" @click="dialogFormVisible = true">绑定</el-button>
+                    <el-dialog title="请输入邮箱" :visible.sync="dialogFormVisible">
+                        <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
+                        <el-form-item
+                            prop="email"
+                            label="邮箱"
+                            :rules="[
+                            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                            { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                            ]"
+                        >
+                            <el-input v-model="dynamicValidateForm.email"></el-input>
+                        </el-form-item>
+                        </el-form>
+
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="dialogFormVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="submitForm('dynamicValidateForm')">确 定</el-button>
+                        </div>
+                    </el-dialog>
                 </div>
                 <div></div>
             </el-card>
@@ -87,66 +106,118 @@ export default {
           //user:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
           person_list:[
             {
-                person:'何铭凯',hIndex:'60',paperNum:'81',reference:'132732',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'60',paperNum:'81',reference:'132732',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',occupation:'教授',company:'北京航空航天大学'
+                person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             },
             {
-                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学'
+                person:'何铭凯',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',id:'1'
             }
           ],
-          //person_now:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
-          //flag:false,
           person_now:'',
+          user_id:'',
+          academic_home_id:'',
+          user_name:'xxx',
+          person_list2:[],
+          total:15,  //替换成真数据
+          dialogFormVisible: false,
+        formLabelWidth: '120px',
+        dynamicValidateForm: {
+          email: ''
+        }
       }
     },
-    mounted:function() {
-            //alert("!!!")
-            this.person_now=this.person_list[0]
+    // mounted:function() {
+    //         //alert("!!!")
+    //         this.person_now=this.person_list[0];
+    //         const _this=this;
+    //             axios.get('http://localhost:8088/ajax/personal_center/academic_homepage/search'+_this.user_name).then(function (resp) {
+    //                 //console.log(resp.data);
+    //                 _this.person_list2=resp.data;
+    //             })
+    //     },
+    created(){
+            //alert(1);
+            this.person_now=this.person_list[0];
+            const _this=this;
+            axios.get('/ajax/personal_center/academic_homepage/search/'+_this.user_name+'/1/8').then(function (resp) {
+                     //console.log(resp.data);
+                     _this.person_list2=resp.data;
+                 })
         },
     methods: {
         click_name(item){
-            //this.flag=true;
-            this.person_now=item;
-            //this.$alert('这是一段内容')
+            //this.person_now=item;
+            const _this=this;
+            axios.post('/ajax/personal_center/academic_homepage/view/'+_this.item.id).then(function (resp) {
+                     //console.log(resp.data);
+                     _this.person_now=resp.data;
+                    // _this.academic_home_id=_this.person_now.id
+                 })
         },
+        page(current_page){
+            //alert(current_page)
+            this.person_now=this.person_list[0];
+            const _this=this;
+            axios.get('/ajax/personal_center/academic_homepage/search/'+_this.user_name+'/'+current_page+'/8').then(function (resp) {
+                     //console.log(resp.data);
+                     _this.person_list2=resp.data;
+                 })
+        },
+        submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        const _this=this;
+        axios.post('/ajax/personal_center/academic_homepage/bind/'+_this.user_id+'/'+_this.person_now.id+'/'+_this.dynamicValidateForm.email).then(function (resp) {
+                     //console.log(resp.data);
+                 })
+        alert(this.dynamicValidateForm.email)
+        this.dialogFormVisible = false
+
+      },
     }
 }
 </script>
@@ -169,4 +240,5 @@ export default {
   /* .left{
       width: 60%px;
   } */
+  /* position:fixed;right:20px */
 </style>

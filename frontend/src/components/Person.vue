@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 搜素筛选器区域 -->
-    <div class="filter-zone">
+    <!-- <div class="filter-zone">
       <div class="filter-row">
         <span class="filter-title">
           <span>H指数</span>
@@ -151,7 +151,7 @@
           </span>
         </ul>
       </div>
-    </div>
+    </div> -->
 
     <el-row class="person-row" gutter="20">
       <!--学者表格区域-->
@@ -420,7 +420,7 @@
 </template>
 
 <script>
-import Qs from "qs"
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -480,7 +480,19 @@ export default {
       ],
     };
   },
+  created: function () {
+    this.getPersonList();
+  },
   methods: {
+    getPersonList() {
+      var data = Qs.stringify({
+        key_word: this.$route.query.key_word,
+      });
+      console.log(data);
+      axios.post("http://localhost:8000/search/search_scholar/", data).then((res) => {
+        this.personList = res.data.scholar_list;
+      });
+    },
     person() {
       this.$router.push("/profile");
     },
@@ -488,24 +500,24 @@ export default {
       var data = Qs.stringify({
         person_id: personId,
       });
-      axios
-        .post("http://localhost:8000/ajax/follow/follow_scholar/", data)
-        .then((res) => {
-          const flag = res.data.success;
-          if (flag == "yes") {
-            this.$message({
-              showClose: true,
-              message: "已关注",
-              type: "success",
-            });
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.data.msg,
-              type: "warning",
-            });
-          }
-        });
+      // axios
+      //   .post("http://localhost:8000/ajax/follow/follow_scholar/", data)
+      //   .then((res) => {
+      //     const flag = res.data.success;
+      //     if (flag == "yes") {
+      //       this.$message({
+      //         showClose: true,
+      //         message: "已关注",
+      //         type: "success",
+      //       });
+      //     } else {
+      //       this.$message({
+      //         showClose: true,
+      //         message: res.data.msg,
+      //         type: "warning",
+      //       });
+      //     }
+      //   });
       console.log(data)
     }
   },
@@ -522,6 +534,7 @@ export default {
   border-radius: 0;
   padding: 2px 10px;
   box-shadow: none;
+  margin-top: 0px;
   margin-bottom: 11px;
 }
 
@@ -558,6 +571,9 @@ export default {
 }
 
 //tab样式
+/deep/ .el-tabs__nav {
+  left: 0%;
+}
 /deep/.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   color: #ea6f5a;
   background-color: #fff;
