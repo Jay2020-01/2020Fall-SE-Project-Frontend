@@ -6,3 +6,21 @@
 # 使用方法
 1.用VScode打开frontend文件夹  
 2.终端运行npm install  
+
+# 安装插件
+
+1. vue-advanced-chat
+
++ ```
+  npm install --save vue-advanced-chat
+  ```
+
++ github：https://github.com/antoine92190/vue-advanced-chat
+
+2. v-charts
+
++ ```
+  npm i v-charts echarts -S
+  ```
+
++ 网址：https://v-charts.js.org/#/

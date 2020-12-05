@@ -1,92 +1,42 @@
 <template>
     <div>
         <el-card class="box-card">
-            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" />
+            <div slot="header" class="clearfix">
+                <h1 style="float:left;margin:-40px 0 0 40px;height:120px;">我的私信</h1>
+                <div style="float:left;margin:-40px 0 0 40px;height:120px;" >总数：{{person_list.length}}</div>
+            </div>
+            <div class="text item" v-for="(item,index) in person_list"  :key="index" >
+              <!-- 头像 -->
+              <div >
+                <img src="../assets/coffeelogo.png" alt="头像" style="width:80px;height:80px;margin:15px 0 0 30px;float:left;"/>
+              </div>
+
+              <!-- 名字 -->
+              <div style="width:60%;line-height:40px;">
+                <h3 style="line-height:20px;padding:0px;margin:0px 0px 0px 40px;text-align:left;float:left">{{item.person}}</h3>
+              <br>
+              </div>
+
+              <!-- 操作 -->
+              <div style="float:right;margin:-50px 30px 0px 0px;"> <el-button type="primary">回复</el-button></div>
+
+              <!-- 单位&身份 -->
+              <div style="line-height:20px;text-align:left;float:left;margin:10px 0px 0px 40px;width:70%;">
+                <span>身份：{{item.occupation}}</span>
+                <el-divider direction="vertical"></el-divider>
+                <span>单位：{{item.company}}</span>
+              </div>
+
+              <div style="line-height:120px;"><br></div>
+              <el-divider></el-divider>
+            </div>
         </el-card>
     </div>
 </template>
 <script>
-import ChatWindow from 'vue-advanced-chat'
-import 'vue-advanced-chat/dist/vue-advanced-chat.css'
-
 export default {
-  components: {
-      ChatWindow
-    },
     data () {
       return {
-        rooms:[
-  {
-    roomId: 1,
-    roomName: 'Room 1',
-    avatar: 'assets/imgs/people.png',
-    unreadCount: 4,
-    lastMessage: {
-      content: 'Last message received',
-      sender_id: 1234,
-      username: 'John Doe',
-      timestamp: '10:20',
-      date: 123242424,
-      saved: true,
-      distributed: false,
-      seen: false,
-      new: true
-    },
-    users: [
-      {
-        _id: 1234,
-        username: 'John Doe',
-        avatar: 'assets/imgs/doe.png',
-        status: {
-          state: 'online',
-          last_changed: 'today, 14:30'
-        }
-      },
-      {
-        _id: 4321,
-        username: 'John Snow',
-        avatar: 'assets/imgs/snow.png',
-        status: {
-          state: 'offline',
-          last_changed: '14 July, 20:00'
-        }
-      }
-    ],
-    typingUsers: [ 4321 ]
-  }
-],
-        messages: [{
-    _id: 7890,
-    content: 'message 1',
-    sender_id: 1234,
-    username: 'John Doe',
-    date: '13 November',
-    timestamp: '10:20',
-    system: false,
-    saved: true,
-    distributed: true,
-    seen: true,
-    disable_actions: false,
-    disable_reactions: false,
-    file: {
-      name: 'My File',
-      size: 67351,
-      type: 'png',
-      audio: true,
-      duration: 14.4,
-      url: 'https://firebasestorage.googleapis.com/...'
-    },
-    reactions: {
-      wink: [
-        1234, // USER_ID
-        4321
-      ],
-      laughing: [
-        1234
-      ]
-    }
-  }],
-        currentUserId: 1234,
           person_list:[
             {
                 person:'很长的名字Going Deeper with Convolutions',hIndex:'60',paperNum:'81',reference:'132732',occupation:'教授',company:'北京航空航天大学',fields:['ai','Computer Vision','xxxxxxx','sxdsjniauhvnv','scasds','xxxxxxx','sxdsjniauhvnv','scasds','samxihvrwcccvvfd','zhoujielun','小红','sheqmocubeuxvzksswd','12345','sohe','djivr','dhslaciugy','ahahaha']
