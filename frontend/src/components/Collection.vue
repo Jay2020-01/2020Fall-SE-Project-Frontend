@@ -109,5 +109,9 @@ export default {
         background-color: #b3cae4;
       }
 
-
+/* card边框样式 */
+.el-card:hover {
+  cursor: pointer;
+  border: 1px solid#ea6f5a;
+}
 </style>
