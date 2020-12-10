@@ -58,7 +58,23 @@ export default {
           num:0,
       }
     },
+    // created: function() {
+    //   this.getMyCollection()
+    // },
     methods: {
+      getMyCollection () {
+      axios.get('http://localhost:8000/ajax/favor/my_collection/').then(res => {
+        collection_list = res.data.collection_list;
+        for (let i = 0; i < collection_list.length; i++) {
+          this.paper_list.push({
+            title:collection_list[i].title,
+            reference:collection_list[i].citations_num,
+            periodical:collection_list[i].periodical,
+            author:collection_list[i].authors,
+          });
+        }
+      })
+    }
   }
 }
 </script>

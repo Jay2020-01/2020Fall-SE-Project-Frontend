@@ -76,7 +76,26 @@ export default {
           ]
       }
     },
+    // created: function() {
+    //   this.getMyFollowing()
+    // },
     methods: {
+    //   getMyFollowing () {
+    //   axios.get('http://localhost:8000/ajax/follow/my_following/').then(res => {
+    //     following_list = res.data.following_list;
+    //     for (let i = 0; i < following_list.length; i++) {
+    //       this.person_list.push({
+    //         person:following_list[i].name,
+    //         hIndex:following_list[i].h_index,
+    //         paperNum:following_list[i].papers_num,
+    //         reference:following_list[i].citations_num,
+    //         occupation:following_list[i].position,
+    //         company:following_list[i].org,
+    //         fields:following_list[i].fields,
+    //       });
+    //     }
+    //   })
+    // },
   }
 }
 </script>

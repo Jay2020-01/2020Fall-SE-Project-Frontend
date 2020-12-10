@@ -56,7 +56,7 @@ export default {
           this.$store
             .dispatch("login", data)
             .then((res) => {
-              if(!res.data.success) {
+              if(res.data.code != 200 ) {
                 this.$message({
                   showClose: true,
                   message: "登录失败",

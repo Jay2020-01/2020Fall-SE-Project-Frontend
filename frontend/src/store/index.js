@@ -33,20 +33,19 @@ export default new Vuex.Store({
         login({ commit }, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request')
-                    // axios({ url: 'http://localhost:8000/ajax/user/login/', data: user, method: 'POST' })
-                    //     .then(resp => {
-                    //         const token = resp.data.token.token
-                    //         const user = resp.data.token.name
-                    //         localStorage.setItem('token', token)
-                    //         axios.defaults.headers.common.Authorization = token
-                    //         commit('auth_success', token, user)
-                    //         resolve(resp)
-                    //     })
-                    //     .catch(err => {
-                    //         commit('auth_error')
-                    //         localStorage.removeItem('token')
-                    //         reject(err)
-                    //     })
+                axios({ url: 'http://106.13.138.133:18090/user/login', data: user, method: 'POST' })
+                    .then(resp => {
+                        const token = resp.data.data.token
+                        localStorage.setItem('token', token)
+                        axios.defaults.headers.common.Authorization = token
+                        commit('auth_success', token, user)
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('auth_error')
+                        localStorage.removeItem('token')
+                        reject(err)
+                    })
             })
         },
         register({ commit }, user) {
