@@ -413,6 +413,7 @@ export default {
 }
 .title-line {
   line-height: 22px;
+  text-align: start;
 }
 .paper-title {
   color: #000;

@@ -241,4 +241,10 @@ export default {
       width: 60%px;
   } */
   /* position:fixed;right:20px */
+
+/* card边框样式 */
+.el-card:hover {
+  cursor: pointer;
+  border: 1px solid#ea6f5a;
+}
 </style>
