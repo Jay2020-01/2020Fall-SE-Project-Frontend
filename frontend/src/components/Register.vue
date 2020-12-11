@@ -6,22 +6,43 @@
         <img src="../assets/coffeelogo.png" alt />
       </div>
       <!-- 注册表单区域 -->
-      <el-form ref="registerForm" :model="registerForm" class="register_form" label-width="0px">
+      <el-form
+        ref="registerForm"
+        :rules="rules"
+        :model="registerForm"
+        class="register_form"
+        label-width="0px"
+      >
         <!-- 用户名 -->
         <el-form-item label prop="username">
-          <el-input v-model="registerForm.username" prefix-icon="fa fa-user" placeholder="用户名"></el-input>
+          <el-input
+            v-model="registerForm.username"
+            prefix-icon="fa fa-user"
+            placeholder="用户名"
+          ></el-input>
         </el-form-item>
         <!-- 邮箱 -->
         <el-form-item label prop="email">
-          <el-input v-model="registerForm.email" prefix-icon="fa fa-envelope" placeholder="邮箱"></el-input>
+          <el-input
+            v-model="registerForm.email"
+            prefix-icon="fa fa-envelope"
+            placeholder="邮箱"
+          ></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item label prop="password">
-          <el-input v-model="registerForm.password" show-password prefix-icon="fa fa-lock" placeholder="密码"></el-input>
+          <el-input
+            v-model="registerForm.password"
+            show-password
+            prefix-icon="fa fa-lock"
+            placeholder="密码"
+          ></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns" label>
-          <el-button type="primary" @click="register('registerForm')">注册</el-button>
+          <el-button type="primary" @click="register('registerForm')"
+            >注册</el-button
+          >
           <el-button type="info" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -38,34 +59,53 @@ export default {
       registerForm: {
         username: "",
         password: "",
-        email:""
+        email: "",
+      },
+      rules: {
+        username: [{ required: true, trigger: "blur" }],
+        password: [{ required: true, trigger: "blur" }],
+        email: [{ required: true, trigger: "blur" }],
       },
     };
   },
   methods: {
-    reset () {
-      this.$refs.registerForm.resetFields()
+    reset() {
+      this.$refs.registerForm.resetFields();
     },
-    register (formName) {
+    register(formName) {
+      var regEmail = /^[A-Za-z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (
+        this.registerForm.email != "" &&
+        !regEmail.test(this.registerForm.email)
+      ) {
+        this.$message({
+          message: "邮箱格式不正确",
+          type: "error",
+        });
+        this.registerForm.email = "";
+        return;
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var data = Qs.stringify({
             username: this.registerForm.username,
             email: this.registerForm.email,
-            password: this.registerForm.password
-          })
+            password: this.registerForm.password,
+          });
+          console.log(data);
           // 向后端发送数据
-          this.$store.dispatch('register', data)
+          this.$store
+            .dispatch("register", data)
             .then((res) => {
-              if(!res.data.success) {
+              if (res.data.code != 200) {
                 this.$message({
                   showClose: true,
                   message: res.data.message,
                   type: "error",
                 });
-                this.reset()
-
-              } else {  // 注册成功
+                this.reset();
+              } else {
+                // 注册成功
                 this.$message({
                   showClose: true,
                   message: res.data.message,
@@ -74,13 +114,13 @@ export default {
                 this.$router.push("/index");
               }
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err));
         } else {
-          alert('出现错误，请重试')
+          alert("出现错误，请重试");
         }
-      })
-    }
-  }
+      });
+    },
+  },
 };
 </script>
 

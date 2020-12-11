@@ -26,9 +26,12 @@
               <el-button size="medium" @click="logout">退出</el-button>
             </div> -->
             <!-- 这里是右上角的头像 -->
-            <el-dropdown style="height: 60px; display:flex; align-items: center;" @visible-change="get_user_info">
+            <el-dropdown
+              style="height: 60px; display: flex; align-items: center"
+              @visible-change="get_user_info"
+            >
               <span class="el-dropdown-link">
-                <div style="display:flex; align-items: center;">
+                <div style="display: flex; align-items: center">
                   <el-avatar :size="40" :src="imageUrl" />
                 </div>
               </span>
@@ -64,6 +67,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import Qs from "qs";
+import store from '../store/index.js'
 export default {
   data() {
     return {
@@ -72,12 +78,16 @@ export default {
       mail_address: "123123@126.com",
       imageUrl:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-    }
+    };
+  },
+  created: function () {
+    this.getMyInfo();
   },
   methods: {
     logout() {
-      window.sessionStorage.clear();
-      this.$router.push("/login");
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
     },
     home() {
       this.$router.push("/");
@@ -85,6 +95,15 @@ export default {
     toPersonalCenter() {
       window.sessionStorage.clear();
       this.$router.push("/personal_center");
+    },
+    getMyInfo() {
+      if (store.getters.isLoggedIn) {
+        axios.get("http://106.13.138.133:18090/user/my_info/").then((res) => {
+          console.log(res);
+          this.username = res.data.data.userName;
+          this.mail_address = res.data.data.mail;
+        });
+      }
     },
   },
 };

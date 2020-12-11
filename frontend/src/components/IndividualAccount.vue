@@ -87,6 +87,7 @@
     </div>
 </template>
 <script>
+import axios from "axios"
 import Qs from "qs"
 export default {
     data() {
@@ -164,14 +165,15 @@ export default {
     },
     methods: {
       getMyInfo () {
-      // axios.get('http://localhost:8000/ajax/user/my_info/').then(res => {
-      //   this.ruleForm.nickname = res.data.nickname
-      //   this.ruleForm.family_name = res.data.family_name
-      //   this.ruleForm.name = res.data.name
-      //   this.ruleForm.gender = res.data.gender
-      //   this.ruleForm.occupation = res.data.occupation
-      //   this.ruleForm.institution = res.data.institution
-      // })
+      axios.get('http://106.13.138.133:18090/user/my_info/').then(res => {
+        console.log(res)
+        this.ruleForm.nickname = res.data.data.userName
+        this.ruleForm.family_name = res.data.data.familyName
+        this.ruleForm.name = res.data.data.name
+        this.ruleForm.gender = res.data.data.gender
+        this.ruleForm.occupation = res.data.data.occupation
+        this.ruleForm.institution = res.data.data.institution
+      })
     },
       modifyInfo(formName) {
         this.$refs[formName].validate((valid) => {

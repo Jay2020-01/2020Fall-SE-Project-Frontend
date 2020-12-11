@@ -15,6 +15,7 @@ import Follow from '../components/Follow'
 import Chat from '../components/Chat'
 import IndividualAccount from '../components/IndividualAccount'
 import Profile from '../components/Profile.vue'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
@@ -29,18 +30,18 @@ const routes = [
         redirect: '/index',
         component: Home,
         children: [
-            { path: '/index', component: Index },
+            { path: '/index', component: Index, meta: { requiresAuth: false } },
             {
                 path: '/search',
                 redirect: '/search/paper',
                 component: Search,
                 children: [
-                    { path: 'paper', component: Paper },
-                    { path: 'person', component: Person }
+                    { path: 'paper', component: Paper, meta: { requiresAuth: false } },
+                    { path: 'person', component: Person, meta: { requiresAuth: false } }
                 ]
             },
-            { path: '/profile', name: "profile", component: Profile },
-            { path: '/details_paper', component: DetailsPaper },
+            { path: '/profile', name: "profile", component: Profile, meta: { requiresAuth: false } },
+            { path: '/details_paper', component: DetailsPaper, meta: { requiresAuth: false } },
             {
                 path: '/personal_center',
                 component: PersonalCenter,
@@ -69,7 +70,12 @@ const router = new VueRouter({
 //             next()
 //             return
 //         }
-//         next('/login')
+//         // next('/login')
+//         Vue.prototype.$message({
+//             showClose: true,
+//             message: "请先登录",
+//             type: "error",
+//         });
 //     } else {
 //         next()
 //     }

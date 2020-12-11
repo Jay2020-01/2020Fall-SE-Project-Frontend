@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+import Axios from 'axios'
 import './plugins/element.js'
 // 导入全局样式表
 import './assets/css/global.css'
@@ -12,6 +13,12 @@ import 'font-awesome/css/font-awesome.css'
 import VCharts from 'v-charts'
 
 Vue.use(VCharts)
+
+Vue.prototype.$http = Axios
+const token = localStorage.getItem('token')
+if (token) {
+    Vue.prototype.$http.defaults.headers.common.Authorization = token
+}
 
 Vue.config.productionTip = false
 

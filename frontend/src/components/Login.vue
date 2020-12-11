@@ -6,14 +6,29 @@
         <img src="../assets/coffeelogo.png" alt />
       </div>
       <!-- 登录表单区域 -->
-      <el-form ref="loginForm" :model="loginForm" class="login_form" label-width="0px">
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="rules"
+        class="login_form"
+        label-width="0px"
+      >
         <!-- 用户名 -->
         <el-form-item label prop="username">
-          <el-input v-model="loginForm.username" prefix-icon="fa fa-user" placeholder="用户名"></el-input>
+          <el-input
+            v-model="loginForm.username"
+            prefix-icon="fa fa-user"
+            placeholder="用户名"
+          ></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item label prop="password">
-          <el-input v-model="loginForm.password" show-password prefix-icon="fa fa-lock" placeholder="密码"></el-input>
+          <el-input
+            v-model="loginForm.password"
+            show-password
+            prefix-icon="fa fa-lock"
+            placeholder="密码"
+          ></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns" label>
@@ -34,6 +49,10 @@ export default {
       loginForm: {
         username: "",
         password: "",
+      },
+      rules: {
+        username: [{ required: true, trigger: "blur" }],
+        password: [{ required: true, trigger: "blur" }],
       },
     };
   },
@@ -56,14 +75,16 @@ export default {
           this.$store
             .dispatch("login", data)
             .then((res) => {
-              if(res.data.code != 200 ) {
+              // console.log(res);
+              if (res.data.code != 200) {
                 this.$message({
                   showClose: true,
-                  message: "登录失败",
+                  message: res.data.message,
                   type: "error",
                 });
-                this.reset()
-              } else {  // 登录成功
+                this.reset();
+              } else {
+                // 登录成功
                 this.$message({
                   showClose: true,
                   message: "登录成功",
