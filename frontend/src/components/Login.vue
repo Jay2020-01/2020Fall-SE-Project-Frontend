@@ -32,8 +32,9 @@
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns" label>
+          <el-button type="primary" plain @click="toregister">注册</el-button>
           <el-button type="primary" @click="login('loginForm')">登录</el-button>
-          <el-button type="info" @click="reset">重置</el-button>
+          <!-- <el-button type="info" @click="reset">重置</el-button> -->
         </el-form-item>
       </el-form>
     </div>
