@@ -18,6 +18,12 @@ export default {
           _this.$store.dispatch("logout").then(() => {
             // _this.$router.push("/login");
           });
+        } else if (err.response.status === 404) {
+          _this.$message({
+            showClose: true,
+            message: "网络错误",
+            type: "error",
+          });
         } else {
           _this.$message({
             showClose: true,

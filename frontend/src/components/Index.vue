@@ -2,14 +2,14 @@
   <div>
     <!-- 放置主页大logo -->
     <el-row class="logo-row">
-      <el-col class="logo-col" span="12" offset="6">
+      <el-col class="logo-col" :span="12" :offset="6">
         <el-avatar :size="100" class="fa fa-coffee"></el-avatar>
         <span class="site-name">学术搜索</span>
       </el-col>
     </el-row>
     <!-- 放置主页大搜索框 -->
     <el-row class="search-row">
-      <el-col class="search-col" span="10" offset="7">
+      <el-col class="search-col" :span="10" :offset="7">
         <el-input
           class="search-input input-with-select"
           placeholder="请输入内容"
@@ -26,8 +26,8 @@
     <!-- 下方几个跳转按钮(先占位) -->
     <el-row class="link-row"> </el-row>
     <!-- 咨询卡片 -->
-    <el-row gutter="20" class="card-row">
-      <el-col class="card-col" span="6" offset="3">
+    <el-row :gutter="20" class="card-row">
+      <el-col class="card-col" :span="6" :offset="3">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>学术排名</span>
@@ -37,7 +37,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col class="card-col" span="6">
+      <el-col class="card-col" :span="6">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>人才专家</span>
@@ -47,7 +47,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col class="card-col" span="6">
+      <el-col class="card-col" :span="6">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>科技资讯</span>

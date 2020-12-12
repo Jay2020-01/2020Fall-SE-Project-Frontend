@@ -153,9 +153,9 @@
       </div>
     </div> -->
 
-    <el-row class="person-row" gutter="20">
+    <el-row class="person-row" :gutter="20">
       <!--学者表格区域-->
-      <el-col class="person-col" span="18" offset="0">
+      <el-col class="person-col" :span="18" :offset="0">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
@@ -182,7 +182,11 @@
                   <div class="name-right-zone">
                     <div class="mark">
                       <div>
-                        <el-button type="info" class="btn" @click="followScholar(item.personId)">
+                        <el-button
+                          type="info"
+                          class="btn"
+                          @click="followScholar(item.personId)"
+                        >
                           <div>
                             <span>关注</span>
                           </div>
@@ -408,7 +412,7 @@
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
-      <el-col class="card-col" span="6" offset="0">
+      <el-col class="card-col" :span="6" :offset="0">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
@@ -421,6 +425,8 @@
 
 <script>
 import Qs from "qs";
+import axios from "axios";
+import store from "../store/index";
 export default {
   data() {
     return {
@@ -489,37 +495,46 @@ export default {
         key_word: this.$route.query.key_word,
       });
       console.log(data);
-      axios.post("http://localhost:8000/search/search_scholar/", data).then((res) => {
-        this.personList = res.data.scholar_list;
-      });
+      // axios.post("http://localhost:8000/search/search_scholar/", data).then((res) => {
+      //   this.personList = res.data.scholar_list;
+      // });
     },
     person() {
       this.$router.push("/profile");
     },
     followScholar(personId) {
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          showClose: true,
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
       var data = Qs.stringify({
         person_id: personId,
       });
-      // axios
-      //   .post("http://localhost:8000/ajax/follow/follow_scholar/", data)
-      //   .then((res) => {
-      //     const flag = res.data.success;
-      //     if (flag == "yes") {
-      //       this.$message({
-      //         showClose: true,
-      //         message: "已关注",
-      //         type: "success",
-      //       });
-      //     } else {
-      //       this.$message({
-      //         showClose: true,
-      //         message: res.data.msg,
-      //         type: "warning",
-      //       });
-      //     }
-      //   });
-      console.log(data)
-    }
+      console.log(data);
+      axios
+        .post("http://106.13.138.133:18090/follow/follow_scholar/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已关注",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+      console.log(data);
+    },
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div>
     <!-- 搜索框 -->
     <el-row class="search-row">
-      <el-col class="search-col" span="12" offset="6">
+      <el-col class="search-col" :span="12" :offset="6">
         <el-input class="search-input input-with-select" clearable placeholder="请输入内容" v-model="input">
           <el-select v-model="activeValue" slot="prepend" placeholder="请选择">
             <el-option label="搜索论文" value="1"></el-option>
@@ -14,7 +14,7 @@
     </el-row>
     <!-- 搜索结果 -->
     <el-row class="result-row">
-      <el-col class="result-col" span="20" offset="2">
+      <el-col class="result-col" :span="20" :offset="2">
         <!-- 路由占位符 -->
         <router-view />
         <!-- <el-tabs v-model="activeName" @tab-click="handleClick">

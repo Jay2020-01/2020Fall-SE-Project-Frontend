@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-row class="paper-row" gutter="20">
+    <el-row class="paper-row" :gutter="20">
       <!-- 日期选择器区域 -->
-      <el-col class="date-col" span="4" offset="0">
+      <el-col class="date-col" :span="4" :offset="0">
         <div class="block">
           <el-date-picker
             v-model="activeDate"
@@ -20,7 +20,7 @@
       </el-col>
 
       <!-- 论文表格区域 -->
-      <el-col class="paper-col" span="14" offset="0">
+      <el-col class="paper-col" :span="14" :offset="0">
         <el-tabs type="border-card">
           <!-- 按时间排序 -->
           <el-tab-pane label="最新">
@@ -37,7 +37,11 @@
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
-                      <el-button type="info" class="btn" @click="collectPaper(item.paperId)">
+                      <el-button
+                        type="info"
+                        class="btn"
+                        @click="collectPaper(item.paperId)"
+                      >
                         <div>
                           <span>收藏</span>
                         </div>
@@ -184,7 +188,7 @@
       </el-col>
 
       <!-- 备用栏 -->
-      <el-col class="card-col" span="6" offset="0">
+      <el-col class="card-col" :span="6" :offset="0">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
@@ -197,6 +201,8 @@
 
 <script>
 import Qs from "qs";
+import axios from "axios";
+import store from "../store/index.js";
 export default {
   data() {
     return {
@@ -325,36 +331,46 @@ export default {
         end_year: 2100,
         key_word: this.$route.query.key_word,
       });
-      axios.post("http://localhost:8000/search/search_paper/", data).then((res) => {
-        this.paperList = res.data.paper_list;
-      });
+      // axios
+      //   .post("http://localhost:8000/search/search_paper/", data)
+      //   .then((res) => {
+      //     this.paperList = res.data.paper_list;
+      //   });
     },
     paper() {
       this.$router.push("/details_paper");
     },
     collectPaper(paperId) {
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          showClose: true,
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
       var data = Qs.stringify({
         paper_id: paperId,
       });
-      // axios
-      //   .post("http://localhost:8000/ajax/favor/collect_/", data)
-      //   .then((res) => {
-      //     const flag = res.data.success;
-      //     if (flag == "yes") {
-      //       this.$message({
-      //         showClose: true,
-      //         message: "已收藏",
-      //         type: "success",
-      //       });
-      //     } else {
-      //       this.$message({
-      //         showClose: true,
-      //         message: res.data.msg,
-      //         type: "warning",
-      //       });
-      //     }
-      //   });
-      console.log(data)
+      console.log(data);
+      axios
+        .post("http://106.13.138.133:18090/favor/collect_paper/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已收藏",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
     },
   },
 };
