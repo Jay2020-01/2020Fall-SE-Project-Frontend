@@ -126,6 +126,7 @@ export default {
           console.log(res);
           this.username = res.data.data.userName;
           this.mail_address = res.data.data.mail;
+          this.isLogin = true;
         });
       }
     },
