@@ -99,7 +99,7 @@ export default {
     getMyInfo() {
       if (store.getters.isLoggedIn) {
         axios.get("http://106.13.138.133:18090/user/my_info/").then((res) => {
-          console.log(res);
+          // console.log(res);
           this.username = res.data.data.userName;
           this.mail_address = res.data.data.mail;
         });

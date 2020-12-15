@@ -29,7 +29,7 @@
               <div class="title-zone">
                 <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title" @click="paper">
+                  <span class="paper-title" @click="paper(item.paperId)">
                     {{ item.paper }}
                   </span>
                 </div>
@@ -337,8 +337,8 @@ export default {
       //     this.paperList = res.data.paper_list;
       //   });
     },
-    paper() {
-      this.$router.push("/details_paper");
+    paper(paper_id) {
+      this.$router.push("/details_paper/" + paper_id);
     },
     collectPaper(paperId) {
       if (!store.getters.isLoggedIn) {

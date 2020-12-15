@@ -41,7 +41,7 @@ const routes = [
                 ]
             },
             { path: '/profile', name: "profile", component: Profile, meta: { requiresAuth: false } },
-            { path: '/details_paper', component: DetailsPaper, meta: { requiresAuth: false } },
+            { path: '/details_paper/:paper_id', component: DetailsPaper, meta: { requiresAuth: false } },
             {
                 path: '/personal_center',
                 component: PersonalCenter,

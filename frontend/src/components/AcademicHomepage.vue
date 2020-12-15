@@ -37,7 +37,7 @@
             <el-pagination
                 background
                 layout="prev, pager, next"
-                page-size="8"
+                :page-size="8"
                 :total="total"
                 @current-change="page">
             </el-pagination> 
@@ -100,6 +100,7 @@
     </div>
 </template>
 <script>
+import axios from "axios"
 export default {
     data () {
       return {
@@ -177,10 +178,10 @@ export default {
             //alert(1);
             this.person_now=this.person_list[0];
             const _this=this;
-            axios.get('/ajax/personal_center/academic_homepage/search/'+_this.user_name+'/1/8').then(function (resp) {
-                     //console.log(resp.data);
-                     _this.person_list2=resp.data;
-                 })
+            // axios.get('/ajax/personal_center/academic_homepage/search/'+_this.user_name+'/1/8').then(function (resp) {
+            //          //console.log(resp.data);
+            //          _this.person_list2=resp.data;
+            //      })
         },
     methods: {
         click_name(item){
