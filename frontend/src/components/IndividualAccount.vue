@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div>
-      <el-card
+    <el-row :gutter="20">
+      <!-- 左边修改信息列 -->
+      <el-col :span="12">
+        <el-card
         class="box-card"
-        style="float: left; margin: 0 0 0 60px; width: 35%"
+        style=""
+        shadow="hover"
       >
         <h1 style="margin: -40px 0 0 40px; height: 120px; width: 100px">
           基本信息
@@ -66,13 +69,15 @@
           >
         </el-row>
       </el-card>
-    </div>
-    <!-- {{ruleForm.occupation}} -->
-
-    <div>
-      <el-card
+      </el-col>
+      <!-- 右边头像及修改密码列 -->
+      <el-col :span="12">
+        <!-- 修改头像行 -->
+        <el-row>
+          <el-card
         class="box-card"
-        style="float: left; margin: 0 0 20px 40px; width: 40%"
+        style=""
+        shadow="hover"
       >
         <div
           class="avatar_box"
@@ -95,12 +100,13 @@
           />
         </div>
       </el-card>
-    </div>
-
-    <div>
-      <el-card
+        </el-row>
+        <!-- 修改密码行 -->
+        <el-row style="margin-top: 15px">
+          <el-card
         class="box-card"
-        style="float: left; margin: 0 0 0 40px; width: 40%"
+        style=""
+        shadow="hover"
       >
         <h1 style="margin: -40px 0 0 40px; height: 120px; width: 100px">
           密码管理
@@ -171,7 +177,9 @@
           >
         </div>
       </el-card>
-    </div>
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -337,7 +345,7 @@ export default {
 }
 
 .box-card {
-  width: 480px;
+  /* width: 480px; */
 }
 p {
   display: inline;

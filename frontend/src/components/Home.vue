@@ -36,19 +36,35 @@
                 </div>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item disabled>{{ username }}</el-dropdown-item>
-                <el-dropdown-item disabled>{{ mail_address }}</el-dropdown-item>
-                <!-- <el-divider></el-divider> -->
-                <!-- <el-dropdown-item >个人信息</el-dropdown-item> -->
-                <el-divider>
-                  <i class="el-icon-mobile-phone" />
-                </el-divider>
-                <el-dropdown-item @click.native="toPersonalCenter"
-                  >个人空间</el-dropdown-item
-                >
-                <el-dropdown-item style="color: red" @click.native="logout"
-                  >退出登录</el-dropdown-item
-                >
+                <div v-if="isLogin">
+                  <el-dropdown-item disabled>{{ username }}</el-dropdown-item>
+                  <el-dropdown-item disabled>{{
+                    mail_address
+                  }}</el-dropdown-item>
+                  <!-- <el-divider></el-divider> -->
+                  <!-- <el-dropdown-item >个人信息</el-dropdown-item> -->
+                  <el-divider>
+                    <i class="el-icon-mobile-phone" />
+                  </el-divider>
+                  <el-dropdown-item @click.native="toPersonalCenter"
+                    >个人空间</el-dropdown-item
+                  >
+                  <el-dropdown-item style="color: red" @click.native="logout"
+                    >退出登录</el-dropdown-item
+                  >
+                </div>
+                <div v-if="!isLogin" style="">
+                  <el-dropdown-item
+                    @click.native="toRegister"
+                    style="color: red; margin-bottom: 10px; font-size: 16px"
+                    >注册</el-dropdown-item
+                  >
+                  <el-dropdown-item
+                    style="font-size: 16px"
+                    @click.native="toLogin"
+                    >登录</el-dropdown-item
+                  >
+                </div>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -69,7 +85,7 @@
 <script>
 import axios from "axios";
 import Qs from "qs";
-import store from '../store/index.js'
+import store from "../store/index.js";
 export default {
   data() {
     return {
@@ -78,12 +94,20 @@ export default {
       mail_address: "123123@126.com",
       imageUrl:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      // 判断是否登录
+      isLogin: false,
     };
   },
   created: function () {
     this.getMyInfo();
   },
   methods: {
+    toRegister() {
+      this.$router.push("/register");
+    },
+    toLogin() {
+      this.$router.push("/login");
+    },
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login");
@@ -102,6 +126,7 @@ export default {
           // console.log(res);
           this.username = res.data.data.userName;
           this.mail_address = res.data.data.mail;
+          this.isLogin = true;
         });
       }
     },

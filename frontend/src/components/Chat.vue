@@ -1,8 +1,12 @@
 <template>
     <div>
-        <el-card class="box-card">
+      <el-row>
+      <el-col :span="22" :offset="1">
+        <el-card class="box-card" shadow="hover">
             <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" />
         </el-card>
+      </el-col>
+    </el-row>
     </div>
 </template>
 <script>
@@ -137,8 +141,8 @@ export default {
     height:80px
   }
   .box-card {
-    width: 70%;
-    margin: 0 0 0 20%;
+    // width: 70%;
+    // margin: 0 0 0 20%;
   }
   .tableTitle {
     position: relative;

@@ -1,87 +1,95 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <h1 style="float: left; margin: -40px 0 0 40px; height: 120px">
-          我收藏的论文
-        </h1>
-        <div style="float: left; margin: -40px 0 0 40px; height: 120px">
-          总数：{{ paper_list.length }}
-        </div>
-        <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
-      </div>
-      <div class="text item" v-for="(item, index) in paper_list" :key="index">
-        <!-- 题目 -->
-        <div style="width: 80%">
-          <h3
-            style="
-              line-height: 20px;
-              padding: 0px;
-              margin: 0px 0px 0px 40px;
-              text-align: left;
-            "
+    <el-row>
+      <el-col :span="22" :offset="1">
+        <el-card class="box-card" shadow="hover">
+          <div slot="header" class="clearfix">
+            <h1 style="float: left; margin: -40px 0 0 40px; height: 120px">
+              我收藏的论文
+            </h1>
+            <div style="float: left; margin: -40px 0 0 40px; height: 120px">
+              总数：{{ paper_list.length }}
+            </div>
+            <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
+          </div>
+          <div
+            class="text item"
+            v-for="(item, index) in paper_list"
+            :key="index"
           >
-            {{ item.title }}
-          </h3>
-        </div>
-        <!-- 操作 -->
-        <div style="float: right; margin: -50px 30px 0px 0px">
-          <el-button type="primary">已收藏</el-button>
-        </div>
-        <!-- 作者 -->
-        <div style="text-align: left; width: 80%">
-          <div style="margin: 20px 0 0 40px; text-align: left">
+            <!-- 题目 -->
+            <div style="width: 80%">
+              <h3
+                style="
+                  line-height: 20px;
+                  padding: 0px;
+                  margin: 0px 0px 0px 40px;
+                  text-align: left;
+                "
+              >
+                {{ item.title }}
+              </h3>
+            </div>
+            <!-- 操作 -->
+            <div style="float: right; margin: -50px 30px 0px 0px">
+              <el-button type="primary">已收藏</el-button>
+            </div>
+            <!-- 作者 -->
+            <div style="text-align: left; width: 80%">
+              <div style="margin: 20px 0 0 40px; text-align: left">
+                <div
+                  v-for="i in item.author"
+                  :key="i"
+                  style="
+                    margin: 10px 10px 0px 0px;
+                    float: left;
+                    background-color: #f2f6fc;
+                    line-height: 20px;
+                    border-radius: 4px;
+                    border: 2px solid #ebeef5;
+                  "
+                >
+                  <router-link
+                    :to="{ path: '/person' }"
+                    style="text-decoration: none; color: #2f4f2f"
+                  >
+                    {{ "\xa0" + i + "\xa0" }}
+                  </router-link>
+                </div>
+              </div>
+            </div>
+            <!-- 期刊 -->
             <div
-              v-for="i in item.author"
-              :key="i"
               style="
-                margin: 10px 10px 0px 0px;
-                float: left;
-                background-color: #f2f6fc;
                 line-height: 20px;
-                border-radius: 4px;
-                border: 2px solid #ebeef5;
+                text-align: left;
+                width: 80%;
+                float: left;
+                margin: 0px 0px 0px 40px;
               "
             >
-              <router-link
-                :to="{ path: '/person' }"
-                style="text-decoration: none; color: #2f4f2f"
-              >
-                {{ "\xa0" + i + "\xa0" }}
-              </router-link>
+              <br />
+              {{ item.periodical }}
             </div>
+            <!-- 被引次数 -->
+            <!-- <br> -->
+            <div style="line-height: 100px"><br /></div>
+            <div
+              style="
+                float: right;
+                line-height: 20px;
+                padding: 0px;
+                text-align: left;
+                margin: 0px 30px 0px 0px;
+              "
+            >
+              <span>被引次数：{{ item.reference }}</span>
+            </div>
+            <el-divider></el-divider>
           </div>
-        </div>
-        <!-- 期刊 -->
-        <div
-          style="
-            line-height: 20px;
-            text-align: left;
-            width: 80%;
-            float: left;
-            margin: 0px 0px 0px 40px;
-          "
-        >
-          <br />
-          {{ item.periodical }}
-        </div>
-        <!-- 被引次数 -->
-        <!-- <br> -->
-        <div style="line-height: 100px"><br /></div>
-        <div
-          style="
-            float: right;
-            line-height: 20px;
-            padding: 0px;
-            text-align: left;
-            margin: 0px 30px 0px 0px;
-          "
-        >
-          <span>被引次数：{{ item.reference }}</span>
-        </div>
-        <el-divider></el-divider>
-      </div>
-    </el-card>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -177,8 +185,8 @@ export default {
   height: 80px;
 }
 .box-card {
-  width: 70%;
-  margin: 0 0 0 20%;
+  // width: 70%;
+  // margin: 0 0 0 20%;
 }
 .tableTitle {
   position: relative;
