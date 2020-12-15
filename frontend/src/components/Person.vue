@@ -155,7 +155,7 @@
 
     <el-row class="person-row" :gutter="20">
       <!--学者表格区域-->
-      <el-col class="person-col" :span="18" :offset="0">
+      <el-col class="person-col" :span="18" :offset="3">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
@@ -412,13 +412,13 @@
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
-      <el-col class="card-col" :span="6" :offset="0">
+      <!-- <el-col class="card-col" :span="6" :offset="0">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
           </div>
         </el-card>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>

@@ -20,7 +20,7 @@
       </el-col>
 
       <!-- 论文表格区域 -->
-      <el-col class="paper-col" :span="14" :offset="0">
+      <el-col class="paper-col" :span="17" :offset="0">
         <el-tabs type="border-card">
           <!-- 按时间排序 -->
           <el-tab-pane label="最新">
@@ -188,13 +188,13 @@
       </el-col>
 
       <!-- 备用栏 -->
-      <el-col class="card-col" :span="6" :offset="0">
+      <!-- <el-col class="card-col" :span="6" :offset="0">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
             <span>备用栏</span>
           </div>
         </el-card>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>
