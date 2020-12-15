@@ -25,9 +25,10 @@ export default {
             type: "error",
           });
         } else {
+          console.log(err.response)
           _this.$message({
             showClose: true,
-            message: "您未被授权访问该页面",
+            message: err.response.statusText,
             type: "error",
           });
           window.history.go(-1);

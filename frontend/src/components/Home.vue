@@ -28,7 +28,6 @@
             <!-- 这里是右上角的头像 -->
             <el-dropdown
               style="height: 60px; display: flex; align-items: center"
-              @visible-change="get_user_info"
             >
               <span class="el-dropdown-link">
                 <div style="display: flex; align-items: center">

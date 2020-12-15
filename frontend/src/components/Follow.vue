@@ -48,7 +48,9 @@
 
             <!-- 操作 -->
             <div style="float: right; margin: -50px 30px 0px 0px">
-              <el-button type="primary">已关注</el-button>
+              <el-button type="primary" @click="unfollow(item.personID)"
+                >已关注</el-button
+              >
             </div>
 
             <!-- 指数 -->
@@ -79,7 +81,12 @@
             >
               <span>身份：{{ item.occupation }}</span>
               <el-divider direction="vertical"></el-divider>
-              <span>单位：{{ item.company }}</span>
+              <span
+                >单位：
+                <span v-for="com in item.company" :key="com">
+                  {{ com }}
+                </span>
+              </span>
             </div>
 
             <!-- 信息 -->
@@ -101,7 +108,7 @@
                     :to="{ path: '/person' }"
                     style="text-decoration: none; color: #2f4f2f"
                   >
-                    {{ "\xa0" + i + "\xa0" }}
+                    {{ "\xa0" + i["t"] + "\xa0" }}
                   </router-link>
                 </div>
               </div>
@@ -117,55 +124,56 @@
 </template>
 <script>
 import axios from "axios";
+import Qs from "qs";
 export default {
   data() {
     return {
       person_list: [
-        {
-          person: "很长的名字Going Deeper with Convolutions",
-          hIndex: "60",
-          paperNum: "81",
-          reference: "132732",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          fields: [
-            "ai",
-            "Computer Vision",
-            "xxxxxxx",
-            "sxdsjniauhvnv",
-            "scasds",
-            "xxxxxxx",
-            "sxdsjniauhvnv",
-            "scasds",
-            "samxihvrwcccvvfd",
-            "zhoujielun",
-            "小红",
-            "sheqmocubeuxvzksswd",
-            "12345",
-            "sohe",
-            "djivr",
-            "dhslaciugy",
-            "ahahaha",
-          ],
-        },
-        {
-          person: "何明凯",
-          hIndex: "0",
-          paperNum: "2",
-          reference: "0",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          fields: ["ai", "Computer Vision"],
-        },
-        {
-          person: "陶哲轩",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          fields: ["ai", "Computer Vision"],
-        },
+        // {
+        //   person: "很长的名字Going Deeper with Convolutions",
+        //   personID: "1",
+        //   hIndex: "60",
+        //   paperNum: "81",
+        //   reference: "132732",
+        //   occupation: "教授",
+        //   company: "北京航空航天大学",
+        //   fields: [
+        //     "ai",
+        //     "Computer Vision",
+        //     "sxdsjniauhvnv",
+        //     "scasds",
+        //     "xxxxxxx",
+        //     "samxihvrwcccvvfd",
+        //     "zhoujielun",
+        //     "小红",
+        //     "sheqmocubeuxvzksswd",
+        //     "12345",
+        //     "sohe",
+        //     "djivr",
+        //     "dhslaciugy",
+        //     "ahahaha",
+        //   ],
+        // },
+        // {
+        //   person: "何明凯",
+        //   personID: "2",
+        //   hIndex: "0",
+        //   paperNum: "2",
+        //   reference: "0",
+        //   occupation: "教授",
+        //   company: "北京航空航天大学",
+        //   fields: ["ai", "Computer Vision"],
+        // },
+        // {
+        //   person: "陶哲轩",
+        //   personID: "3",
+        //   hIndex: "81",
+        //   paperNum: "402",
+        //   reference: "59997",
+        //   occupation: "教授",
+        //   company: "北京航空航天大学",
+        //   fields: ["ai", "Computer Vision"],
+        // },
       ],
     };
   },
@@ -183,14 +191,43 @@ export default {
             if (following_list[i]) {
               this.person_list.push({
                 person: following_list[i].name,
-                hIndex: following_list[i].h_index,
-                paperNum: following_list[i].papers_num,
-                reference: following_list[i].citations_num,
+                personID: following_list[i].aid,
+                hIndex: following_list[i].hindex,
+                paperNum: following_list[i].npubs,
+                reference: following_list[i].ncitation,
                 occupation: following_list[i].position,
-                company: following_list[i].org,
-                fields: following_list[i].fields,
+                company: following_list[i].orgs,
+                fields: following_list[i].tags,
               });
             }
+          }
+        });
+    },
+    unfollow(personId) {
+      var data = Qs.stringify({
+        person_id: personId,
+      });
+      console.log(data);
+      axios
+        .delete("http://106.13.138.133:18090/follow/remove_scholar/", { data })
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已取消关注",
+              type: "success",
+            });
+            var index = this.person_list.findIndex(
+              (person) => person.personID === personId
+            );
+            this.person_list.splice(index, 1);
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
           }
         });
     },

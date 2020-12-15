@@ -32,7 +32,9 @@
             </div>
             <!-- 操作 -->
             <div style="float: right; margin: -50px 30px 0px 0px">
-              <el-button type="primary">已收藏</el-button>
+              <el-button type="primary" @click="uncollect(item.paper_id)"
+                >已收藏</el-button
+              >
             </div>
             <!-- 作者 -->
             <div style="text-align: left; width: 80%">
@@ -53,7 +55,7 @@
                     :to="{ path: '/person' }"
                     style="text-decoration: none; color: #2f4f2f"
                   >
-                    {{ "\xa0" + i + "\xa0" }}
+                    {{ "\xa0" + i["name"] + "\xa0" }}
                   </router-link>
                 </div>
               </div>
@@ -94,46 +96,50 @@
 </template>
 <script>
 import axios from "axios";
+import Qs from "qs";
 export default {
   data() {
     return {
       paper_list: [
-        {
-          title: "Going Deeper with Convolutions",
-          reference: "132732",
-          periodical:
-            "IEEE Trans. Pattern Anal. Mach. Intell., no. 6 (2017): 1137-1149",
-          author: [
-            "小明",
-            "Tom",
-            "xxxxxxx",
-            "sxdsjniauhvnv",
-            "scasds",
-            "samxihvrwcccvvfd",
-            "zhoujielun",
-            "小红",
-            "sheqmocubeuxvzksswd",
-            "12345",
-            "sohe",
-            "djivr",
-            "dhslaciugy",
-            "ahahaha",
-          ],
-        },
-        {
-          title:
-            "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
-          reference: "0",
-          periodical:
-            "Readings in computer vision: issues, problems, principles, and paradigms, no. 6 (1986): 679-698",
-          author: ["小红", "sheqmocubeuxvzksswd"],
-        },
-        {
-          title: "A Computational Approach to Edge Detection",
-          reference: "59997",
-          periodical: "computer vision and pattern recognition, (2015)",
-          author: ["samxihvrwcccvvfd", "zhoujielun"],
-        },
+        // {
+        //   title: "Going Deeper with Convolutions",
+        //   paper_id:"1",
+        //   reference: "132732",
+        //   periodical:
+        //     "IEEE Trans. Pattern Anal. Mach. Intell., no. 6 (2017): 1137-1149",
+        //   author: [
+        //     "小明",
+        //     "Tom",
+        //     "xxxxxxx",
+        //     "sxdsjniauhvnv",
+        //     "scasds",
+        //     "samxihvrwcccvvfd",
+        //     "zhoujielun",
+        //     "小红",
+        //     "sheqmocubeuxvzksswd",
+        //     "12345",
+        //     "sohe",
+        //     "djivr",
+        //     "dhslaciugy",
+        //     "ahahaha",
+        //   ],
+        // },
+        // {
+        //   title:
+        //     "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
+        //   paper_id:"2",
+        //   reference: "0",
+        //   periodical:
+        //     "Readings in computer vision: issues, problems, principles, and paradigms, no. 6 (1986): 679-698",
+        //   author: ["小红", "sheqmocubeuxvzksswd"],
+        // },
+        // {
+        //   title: "A Computational Approach to Edge Detection",
+        //   paper_id:"3",
+        //   reference: "59997",
+        //   periodical: "computer vision and pattern recognition, (2015)",
+        //   author: ["samxihvrwcccvvfd", "zhoujielun"],
+        // },
       ],
       num: 0,
     };
@@ -146,7 +152,6 @@ export default {
       axios
         .get("http://106.13.138.133:18090/favor/my_collection/")
         .then((res) => {
-          // console.log(res.data.data)
           var collection_list = res.data.data;
           console.log(collection_list);
           console.log(collection_list.length);
@@ -154,11 +159,39 @@ export default {
             if (collection_list[i]) {
               this.paper_list.push({
                 title: collection_list[i].title,
-                reference: collection_list[i].citations_num,
-                periodical: collection_list[i].periodical,
+                paper_id: collection_list[i].pid,
+                reference: collection_list[i].ncitation,
+                periodical: collection_list[i].issn,
                 author: collection_list[i].authors,
               });
             }
+          }
+        });
+    },
+    uncollect(paperId) {
+      var data = Qs.stringify({
+        paper_id: paperId,
+      });
+      axios
+        .post("http://106.13.138.133:18090/favor/remove_paper/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已取消收藏",
+              type: "success",
+            });
+            var index = this.paper_list.findIndex(
+              (paper) => paper.paperId === paperId
+            );
+            this.paper_list.splice(index, 1);
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
           }
         });
     },

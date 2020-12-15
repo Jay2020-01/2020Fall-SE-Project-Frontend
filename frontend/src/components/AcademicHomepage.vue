@@ -181,7 +181,7 @@
         <el-pagination
           background
           layout="prev, pager, next"
-          page-size="8"
+          :page-size="8"
           :total="total"
           @current-change="page"
         >
