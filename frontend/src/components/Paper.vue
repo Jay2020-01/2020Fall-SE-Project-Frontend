@@ -29,8 +29,8 @@
               <div class="title-zone">
                 <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title" @click="paper(item.paperId)">
-                    {{ item.paper }}
+                  <span class="paper-title" @click="paper">
+                    {{ item.title }}
                   </span>
                 </div>
                 <!-- 右侧收藏按钮 -->
@@ -53,29 +53,21 @@
               <!-- 作者区域 -->
               <div class="person-zone">
                 <span class="person">
-                  {{ item.person }}
+                  {{ item.authors[0].name + ", et al." }}
                 </span>
-              </div>
-              <!-- 摘要区域 -->
-              <div class="abstract-zone">
-                <div class="abstract">
-                  <span class="abstract-text">
-                    {{ item.abstract }}
-                  </span>
-                </div>
               </div>
               <!-- 发表时间区域 -->
               <div class="time-zone">
                 <div class="time">
                   <span>发表时间：</span>
-                  {{ item.time }}
+                  {{ item.year }}
                 </div>
               </div>
               <!-- 引用区域 -->
               <div class="reference-zone">
                 <div class="reference">
                   <span>被引用:</span>
-                  <strong>{{ item.reference }}</strong>
+                  <strong>{{ item.n_citation }}</strong>
                 </div>
               </div>
             </div>
@@ -86,7 +78,7 @@
               <div class="title-zone">
                 <div class="title-line">
                   <span class="paper-title">
-                    {{ item.paper }}
+                    {{ item.title }}
                   </span>
                 </div>
 
@@ -105,29 +97,21 @@
 
               <div class="person-zone">
                 <span class="person">
-                  {{ item.person }}
+                  {{ item.authors }}
                 </span>
-              </div>
-
-              <div class="abstract-zone">
-                <div class="abstract">
-                  <span class="abstract-text">
-                    {{ item.abstract }}
-                  </span>
-                </div>
               </div>
 
               <div class="time-zone">
                 <div class="time">
                   <span>发表时间：</span>
-                  {{ item.time }}
+                  {{ item.year }}
                 </div>
               </div>
 
               <div class="reference-zone">
                 <div class="reference">
                   <span>被引用:</span>
-                  <strong>{{ item.reference }}</strong>
+                  <strong>{{ item.n_citation }}</strong>
                 </div>
               </div>
             </div>
@@ -138,7 +122,7 @@
               <div class="title-zone">
                 <div class="title-line">
                   <span class="paper-title">
-                    {{ item.paper }}
+                    {{ item.title }}
                   </span>
                 </div>
 
@@ -157,16 +141,8 @@
 
               <div class="person-zone">
                 <span class="person">
-                  {{ item.person }}
+                  {{ item.authors[0].name + ", et al." }}
                 </span>
-              </div>
-
-              <div class="abstract-zone">
-                <div class="abstract">
-                  <span class="abstract-text">
-                    {{ item.abstract }}
-                  </span>
-                </div>
               </div>
 
               <div class="time-zone">
@@ -206,64 +182,13 @@ import store from "../store/index.js";
 export default {
   data() {
     return {
+      start_year: 1900,
+      end_year: 2029,
+      page_num: 0,
+      page_size: 10,
+
       activeDate: "",
       paperList: [
-        {
-          paperId: "1",
-          paper: "An Inverse Theorem for an Inequality of Kneser",
-          person: "陶哲轩",
-          abstract:
-            "Let G = (G, +) be a compact connected abelian group, and let μG denote its probability Haar measure. A theorem of Kneser (generalising previous results of Macbeath, Raikov, and Shields) establishes the bound μG(A + B) ≥ min(μG(A) + μG(B), 1) whenever A and B are compact subsets o...",
-          time: "2019",
-          reference: "0",
-        },
-        {
-          paperId: "2",
-          paper:
-            "Finite time blowup for a supercritical defocusing nonlinear Schrödinger system",
-          person: "陶哲轩",
-          abstract:
-            "We consider the global regularity problem for defocusing nonlinear Schrodinger systems i partial derivative t+Delta u=(del F-Rm)(u) + G on Galilean spacetime RxR(d), where the field u : R1+d -> C-m is vector-valued, F : C-m -> R is a smooth potential which is positive, phase-rota...",
-          time: "2018",
-          reference: "2",
-        },
-        {
-          paperId: "3",
-          paper: "AN INTEGRATION APPROACH TO THE TOEPLITZ SQUARE PEG PROBLEM",
-          person: "陶哲轩",
-          abstract:
-            "The peg or square of Toeplitz asks if every simple closed curve in the plane inscribes a (non-degenerate) square, in the sense that all four vertices of that square lie on the curve. By a variety of arguments of a nature, it is known that the answer this question is positiv...",
-          time: "2017",
-          reference: "3",
-        },
-        {
-          paperId: "4",
-          paper: "An Inverse Theorem for an Inequality of Kneser",
-          person: "陶哲轩",
-          abstract:
-            "Let G = (G, +) be a compact connected abelian group, and let μG denote its probability Haar measure. A theorem of Kneser (generalising previous results of Macbeath, Raikov, and Shields) establishes the bound μG(A + B) ≥ min(μG(A) + μG(B), 1) whenever A and B are compact subsets o...",
-          time: "2019",
-          reference: "0",
-        },
-        {
-          paperId: "5",
-          paper:
-            "Finite time blowup for a supercritical defocusing nonlinear Schrödinger system",
-          person: "陶哲轩",
-          abstract:
-            "We consider the global regularity problem for defocusing nonlinear Schrodinger systems i partial derivative t+Delta u=(del F-Rm)(u) + G on Galilean spacetime RxR(d), where the field u : R1+d -> C-m is vector-valued, F : C-m -> R is a smooth potential which is positive, phase-rota...",
-          time: "2018",
-          reference: "2",
-        },
-        {
-          paperId: "6",
-          paper: "AN INTEGRATION APPROACH TO THE TOEPLITZ SQUARE PEG PROBLEM",
-          person: "陶哲轩",
-          abstract:
-            "The peg or square of Toeplitz asks if every simple closed curve in the plane inscribes a (non-degenerate) square, in the sense that all four vertices of that square lie on the curve. By a variety of arguments of a nature, it is known that the answer this question is positiv...",
-          time: "2017",
-          reference: "3",
-        },
       ],
       pickerOptions: {
         shortcuts: [
@@ -331,14 +256,18 @@ export default {
         end_year: 2100,
         key_word: this.$route.query.key_word,
       });
-      // axios
-      //   .post("http://localhost:8000/search/search_paper/", data)
-      //   .then((res) => {
-      //     this.paperList = res.data.paper_list;
-      //   });
+      console.log('I am here here here');
+      // console.log("http://106.13.138.133:7001/search/keyword/" + this.$route.query.key_word + '/' + this.start_year + '/' + this.end_year + '/' + this.page_num + '/' + this.page_size);
+      var url = "http://106.13.138.133:18090/search/keyword/" + this.$route.query.key_word + '/' + this.start_year + '/' + this.end_year + '/' + this.page_num + '/' + this.page_size;
+      axios.get(url).then((res) => {
+        console.log('get data from url');
+        console.log(res.data.data.content);
+        this.paperList = res.data.data.content;
+      });
+      console.log('post 1 finish')
     },
-    paper(paper_id) {
-      this.$router.push("/details_paper/" + paper_id);
+    paper() {
+      this.$router.push("/details_paper");
     },
     collectPaper(paperId) {
       if (!store.getters.isLoggedIn) {
