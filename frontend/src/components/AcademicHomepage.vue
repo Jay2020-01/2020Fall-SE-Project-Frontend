@@ -129,7 +129,7 @@
               <el-button type="primary" @click="dialogFormVisible = true"
                 >绑定</el-button
               >
-              <el-dialog title="请输入邮箱" :visible.sync="dialogFormVisible">
+              <el-dialog width="35%" title="请输入邮箱" :visible.sync="dialogFormVisible">
                 <el-form
                   :model="dynamicValidateForm"
                   ref="dynamicValidateForm"
@@ -152,11 +152,18 @@
                       },
                     ]"
                   >
-                    <el-input v-model="dynamicValidateForm.email"></el-input>
+                    <el-input v-model="dynamicValidateForm.email" style="width: 50%; float: left"></el-input>
+                    <el-button type="primary">发送验证码</el-button>
+                  </el-form-item>
+                  <el-form-item
+                    prop="email"
+                    label="验证码"
+                  >
+                    <el-input v-model="dynamicValidateForm.email" style="width: 50%; float: left"></el-input>
                   </el-form-item>
                 </el-form>
 
-                <div slot="footer" class="dialog-footer">
+                <div slot="footer" class="dialog-footer" style="display: flex; align-items: center; justify-content: center">
                   <el-button @click="dialogFormVisible = false"
                     >取 消</el-button
                   >
