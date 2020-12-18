@@ -32,8 +32,12 @@
           <div slot="header">
             <span>学术排名</span>
           </div>
-          <div v-for="o in 3" :key="o" class="text item">
-            {{ "列表内容 " + o }}
+          <div v-for="(item,index) in h_index" :key="index" class="text item" v-show="index<3">
+            <!-- <span style="background-color: #f2f6fc;
+                    line-height: 20px;
+                    border-radius: 4px;
+                    border: 2px solid #ebeef5;">{{index+1}}</span>  -->
+            <span>{{item.name}}</span>
           </div>
         </el-card>
       </el-col>
@@ -42,8 +46,12 @@
           <div slot="header">
             <span>人才专家</span>
           </div>
-          <div v-for="o in 3" :key="o" class="text item">
-            {{ "列表内容 " + o }}
+          <div v-for="(item,index) in person" :key="index" class="text item" v-show="index<3">
+            <!-- <span style="background-color: #f2f6fc;
+                    line-height: 20px;
+                    border-radius: 4px;
+                    border: 2px solid #ebeef5;">{{index+1}}</span>  -->
+            <span>{{item.name}}</span>
           </div>
         </el-card>
       </el-col>
@@ -52,24 +60,69 @@
           <div slot="header">
             <span>科技资讯</span>
           </div>
-          <div v-for="o in 3" :key="o" class="text item">
-            {{ "列表内容 " + o }}
+          <div v-for="(item,index) in paper" :key="index" class="text item" v-show="index<3">
+            <!-- <span style="background-color: #f2f6fc;
+                    line-height: 20px;
+                    border-radius: 4px;
+                    border: 2px solid #ebeef5;">{{index+1}}</span>  -->
+            <span>{{item.title}}</span>
           </div>
         </el-card>
       </el-col>
     </el-row>
+    <!-- {{h_index}} -->
   </div>
 </template>
 
 <script>
+import Qs from "qs";
+import axios from "axios";
+import store from "../store/index.js";
 export default {
   data() {
     return {
       input: "",
       select: "1",
+      paper:[],
+      person:[],
+      h_index:[],
     };
   },
+  created() {
+    //alert("1");
+    this.get_paper();
+    this.get_person();
+    this.get_h_index();
+    //alert("2");
+  },
   methods: {
+    get_paper(){
+      var url = "http://106.13.138.133:18090/search/hotPaper";
+      axios.get(url).then((res)=>{
+        //console.log('get data from url');
+        //console.log(res.data.data);
+        this.paper = res.data.data;
+      });
+      //console.log('post 1 finish');
+    },
+    get_person(){
+      var url = "http://106.13.138.133:18090/search/hotAuthorByC";
+      axios.get(url).then((res)=>{
+        //console.log('get data from url');
+        //console.log(res.data.data);
+        this.person = res.data.data;
+      });
+      //console.log('post 1 finish');
+    },
+    get_h_index(){
+      var url = "http://106.13.138.133:18090/search/hotAuthorByH";
+      axios.get(url).then((res)=>{
+        //console.log('get data from url');
+        //console.log(res.data.data);
+        this.h_index = res.data.data;
+      });
+      //console.log('post 1 finish');
+    },
     search() {
       if(this.select == 1) {  // 搜索论文
         this.$router.push({
@@ -189,11 +242,21 @@ export default {
 }
 
 .item {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   height: 50px;
-  // border: 1px red solid;
+  //border: 1px red solid;
   display: flex;
   align-items: center;
+
+
+  //margin-bottom: 10px;
+  // height: 50px;
+   text-align: left;
+   line-height:17px
+  // margin: 0px 0px 0px 0px;
+  //border: 1px red solid;
+  //display: flex;
+  //align-items: center;
 }
 
 .box-card {
