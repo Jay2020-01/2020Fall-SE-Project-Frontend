@@ -1,25 +1,33 @@
 <template>
   <div>
     <!-- 上面部分:搜索专家行 -->
-        <el-row style="margin-bottom: 10px;">
-          <!-- 根据名字检索的可能是该用户的card -->
-          <el-input
-            class="search-input"
-            placeholder="请输入内容"
-            v-model="input"
-          >
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </el-row>
+    <el-row style="margin-bottom: 10px">
+      <!-- 根据名字检索的可能是该用户的card -->
+      <el-input
+        class="search-input"
+        placeholder="请输入内容"
+        v-model="key_word"
+        @keyup.enter.native="getPersonList"
+      >
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="getPersonList"
+        ></el-button>
+      </el-input>
+    </el-row>
     <!-- 中间部分 -->
     <el-row :gutter="20">
       <!-- 左边竖列:搜索按钮及搜索结果 -->
       <el-col :span="16" style="">
-        
         <el-row>
-          <el-col :span="12" v-for="(item, index) in person_list" :key="index">
-            <el-card class="box-card_1" shadow="hover">
-              <div style="line-height: 10px" @click="click_name(item)">
+          <el-col :span="12" v-for="item in person_list" :key="item.aid" @click.native="clickHandler(item,index)">
+            <el-card
+              class="box-card_1"
+              shadow="hover"
+             >             
+             <!-- @click.native="click_name(item.aid)" -->
+              <div style="line-height: 10px">
                 <!-- 头像 -->
                 <div style="float: left; height: 120px">
                   <img
@@ -38,7 +46,7 @@
                     text-align: left;
                   "
                 >
-                  <h4>{{ item.person }}</h4>
+                  <h4>{{ item.name }}</h4>
                 </div>
                 <!-- 指数 -->
                 <div
@@ -51,13 +59,13 @@
                   "
                 >
                   <span>h-index：</span
-                  ><span style="color: #409eff">{{ item.hIndex }}</span>
+                  ><span style="color: #409eff">{{ item.h_index }}</span>
                   <el-divider direction="vertical"></el-divider>
                   <span>论文数：</span
-                  ><span style="color: #409eff">{{ item.paperNum }}</span>
+                  ><span style="color: #409eff">{{ item.n_pubs }}</span>
                   <el-divider direction="vertical"></el-divider>
                   <span>引用数：</span
-                  ><span style="color: #409eff">{{ item.reference }}</span>
+                  ><span style="color: #409eff">{{ item.n_citation }}</span>
                 </div>
                 <br />
                 <!-- 地址&身份 -->
@@ -71,10 +79,10 @@
                   "
                 >
                   <span>身份：</span
-                  ><span style="font-style: italic">{{ item.occupation }}</span>
+                  ><span style="font-style: italic">{{ item.position }}</span>
                   <el-divider direction="vertical"></el-divider>
                   <span>单位：</span
-                  ><span style="font-style: italic">{{ item.company }}</span>
+                  ><span style="font-style: italic" v-if="item.orgs">{{ item.orgs[0]}}</span>
                 </div>
               </div>
             </el-card>
@@ -83,7 +91,7 @@
       </el-col>
       <!-- 右边竖列:需要绑定的信息 -->
       <el-col :span="8">
-        <div style="">
+        <div style="" v-if="totalCount>0">
           <el-card style="">
             <div style="line-height: 20px">
               <!-- 头像 -->
@@ -96,40 +104,44 @@
               </div>
               <!-- 名字 -->
               <div style="">
-                <h4>{{ this.person_now.person }}</h4>
+                <h4>{{ this.person_now.name }}</h4>
               </div>
               <!-- 指数 -->
               <div style="">
                 <span
-                  >h-index：<span style="color: #409eff">{{
-                    this.person_now.hIndex
-                  }}</span></span
+                  >h-index：<span style="color: #409eff">
+                    {{ this.person_now.h_index }}
+                  </span></span
                 >
                 <el-divider direction="vertical"></el-divider>
                 <span
                   >论文数：<span style="color: #409eff">{{
-                    this.person_now.paperNum
+                    this.person_now.n_pubs
                   }}</span></span
                 >
                 <el-divider direction="vertical"></el-divider>
                 <span
                   >引用数：<span style="color: #409eff">{{
-                    this.person_now.reference
+                    this.person_now.n_citation
                   }}</span></span
                 >
               </div>
               <br />
               <!-- 单位&身份 -->
               <div style="">
-                <span>身份：{{ this.person_now.occupation }}</span>
+                <span>身份：{{ this.person_now.position }}</span>
                 <el-divider direction="vertical"></el-divider>
-                <span>单位：{{ this.person_now.company }}</span>
+                <span v-if="person_now.orgs">单位：{{ this.person_now.orgs[0]}}</span>
               </div>
               <br />
               <el-button type="primary" @click="dialogFormVisible = true"
                 >绑定</el-button
               >
-              <el-dialog width="35%" title="请输入邮箱" :visible.sync="dialogFormVisible">
+              <el-dialog
+                width="35%"
+                title="请输入邮箱"
+                :visible.sync="dialogFormVisible"
+              >
                 <el-form
                   :model="dynamicValidateForm"
                   ref="dynamicValidateForm"
@@ -152,18 +164,33 @@
                       },
                     ]"
                   >
-                    <el-input v-model="dynamicValidateForm.email" style="width: 50%; float: left"></el-input>
-                    <el-button type="primary">发送验证码</el-button>
+                    <el-input
+                      v-model="dynamicValidateForm.email"
+                      style="width: 50%; float: left"
+                    ></el-input>
+                    <el-button
+                      type="primary"
+                      @click="sendEmail(dynamicValidateForm.email)"
+                      >发送验证码</el-button
+                    >
                   </el-form-item>
-                  <el-form-item
-                    prop="email"
-                    label="验证码"
-                  >
-                    <el-input v-model="dynamicValidateForm.email" style="width: 50%; float: left"></el-input>
+                  <el-form-item prop="code" label="验证码">
+                    <el-input
+                      v-model="dynamicValidateForm.code"
+                      style="width: 50%; float: left"
+                    ></el-input>
                   </el-form-item>
                 </el-form>
 
-                <div slot="footer" class="dialog-footer" style="display: flex; align-items: center; justify-content: center">
+                <div
+                  slot="footer"
+                  class="dialog-footer"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
                   <el-button @click="dialogFormVisible = false"
                     >取 消</el-button
                   >
@@ -183,192 +210,131 @@
     <!-- 分页部分 -->
     <el-row style="margin-top: 10px">
       <el-col :span="12" :offset="6">
-      <!-- 展示了8个card后分页 -->
-      <div>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :page-size="8"
-          :total="total"
-          @current-change="page"
-        >
-        </el-pagination>
-      </div>
+        <div >
+          <el-button @click="prepage()">上一页</el-button>
+          <el-button @click="nextpage()">下一页</el-button>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import axios from "axios"
+import axios from "axios";
+import Qs from "qs";
+import store from "../store/index.js";
 export default {
   data() {
     return {
-      input: "",
-      //user:{person:'何铭凯',hIndex:'6000',paperNum:'81',reference:'132732',occupation:'博士',company:'北京航空航天大学北京航空航天大学'},
-      person_list: [
-        {
-          person: "何铭凯",
-          hIndex: "60",
-          paperNum: "81",
-          reference: "132732",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何明凯",
-          hIndex: "0",
-          paperNum: "2",
-          reference: "0",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        },
-        {
-          person: "何铭凯",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          occupation: "教授",
-          company: "北京航空航天大学",
-          id: "1",
-        }
-      ],
-      person_now: "",
-      user_id: "",
-      academic_home_id: "",
-      user_name: "xxx",
-      person_list2: [],
-      total: 15, //替换成真数据
+      key_word: "",
+      pageNum: 0,//当前页数
+      pageSize: 8,
+      person_list: [],
+      person_now:[],
+      curNum:0,
+      user:[],
+      totalCount: 0,
       dialogFormVisible: false,
       formLabelWidth: "120px",
       dynamicValidateForm: {
         email: "",
+        code: "",
       },
     };
   },
-  // mounted:function() {
-  //         //alert("!!!")
-  //         this.person_now=this.person_list[0];
-  //         const _this=this;
-  //             axios.get('http://localhost:8088/ajax/personal_center/academic_homepage/search'+_this.user_name).then(function (resp) {
-  //                 //console.log(resp.data);
-  //                 _this.person_list2=resp.data;
-  //             })
-  //     },
   created() {
-    //alert(1);
-    this.person_now = this.person_list[0];
-    const _this = this;
-    axios
-      .get(
-        "/ajax/personal_center/academic_homepage/search/" +
-          _this.user_name +
-          "/1/8"
-      )
-      .then(function (resp) {
-        //console.log(resp.data);
-        _this.person_list2 = resp.data;
-      });
+    this.getUserInfo();
   },
   methods: {
-    click_name(item) {
-      //this.person_now=item;
-      const _this = this;
-      axios
-        .post("/ajax/personal_center/academic_homepage/view/" + _this.item.id)
-        .then(function (resp) {
-          //console.log(resp.data);
-          _this.person_now = resp.data;
-          // _this.academic_home_id=_this.person_now.id
-        });
+    getUserInfo(){
+      var url = "http://106.13.138.133:18090/user/my_info";
+      axios.get(url).then((res)=>{
+        this.user = res.data.data;
+      });
     },
-    page(current_page) {
-      //alert(current_page)
-      this.person_now = this.person_list[0];
-      const _this = this;
-      axios
-        .get(
-          "/ajax/personal_center/academic_homepage/search/" +
-            _this.user_name +
-            "/" +
-            current_page +
-            "/8"
-        )
-        .then(function (resp) {
-          //console.log(resp.data);
-          _this.person_list2 = resp.data;
-        });
+    getPersonList() {
+      console.log(this.key_word);
+      var url =
+        "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" +
+        this.key_word +
+        "/" +
+        this.pageNum +
+        "/" +
+        this.pageSize;
+      axios.get(url).then((res) => {
+        this.person_list = res.data.data.content;
+        this.totalCount = res.data.data.numberOfElements;
+      });
+    },
+    clickHandler(data,num){
+      this.person_now = data;
+      this.curNum = num;
+    },
+    sendEmail(email) {
+      var data = Qs.stringify({
+        mail: email,
+      });
+      console.log(data);
+      alert("1");
+      var url =
+        "http://106.13.138.133:18090/portal/personal_center/academic_homepage/bind";
+      axios.post(url, data).then((res) => {
+        console.log(res);
+        if (res.data.code == 200) {
+          this.$message({
+            message: "邮件发送成功",
+            type: "success",
+          });
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: "warning",
+          });
+        }
+      });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          var data = Qs.stringify({
+            userId: this.user.id,
+            portalId: this.person_now.aid,
+            email: this.dynamicValidateForm.email,
+            code: this.dynamicValidateForm.code,
+          });
+          console.log(this.person_now.aid);
+          var url =
+            "http://106.13.138.133:18090/portal/personal_center/academic_homepage/check";
+          axios.post(url, data).then((res) => {
+            if (res.data.code == 200) {
+              this.$message({
+                message: "绑定成功",
+                type: "success",
+              });
+            } else {
+              this.$message({
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          });
         } else {
-          console.log("error submit!!");
+          console.log("绑定失败！");
           return false;
         }
       });
-      const _this = this;
-      axios
-        .post(
-          "/ajax/personal_center/academic_homepage/bind/" +
-            _this.user_id +
-            "/" +
-            _this.person_now.id +
-            "/" +
-            _this.dynamicValidateForm.email
-        )
-        .then(function (resp) {
-          //console.log(resp.data);
-        });
-      alert(this.dynamicValidateForm.email);
       this.dialogFormVisible = false;
+    },
+    prepage(){
+      if(this.pageNum>0){
+        this.pageNum--;
+        this.getPersonList();
+      }
+      console.log(this.pageNum);
+    },
+    nextpage(){
+      this.pageNum++;
+      this.getPersonList();
+      console.log(this.pageNum);
     },
   },
 };
