@@ -92,7 +92,7 @@
       <!-- 右边竖列:需要绑定的信息 -->
       <el-col :span="8">
         <div style="" v-if="totalCount>0">
-          <el-card style="">
+          <el-card style="" >
             <div style="line-height: 20px">
               <!-- 头像 -->
               <div>
@@ -104,7 +104,7 @@
               </div>
               <!-- 名字 -->
               <div style="">
-                <h4>{{ this.person_now.name }}</h4>
+                <h4  @click="gotoProfile">{{ this.person_now.name }}</h4>
               </div>
               <!-- 指数 -->
               <div style="">
@@ -245,6 +245,14 @@ export default {
     this.getUserInfo();
   },
   methods: {
+    gotoProfile(){
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: this.person_now.aid
+        }
+      })
+    },
     getUserInfo(){
       var url = "http://106.13.138.133:18090/user/my_info";
       axios.get(url).then((res)=>{
@@ -274,7 +282,6 @@ export default {
         mail: email,
       });
       console.log(data);
-      alert("1");
       var url =
         "http://106.13.138.133:18090/portal/personal_center/academic_homepage/bind";
       axios.post(url, data).then((res) => {
