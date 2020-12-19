@@ -32,7 +32,7 @@
           <div slot="header">
             <span>学术排名</span>
           </div>
-          <div v-for="(item,index) in h_index" :key="index" class="text item" v-show="index<3">
+          <div v-for="(item,index) in h_index" :key="index" class="text item_2" v-show="index<5">
             <!-- <span style="background-color: #f2f6fc;
                     line-height: 20px;
                     border-radius: 4px;
@@ -46,7 +46,7 @@
           <div slot="header">
             <span>人才专家</span>
           </div>
-          <div v-for="(item,index) in person" :key="index" class="text item" v-show="index<3">
+          <div v-for="(item,index) in person" :key="index" class="text item_2" v-show="index<5">
             <!-- <span style="background-color: #f2f6fc;
                     line-height: 20px;
                     border-radius: 4px;
@@ -60,7 +60,7 @@
           <div slot="header">
             <span>科技资讯</span>
           </div>
-          <div v-for="(item,index) in paper" :key="index" class="text item" v-show="index<3">
+          <div v-for="(item,index) in paper" :key="index" class="text item_2" v-show="index<5">
             <!-- <span style="background-color: #f2f6fc;
                     line-height: 20px;
                     border-radius: 4px;
@@ -243,7 +243,7 @@ export default {
 
 .item {
   margin-bottom: 20px;
-  height: 50px;
+  height: 30px;
   //border: 1px red solid;
   display: flex;
   align-items: center;
@@ -258,7 +258,23 @@ export default {
   //display: flex;
   //align-items: center;
 }
+.item_2 {
+  margin-bottom: 35px;
+  height: 10px;
+  //border: 1px red solid;
+  display: flex;
+  align-items: center;
 
+
+  //margin-bottom: 10px;
+  // height: 50px;
+   text-align: left;
+   line-height:17px
+  // margin: 0px 0px 0px 0px;
+  //border: 1px red solid;
+  //display: flex;
+  //align-items: center;
+}
 .box-card {
   width: 100%;
   height: 300px;
