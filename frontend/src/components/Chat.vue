@@ -3,7 +3,7 @@
       <el-row>
       <el-col :span="22" :offset="1">
         <el-card class="box-card" shadow="hover">
-            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" />
+            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" @send-message="sendMessage" />
         </el-card>
       </el-col>
     </el-row>
@@ -19,7 +19,7 @@ export default {
     },
     data () {
       return {
-        rooms:[
+         rooms:[
   {
     roomId: 1,
     roomName: 'Room 1',
@@ -59,7 +59,8 @@ export default {
     typingUsers: [ 4321 ]
   }
 ],
-        messages: [{
+        messages:[
+  {
     _id: 7890,
     content: 'message 1',
     sender_id: 1234,
@@ -80,6 +81,20 @@ export default {
       duration: 14.4,
       url: 'https://firebasestorage.googleapis.com/...'
     },
+    menuActions:[
+  {
+    name: 'inviteUser',
+    title: 'Invite User'
+  },
+  {
+    name: 'removeUser',
+    title: 'Remove User'
+  },
+  {
+    name: 'deleteRoom',
+    title: 'Delete Room'
+  }
+],
     reactions: {
       wink: [
         1234, // USER_ID
@@ -89,19 +104,9 @@ export default {
         1234
       ]
     }
-  }],
-        currentUserId: 1234,
-          person_list:[
-            {
-                person:'很长的名字Going Deeper with Convolutions',hIndex:'60',paperNum:'81',reference:'132732',occupation:'教授',company:'北京航空航天大学',fields:['ai','Computer Vision','xxxxxxx','sxdsjniauhvnv','scasds','xxxxxxx','sxdsjniauhvnv','scasds','samxihvrwcccvvfd','zhoujielun','小红','sheqmocubeuxvzksswd','12345','sohe','djivr','dhslaciugy','ahahaha']
-            },
-            {
-                person:'何明凯',hIndex:'0',paperNum:'2',reference:'0',occupation:'教授',company:'北京航空航天大学',fields:['ai','Computer Vision']
-            },
-            {
-                person:'陶哲轩',hIndex:'81',paperNum:'402',reference:'59997',occupation:'教授',company:'北京航空航天大学',fields:['ai','Computer Vision']
-            }
-          ]
+  }
+],
+        currentUserId: 1234
       }
     },
     created: function () {
@@ -117,7 +122,13 @@ export default {
         axios.get("http://localhost:8000/ajax/get_message_content/").then((res) => {
           // 未完成
         })
-      }
+      },
+      messageActionHandler({ roomId, action, message }) {
+  console.log("&&&&&&&&&&&");
+},
+sendMessage() {
+  alert("aaaa");
+}
   }
 }
 </script>
