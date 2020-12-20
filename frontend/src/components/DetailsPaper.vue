@@ -227,7 +227,6 @@ export default {
   display: flex;
   align-items: center;
   font-size: 28px;
-  height: 40px;
   font-weight: 600;
   color: #ea6f5a;
 }

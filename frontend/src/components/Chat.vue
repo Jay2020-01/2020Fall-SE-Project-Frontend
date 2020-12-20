@@ -3,7 +3,7 @@
       <el-row>
       <el-col :span="22" :offset="1">
         <el-card class="box-card" shadow="hover">
-            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" />
+            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" @send-message="sendMessage" />
         </el-card>
       </el-col>
     </el-row>
@@ -61,7 +61,13 @@ export default {
         axios.get("http://localhost:8000/ajax/get_message_content/").then((res) => {
           
         })
-      }
+      },
+      messageActionHandler({ roomId, action, message }) {
+  console.log("&&&&&&&&&&&");
+},
+sendMessage() {
+  alert("aaaa");
+}
   }
 }
 </script>
