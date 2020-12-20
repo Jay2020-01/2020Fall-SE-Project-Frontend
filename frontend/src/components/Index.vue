@@ -33,7 +33,7 @@
           <div slot="header">
             <span>学术排名</span>
           </div>
-          <div v-for="(item,index) in h_index" :key="index" class="text item_2" v-show="index<5">
+          <div v-for="(item,index) in h_index" :key="index" class="text item_2" v-show="index<5" @click="clickHandler(item,index);gotoProfile()">
             <!-- <span style="background-color: #f2f6fc;
                     line-height: 20px;
                     border-radius: 4px;
@@ -47,7 +47,7 @@
           <div slot="header">
             <span>人才专家</span>
           </div>
-          <div v-for="(item,index) in person" :key="index" class="text item_2" v-show="index<5">
+          <div v-for="(item,index) in person" :key="index" class="text item_2" v-show="index<5" @click="clickHandler(item,index);gotoProfile()">
             <!-- <span style="background-color: #f2f6fc;
                     line-height: 20px;
                     border-radius: 4px;
@@ -87,6 +87,8 @@ export default {
       paper:[],
       person:[],
       h_index:[],
+      person_now:[],
+      curNum:0,
     };
   },
   created() {
@@ -123,6 +125,18 @@ export default {
         this.h_index = res.data.data;
       });
       //console.log('post 1 finish');
+    },
+    clickHandler(data,num){
+      this.person_now = data;
+      this.curNum = num;
+    },
+    gotoProfile(){
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: this.person_now.aid
+        }
+      })
     },
     search() {
       if(this.input.length != 0) {

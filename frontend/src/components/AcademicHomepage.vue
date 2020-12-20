@@ -7,12 +7,12 @@
         class="search-input"
         placeholder="请输入内容"
         v-model="key_word"
-        @keyup.enter.native="getPersonList"
+        @keyup.enter.native="init();getPersonList()"
       >
         <el-button
           slot="append"
           icon="el-icon-search"
-          @click="getPersonList"
+          @click="init();getPersonList()"
         ></el-button>
       </el-input>
     </el-row>
@@ -129,8 +129,8 @@
               <br />
               <!-- 单位&身份 -->
               <div style="">
-                <span>身份：{{ this.person_now.position }}</span>
-                <el-divider direction="vertical"></el-divider>
+                <span v-if="person_now.position">身份：{{ this.person_now.position }}</span>
+                <el-divider direction="vertical" v-if="person_now.position&&person_now.orgs"></el-divider>
                 <span v-if="person_now.orgs">单位：{{ this.person_now.orgs[0]}}</span>
               </div>
               <br />
@@ -272,6 +272,9 @@ export default {
         this.person_list = res.data.data.content;
         this.totalCount = res.data.data.numberOfElements;
       });
+    },
+    init(){
+      this.pageNum=0;
     },
     clickHandler(data,num){
       this.person_now = data;
