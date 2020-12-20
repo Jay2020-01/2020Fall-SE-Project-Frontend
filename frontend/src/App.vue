@@ -19,11 +19,11 @@ export default {
             // _this.$router.push("/login");
           });
         } else if (err.response.status === 404) {
-          _this.$message({
-            showClose: true,
-            message: "网络错误",
-            type: "error",
-          });
+          // _this.$message({
+          //   showClose: true,
+          //   message: "网络错误",
+          //   type: "error",
+          // });
         } else {
           console.log(err.response)
           _this.$message({

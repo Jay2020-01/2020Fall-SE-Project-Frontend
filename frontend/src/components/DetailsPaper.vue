@@ -24,7 +24,7 @@
                     :key="author"
                     style="margin-right: 10px"
                   >
-                    {{ author }}
+                    {{ author['name'] }}
                   </div>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
                 </el-col>
@@ -148,12 +148,23 @@ export default {
       },
     };
   },
-  // created: function () {
-  //   this.getPaPerDetais();
-  // },
+  created: function () {
+    this.getPaPerDetais();
+  },
   methods: {
     getPaPerDetais() {
-
+      var url = "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
+      console.log(url)
+      axios.get(url).then((res) => {
+        console.log(res.data.data)
+        this.paper_id = res.data.data.pid
+        console.log(res.data.data.title)
+        this.paper_title = res.data.data.title
+        this.author_list = res.data.data.authors
+        // this.abstract = res.data.data.abstracts
+        this.citation = res.data.data.n_citation
+        this.publication_year = res.data.data.year
+      });
     },
     collectPaper(paperId) {
       if (!store.getters.isLoggedIn) {

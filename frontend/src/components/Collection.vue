@@ -161,7 +161,7 @@ export default {
                 title: collection_list[i].title,
                 paper_id: collection_list[i].pid,
                 reference: collection_list[i].ncitation,
-                periodical: collection_list[i].issn,
+                periodical: collection_list[i].venue.raw,
                 author: collection_list[i].authors,
               });
             }
