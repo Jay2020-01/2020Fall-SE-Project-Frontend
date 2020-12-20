@@ -14,6 +14,7 @@
           class="search-input input-with-select"
           placeholder="请输入内容"
           v-model="input"
+          @keyup.enter.native="search"
         >
           <el-select v-model="select" slot="prepend" placeholder="请选择">
             <el-option label="搜索论文" value="1"></el-option>
@@ -124,20 +125,22 @@ export default {
       //console.log('post 1 finish');
     },
     search() {
-      if(this.select == 1) {  // 搜索论文
-        this.$router.push({
-          path: '/search/paper',
-          query: {
-            key_word: this.input
-          }
-        })
-      }else{
-        this.$router.push({
-          path: '/search/person',
-          query: {
-            key_word: this.input
-          }
-        })
+      if(this.input.length != 0) {
+        if(this.select == 1) {  // 搜索论文
+          this.$router.push({
+            path: '/search/paper',
+            query: {
+              key_word: this.input
+            }
+          })
+        }else{
+          this.$router.push({
+            path: '/search/person',
+            query: {
+              key_word: this.input
+            }
+          })
+        }
       }
     },
   }

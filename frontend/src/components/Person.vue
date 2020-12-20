@@ -245,12 +245,7 @@
                   </div>
                 </div>
               </div>
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
+              
             </div>
           </el-tab-pane>
           <!-- 按论文数排序 -->
@@ -415,6 +410,13 @@
               </div>
             </div>
           </el-tab-pane>
+          <el-pagination
+            :page-size="20"
+            :pager-count="11"
+            layout="prev, pager, next"
+            :total="1000"
+          >
+          </el-pagination>
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
