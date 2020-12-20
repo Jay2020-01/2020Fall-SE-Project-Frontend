@@ -29,7 +29,7 @@
               <div class="title-zone">
                 <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title" @click="paper">
+                  <span class="paper-title" @click="paper(item.pid)">
                     {{ item.title }}
                   </span>
                 </div>
@@ -40,7 +40,7 @@
                       <el-button
                         type="info"
                         class="btn"
-                        @click="collectPaper(item.paperId)"
+                        @click="collectPaper(item.pid)"
                       >
                         <div>
                           <span>收藏</span>
@@ -282,8 +282,8 @@ export default {
       });
       console.log("post 1 finish");
     },
-    paper() {
-      this.$router.push("/details_paper");
+    paper(pid) {
+      this.$router.push("/details_paper/" + pid);
     },
     collectPaper(paperId) {
       if (!store.getters.isLoggedIn) {

@@ -189,6 +189,10 @@ export default {
           var following_list = res.data.data;
           for (let i = 0; i < following_list.length; i++) {
             if (following_list[i]) {
+              let end = following_list[i].tags.length
+              end = end > 8 ? 8 : end
+              console.log(end)
+              // console.log(following_list[i].tags.slice(0, 8));
               this.person_list.push({
                 person: following_list[i].name,
                 personID: following_list[i].aid,
@@ -197,7 +201,7 @@ export default {
                 reference: following_list[i].ncitation,
                 occupation: following_list[i].position,
                 company: following_list[i].orgs,
-                fields: following_list[i].tags,
+                fields: following_list[i].tags.slice(0, end),
               });
             }
           }

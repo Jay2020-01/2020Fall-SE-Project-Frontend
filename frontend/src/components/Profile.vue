@@ -117,43 +117,35 @@
           </el-form>
         </el-card>
       </el-col>
-    </el-row>
-
-    <!-- 第二行 -->
-    <el-row class="research-field" :gutter="10">
-      <el-col :span="14" :offset="2">
-        <el-card shadow="hover" class="box-card">
-          <div slot="header" class="clearfix">
-            <span> 研究领域</span>
-          </div>
-          <ve-line
-            :data="chartData"
-            :settings="chartSettings"
-            height="250px"
-          ></ve-line>
-          <!-- <div v-for="item in author.tags" :key="item.t">
-            <span>{{item.t}}</span>
-          </div> -->
-        </el-card>
-      </el-col>
-
       <el-col :span="6">
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 作者统计 </span>
           </div>
-          <div class="info_line" v-if="author.name">
-            <i class="fa fa-header info_icon"></i>
-              <span>H指数:{{author.h_index}}</span>
+          <ve-radar
+            :data="chartData2"
+          ></ve-radar>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <!-- 第二行 -->
+    <el-row class="research-field" :gutter="10" >
+      <el-col :span="14" :offset="2">
+        <el-card shadow="hover" class="box-card" >
+          <div slot="header" class="clearfix">
+            <span> 研究领域</span>
           </div>
-          <div class="info_line" v-if="author.name">
-            <i class="fa fa-file info_icon"></i>
-              <span>论文数:{{author.n_pubs}}</span>
+          <div v-if="chartData1.rows.length">
+            <ve-wordcloud
+              :data="chartData1"
+              :settings="chartSettings1"
+              height="250px"
+            ></ve-wordcloud>
           </div>
-          <div class="info_line" v-if="author.name">
-            <i class="fa fa-quote-left info_icon"></i>
-              <span>引用数:{{author.n_citation}}</span>
-          </div>
+          <!-- <div v-for="item in author.tags" :key="item.t">
+            <span>{{item.t}}</span>
+          </div> -->
         </el-card>
       </el-col>
     </el-row>
@@ -178,7 +170,7 @@
             ></i>
           </div>
           <div v-if="flag == false"> 
-            <span>{{author.work}}</span>
+            <p>{{author.work}}</p>
           </div>
 
           <el-form
@@ -319,6 +311,13 @@ import Qs from "qs";
 import store from "../store/index.js";
 export default {
   data() {
+    this.chartSettings1={
+      sizeMin: 30,
+      sizeMax: 60,
+    },
+    this.chartSettings2={
+      
+    }
     return {
       author:{},
       papers:{},
@@ -334,12 +333,22 @@ export default {
       workInfo:"",
       eduInfo:"",
       profileInfo:"",
-      chartData: {
+      chartData1: {
         columns: ["t", "w"],
         rows: [
         ],
       },
     };
+  },
+  computed:{
+    chartData2(){
+      return{
+        columns:['对象','H指数','论文数','引用数'],
+        rows:[{'对象':this.author.name,'H指数':this.author.h_index,'论文数':this.author.n_pubs,'引用数':this.author.n_citation},
+        {'对象':'平均数','H指数':6.06,'论文数':33.89,'引用数':854.77},
+        ]
+      };
+    },
   },
   created() {
     this.getAuthorInfo();
@@ -371,9 +380,9 @@ export default {
           this.workInfo=res.data.data.author.work;
           this.eduInfo=res.data.data.author.edu;
           if(res.data.data.author.tags){
-            this.chartData.rows=res.data.data.author.tags;
+            this.chartData1.rows=res.data.data.author.tags;
           }
-          
+
         });
     },
     // goto(pos) {
@@ -422,9 +431,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.research-field {
-    line-height: 10px;
-    margin-bottom: 10px;
+//研究领域样式
+.research-field .el-card {
+    min-height: 0px;
 }
 //论文表格样式
 .paper-row {
