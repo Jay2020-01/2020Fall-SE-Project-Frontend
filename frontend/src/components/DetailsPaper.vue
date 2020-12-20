@@ -18,13 +18,15 @@
               <el-row class="author-row">
                 <el-col class="author-col label" :span="2"> 作者： </el-col>
                 <el-col class="author-col orange-color" :span="22">
-                  <el-row
-                    class="authors"
-                    v-for="author in author_list"
-                    :key="author"
-                    style="margin-right: 10px;"
-                  >
-                    {{ author['name'] }} ,
+                  <el-row>
+                    <el-col
+                      class="authors"
+                      v-for="author in author_list"
+                      :key="author"
+                      style="margin-right: 10px"
+                    >
+                      {{ author["name"] }}
+                    </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
                 </el-col>
@@ -153,17 +155,18 @@ export default {
   },
   methods: {
     getPaPerDetais() {
-      var url = "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
-      console.log(url)
+      var url =
+        "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
+      console.log(url);
       axios.get(url).then((res) => {
-        console.log(res.data.data)
-        this.paper_id = res.data.data.pid
-        console.log(res.data.data.title)
-        this.paper_title = res.data.data.title
-        this.author_list = res.data.data.authors
+        console.log(res.data.data);
+        this.paper_id = res.data.data.pid;
+        console.log(res.data.data.title);
+        this.paper_title = res.data.data.title;
+        this.author_list = res.data.data.authors;
         // this.abstract = res.data.data.abstracts
-        this.citation = res.data.data.n_citation
-        this.publication_year = res.data.data.year
+        this.citation = res.data.data.n_citation;
+        this.publication_year = res.data.data.year;
       });
     },
     collectPaper(paperId) {
@@ -233,17 +236,22 @@ export default {
 
 .author-row {
   display: flex;
-  align-items: center;
   font-size: 17px;
   // height: 30px;
   line-height: 20px;
   text-align: left;
+  margin-bottom: 5px;
 }
 
 .author-col {
   display: flex;
-  align-items: center;
+  line-height: 30px;
   height: 100%;
+}
+
+.authors {
+  line-height: 30px;
+  width: auto;
 }
 
 .orange-color {
