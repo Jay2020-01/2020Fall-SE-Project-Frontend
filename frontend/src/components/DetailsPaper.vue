@@ -18,14 +18,14 @@
               <el-row class="author-row">
                 <el-col class="author-col label" :span="2"> 作者： </el-col>
                 <el-col class="author-col orange-color" :span="22">
-                  <div
+                  <el-row
                     class="authors"
                     v-for="author in author_list"
                     :key="author"
-                    style="margin-right: 10px"
+                    style="margin-right: 10px;"
                   >
-                    {{ author['name'] }}
-                  </div>
+                    {{ author['name'] }} ,
+                  </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
                 </el-col>
               </el-row>
@@ -221,18 +221,23 @@ export default {
 }
 
 .title-row {
+  // margin-left: 100px;
   display: flex;
   align-items: center;
   font-size: 28px;
   font-weight: 600;
   color: #ea6f5a;
+  line-height: 32px;
+  text-align: left;
 }
 
 .author-row {
   display: flex;
   align-items: center;
   font-size: 17px;
-  height: 30px;
+  // height: 30px;
+  line-height: 20px;
+  text-align: left;
 }
 
 .author-col {

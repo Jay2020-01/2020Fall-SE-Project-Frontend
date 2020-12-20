@@ -52,8 +52,14 @@
               </div>
               <!-- 作者区域 -->
               <div class="person-zone">
-                <span class="person">
-                  {{ item.authors[0].name + ", et al." }}
+                <span class="person" v-if="item.authors.length >= 5">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 3">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
+                </span>
+                <span class="person" v-else>
+                  {{ "No author" +", et al." }}
                 </span>
               </div>
               <!-- 发表时间区域 -->
@@ -140,8 +146,8 @@
               </div>
 
               <div class="person-zone">
-                <span class="person">
-                  {{ item.authors[0].name + ", et al." }}
+                <span class="person" v-if="item.authors.length >= 3">
+                  {{ item.authors[0].name + item.authors[1].name + item.authors[2].name +", et al." }}
                 </span>
               </div>
 
@@ -408,13 +414,14 @@ export default {
 
 // 作者样式
 .person-zone {
-  font-size: 12px;
+  font-size: 16px;
   margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .person {
+  font-size: 14px;
   color: #067c08;
   cursor: pointer;
 }
@@ -434,7 +441,7 @@ export default {
 
 //发表时间样式
 .time-zone {
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
