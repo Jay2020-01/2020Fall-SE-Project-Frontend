@@ -226,21 +226,21 @@
                 </div>
 
                 <!-- 学者机构区域 -->
-                <div class="department-zone">
-                  <span class="department"> 机构：{{ item.orgs }} </span>
+                <div class="department-zone" v-if="item.orgs">
+                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
                 </div>
 
                 <!-- 学者标签区域 -->
                 <div class="tag-zone">
                   <div class="tags">
-                    <span>
-                      <a class="tag">tag1</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[0].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag2</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[1].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag3</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
                 </div>
@@ -503,7 +503,7 @@ export default {
     getPersonList() {
       var url = "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" + this.$route.query.key_word + '/' + this.page_num + '/' + this.page_size;
       axios.get(url).then((res) => {
-        console.log(res.data.data.content);
+        console.log(res.data.data.content[0].orgs[0]);
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
       });
