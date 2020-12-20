@@ -175,7 +175,7 @@
                   <!-- 学者名区域 -->
                   <div class="name-line">
                     <span class="person-name" @click="person">
-                      {{ item.person }}
+                      {{ item.name }}
                     </span>
                   </div>
                   <!-- 右侧关注按钮 -->
@@ -205,52 +205,47 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.hIndex }}
+                        {{ item.h_index }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.paperNum }}
+                        {{ item.n_pubs }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.reference }}
+                        {{ item.n_citation }}
                       </span>
                     </span>
                   </div>
                 </div>
 
                 <!-- 学者机构区域 -->
-                <div class="department-zone">
-                  <span class="department"> 机构：{{ item.department }} </span>
+                <div class="department-zone" v-if="item.orgs">
+                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
                 </div>
 
                 <!-- 学者标签区域 -->
                 <div class="tag-zone">
                   <div class="tags">
-                    <span>
-                      <a class="tag">tag1</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[0].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag2</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[1].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag3</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
                 </div>
               </div>
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="1000"
-              >
-              </el-pagination>
+              
             </div>
           </el-tab-pane>
           <!-- 按论文数排序 -->
@@ -415,6 +410,13 @@
               </div>
             </div>
           </el-tab-pane>
+          <el-pagination
+            :page-size="20"
+            :pager-count="11"
+            layout="prev, pager, next"
+            :total="1000"
+          >
+          </el-pagination>
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
@@ -436,6 +438,8 @@ import store from "../store/index";
 export default {
   data() {
     return {
+      page_num: 0,
+      page_size: 10,
       personList: [
         {
           personId: "1",
@@ -497,13 +501,12 @@ export default {
   },
   methods: {
     getPersonList() {
-      var data = Qs.stringify({
-        key_word: this.$route.query.key_word,
+      var url = "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" + this.$route.query.key_word + '/' + this.page_num + '/' + this.page_size;
+      axios.get(url).then((res) => {
+        console.log(res.data.data.content[0].orgs[0]);
+        //console.log(res.data.data.content);
+        this.personList = res.data.data.content;
       });
-      console.log(data);
-      // axios.post("http://localhost:8000/search/search_scholar/", data).then((res) => {
-      //   this.personList = res.data.scholar_list;
-      // });
     },
     person() {
       this.$router.push("/profile");

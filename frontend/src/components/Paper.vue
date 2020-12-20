@@ -160,6 +160,13 @@
               </div>
             </div>
           </el-tab-pane>
+          <el-pagination
+            :page-size="20"
+            :pager-count="11"
+            layout="prev, pager, next"
+            :total="1000"
+          >
+          </el-pagination>
         </el-tabs>
       </el-col>
 
@@ -188,8 +195,7 @@ export default {
       page_size: 10,
 
       activeDate: "",
-      paperList: [
-      ],
+      paperList: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -256,15 +262,25 @@ export default {
         end_year: 2100,
         key_word: this.$route.query.key_word,
       });
-      console.log('I am here here here');
+      console.log("I am here here here");
       // console.log("http://106.13.138.133:7001/search/keyword/" + this.$route.query.key_word + '/' + this.start_year + '/' + this.end_year + '/' + this.page_num + '/' + this.page_size);
-      var url = "http://106.13.138.133:18090/search/keyword/" + this.$route.query.key_word + '/' + this.start_year + '/' + this.end_year + '/' + this.page_num + '/' + this.page_size;
+      var url =
+        "http://106.13.138.133:18090/search/keyword/" +
+        this.$route.query.key_word +
+        "/" +
+        this.start_year +
+        "/" +
+        this.end_year +
+        "/" +
+        this.page_num +
+        "/" +
+        this.page_size;
       axios.get(url).then((res) => {
-        console.log('get data from url');
+        console.log("get data from url");
         console.log(res.data.data.content);
         this.paperList = res.data.data.content;
       });
-      console.log('post 1 finish')
+      console.log("post 1 finish");
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);

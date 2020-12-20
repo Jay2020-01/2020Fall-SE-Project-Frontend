@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="index-container">
     <!-- 放置主页大logo -->
     <el-row class="logo-row">
       <el-col class="logo-col" :span="12" :offset="6">
@@ -14,6 +14,7 @@
           class="search-input input-with-select"
           placeholder="请输入内容"
           v-model="input"
+          @keyup.enter.native="search"
         >
           <el-select v-model="select" slot="prepend" placeholder="请选择">
             <el-option label="搜索论文" value="1"></el-option>
@@ -124,20 +125,22 @@ export default {
       //console.log('post 1 finish');
     },
     search() {
-      if(this.select == 1) {  // 搜索论文
-        this.$router.push({
-          path: '/search/paper',
-          query: {
-            key_word: this.input
-          }
-        })
-      }else{
-        this.$router.push({
-          path: '/search/person',
-          query: {
-            key_word: this.input
-          }
-        })
+      if(this.input.length != 0) {
+        if(this.select == 1) {  // 搜索论文
+          this.$router.push({
+            path: '/search/paper',
+            query: {
+              key_word: this.input
+            }
+          })
+        }else{
+          this.$router.push({
+            path: '/search/person',
+            query: {
+              key_word: this.input
+            }
+          })
+        }
       }
     },
   }
@@ -145,9 +148,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 首页背景
+.index-container {
+  // 设置背景图片
+  // background-image: url("../assets/backgroud.png");
+  background-color:#f9f9f9;
+}
+
 // logo样式
 .logo-row {
   margin-top: 70px;
+  
   // border: 1px green solid;
 }
 
@@ -199,14 +210,22 @@ export default {
 /deep/ .el-input-group__prepend {
   border: none;
   border-radius: 27px 0 0 27px;
+  background-color: #f6f6f6;
 }
+
+.input-with-select {
+  background-color: #fff;
+}
+
 /deep/ .el-input-group__append {
   border: none;
   border-radius: 0 27px 27px 0;
+  background-color: #fff;
 }
 
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
+.input-with-select:hover {
+  border: 1px solid #ea6f5a;
+  // background: #fff;
 }
 
 // 跳转按钮样式
@@ -220,6 +239,10 @@ export default {
 .el-card:hover {
   cursor: pointer;
   border: 1px solid#ea6f5a;
+}
+
+/deep/ .el-card {
+  border-radius: 20px;
 }
 
 /deep/ .el-card__header {
@@ -238,7 +261,7 @@ export default {
   flex-direction: column;
 }
 .text {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .item {
