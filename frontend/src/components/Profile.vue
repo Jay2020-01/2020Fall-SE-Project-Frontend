@@ -51,14 +51,15 @@
                 <i class="fa fa-id-card-o info_icon"></i><span>{{author.position}}</span>
               </el-row>
 
-              <el-row class="info_line" v-if="author.orgs">
-                <i class="fa fa-institution info_icon"></i>
-                <span v-if="author.orgs">{{author.orgs[0]}}</span>
-              </el-row>
-              <el-row class="info_line" v-else-if="author.orgination">
+              <el-row class="info_line" v-if="author.orgination">
                 <i class="fa fa-institution info_icon"></i>
                 <span >{{author.orgination}}</span>
               </el-row>
+              <el-row class="info_line" v-else-if="author.orgs&&author.orgs[0]">
+                <i class="fa fa-institution info_icon"></i>
+                <span v-if="author.orgs&&author.orgs[0]">{{author.orgs[0]}}</span>
+              </el-row>
+              
 
               <el-row class="info_line" v-if="author.phone">
                 <i class="fa fa-phone info_icon"></i>
@@ -389,7 +390,10 @@ export default {
           this.name=res.data.data.author.name;
           this.phone=res.data.data.author.phone;
           this.email=res.data.data.author.email;
-          if(res.data.data.author.orgs){
+          if(res.data.data.author.orgination){
+            this.orgination=res.data.data.author.orgination;
+          }
+          else if(res.data.data.author.orgs&&res.data.data.author.orgs[0]){
             this.orgination=res.data.data.author.orgs[0];
           }
           else{
