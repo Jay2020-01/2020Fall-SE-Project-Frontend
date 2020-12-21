@@ -16,11 +16,26 @@
               <el-col :span="18">
                 <span >{{author.name}}</span>
               </el-col>
-              <el-col class="follow_btn" :span="6">
-                <el-button icon="fa fa-plus-square-o">
-                  <span style="margin-left: 5px"> 关 注 </span>
-                </el-button>
-              </el-col>
+              <!-- <el-col class="follow_btn" :span="6">
+                <el-button icon="fa fa-plus-square-o"> -->
+                <div>
+                  <button  v-if="!followed" @click="follow()"
+                    class="follow_button" >
+                    <div>
+                      <span>{{follow_content}}</span>
+                    </div>
+                  </button>
+                  <button  v-if="followed" @click="unfollow()"
+                    class="followed_button" >
+                    <div>
+                      <span>{{followed_content}}</span>
+                    </div>
+                    <span class="follow_count">{{followCount}}</span>
+                  </button>
+                </div>
+                  <!-- <span style="margin-left: 5px"> 关 注 </span> -->
+                <!-- </el-button> -->
+              <!-- </el-col> -->
             </el-row>
 
             <el-divider class="divider"></el-divider>
@@ -319,6 +334,10 @@ export default {
       
     }
     return {
+      followed:"",
+      followCount:"",
+      follow_content:'+关注',
+      followed_content:'已关注',
       author:{},
       papers:{},
       user_id: "",
@@ -343,15 +362,18 @@ export default {
   computed:{
     chartData2(){
       return{
-        columns:['对象','H指数','论文数','引用数'],
-        rows:[{'对象':this.author.name,'H指数':this.author.h_index,'论文数':this.author.n_pubs,'引用数':this.author.n_citation},
-        {'对象':'平均数','H指数':6.06,'论文数':33.89,'引用数':854.77},
+        columns:['对象','H指数','论文数','引用数','L指数','影响力','活跃度'],
+        rows:[
+        {'对象':'平均水准','H指数':6.06,'论文数':33.89,'引用数':854.77,'L指数':Math.log(6.06).toFixed(3),'影响力':Math.log(854.77).toFixed(3),'活跃度':Math.log(33.89).toFixed(3)},
+        {'对象':'顶峰水准','H指数':250,'论文数':2500,'引用数':450000,'L指数':Math.log(250).toFixed(3),'影响力':Math.log(450000).toFixed(3),'活跃度':Math.log(2500).toFixed(3)},
+        {'对象':this.author.name,'H指数':this.author.h_index,'论文数':this.author.n_pubs,'引用数':this.author.n_citation,'L指数':Math.log(this.author.h_index).toFixed(3),'影响力':Math.log(this.author.n_citation).toFixed(3),'活跃度':Math.log(this.author.n_pubs).toFixed(3)},
         ]
       };
     },
   },
   created() {
     this.getAuthorInfo();
+    this.getFollowStatus();
   },
   methods: {
     getAuthorInfo() {
@@ -382,8 +404,27 @@ export default {
           if(res.data.data.author.tags){
             this.chartData1.rows=res.data.data.author.tags;
           }
-
         });
+    },
+    getFollowStatus(){
+      var params={
+        person_id:this.$route.query.aid,
+      };
+      var url = "http://106.13.138.133:18090/follow/isFollow";
+      axios.get(url,{params}).then((res)=>{
+        this.followed=res.data.data;
+      })
+      this.getFollowCount();
+    },
+    getFollowCount(){
+      var params={
+        person_id:this.$route.query.aid,
+      };
+      var url= "http://106.13.138.133:18090/follow/followerNum";
+      axios.get(url,{params}).then((res)=>{
+        this.followCount=res.data.data;
+      });
+      
     },
     // goto(pos) {
     //   document.querySelector(pos).scrollIntoView();
@@ -429,18 +470,122 @@ export default {
     gotoPaper(pid) {
       this.$router.push("/details_paper/" + pid);
     },
+    follow () {
+      this.followed=!this.followed;
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
+      var data = Qs.stringify({
+        person_id: this.$route.query.aid,
+      });
+      var url="http://106.13.138.133:18090/follow/follow_scholar/";
+      axios
+        .post(url, data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              message: "关注成功",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+    },
+    unfollow () {
+      this.followed=!this.followed;
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
+      var data = Qs.stringify({
+        person_id: this.$route.query.aid,
+      });
+      var url = "http://106.13.138.133:18090/follow/remove_scholar/";
+      axios
+        .post(url, data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              message: "已取消关注",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+      
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
+
+//关注与取消关注按钮样式
+button{
+  outline:none;
+}
+.follow_button{
+  color: #f56c6c;
+  background: #fef0f0;
+  border: #fbc4c4 solid;
+  border-radius: 20px;
+  padding: 12px 23px;
+  text-align: center;
+  font-size: 16px;
+  margin-left: 25px;
+}
+.follow_button:hover{
+  background:#ff9999;
+  color:#fef0f0;
+}
+.followed_button{
+  color:#fef0f0;
+  background: #f56c6c;
+  border: #fbc4c4 solid;
+  border-radius: 20px;
+  padding: 12px 23px;
+  text-align: center;
+  font-size: 16px;
+  margin-left: 25px;
+}
+.followed_button:hover{
+  background:#ff9999;
+  color:#fef0f0;
+}
+// .follow_count::before{
+//   border-color: #fff;
+//   display: inline-block;
+//   border-right: 1px solid #fff;
+//   border-right-color: #fff;
+//   content: "";
+//   margin: 0 5px;
+//   position: relative;
+//   height: 15px;
+// }
 //研究领域样式
 .research-field .el-card {
     min-height: 0px;
 }
 //论文表格样式
 .paper-row {
-  // margin-top: 30px;
+  // margin-top: 30px
   margin-top: 0px;
 }
 .box {
