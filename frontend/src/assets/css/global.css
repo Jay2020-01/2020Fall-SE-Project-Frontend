@@ -10,7 +10,10 @@ body,
   background-color: #fff;
   /* min-width: 1530px; */
 }
-
+.keywords {
+  color: #bf3f4a;
+  font-weight: bold;
+}
 * {
   -webkit-touch-callout: none;
   /*系统默认菜单被禁用*/

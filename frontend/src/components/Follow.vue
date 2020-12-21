@@ -40,7 +40,6 @@
                   text-align: left;
                   float: left;
                 "
-                @click="gotoProfile(item.personID)"
               >
                 {{ item.person }}
               </h3>
@@ -214,7 +213,7 @@ export default {
       });
       console.log(data);
       axios
-        .post("http://106.13.138.133:18090/follow/remove_scholar/", data)
+        .delete("http://106.13.138.133:18090/follow/remove_scholar/", { data })
         .then((res) => {
           console.log(res);
           if (res.data.code == 200) {
@@ -235,14 +234,6 @@ export default {
             });
           }
         });
-    },
-    gotoProfile(aid){
-      this.$router.push({
-        path: '/profile',
-        query: {
-          aid: aid
-        }
-      })
     },
   },
 };

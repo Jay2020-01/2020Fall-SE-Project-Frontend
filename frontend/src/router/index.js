@@ -36,6 +36,7 @@ const routes = [
                 redirect: '/search/paper',
                 component: Search,
                 children: [
+                    //  相当于/search/paper
                     { path: 'paper', component: Paper, meta: { requiresAuth: false } },
                     { path: 'person', component: Person, meta: { requiresAuth: false } }
                 ]

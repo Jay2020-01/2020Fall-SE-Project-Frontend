@@ -245,7 +245,7 @@
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </el-tab-pane>
           <!-- 按论文数排序 -->
@@ -263,7 +263,7 @@
                 <div class="name-zone">
                   <div class="name-line">
                     <span class="person-name" @click="gotoProfile(item.aid)">
-                      {{ item.person }}
+                      {{ item.name }}
                     </span>
                   </div>
 
@@ -289,40 +289,42 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.hIndex }}
+                        {{ item.h_index }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.paperNum }}
+                        {{ item.n_pubs }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.reference }}
+                        {{ item.n_citation }}
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div class="department-zone">
-                  <span class="department"> 机构：{{ item.department }} </span>
+                <!-- 学者机构区域 -->
+                <div class="department-zone" v-if="item.orgs">
+                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
                 </div>
 
+                <!-- 学者标签区域 -->
                 <div class="tag-zone">
                   <div class="tags">
-                    <span>
-                      <a class="tag">tag1</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[0].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag2</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[1].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag3</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
                 </div>
@@ -344,7 +346,7 @@
                 <div class="name-zone">
                   <div class="name-line">
                     <span class="person-name" @click="gotoProfile(item.aid)">
-                      {{ item.person }}
+                      {{ item.name }}
                     </span>
                   </div>
 
@@ -370,40 +372,42 @@
                       </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.hIndex }}
+                        {{ item.h_index }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.paperNum }}
+                        {{ item.n_pubs }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.reference }}
+                        {{ item.n_citation }}
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div class="department-zone">
-                  <span class="department"> 机构：{{ item.department }} </span>
+                <!-- 学者机构区域 -->
+                <div class="department-zone" v-if="item.orgs">
+                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
                 </div>
 
+                <!-- 学者标签区域 -->
                 <div class="tag-zone">
                   <div class="tags">
-                    <span>
-                      <a class="tag">tag1</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[0].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag2</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[1].t}}</a>
                     </span>
-                    <span>
-                      <a class="tag">tag3</a>
+                    <span v-if="item.tags">
+                      <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
                 </div>
@@ -411,7 +415,12 @@
             </div>
           </el-tab-pane>
           <el-pagination
-            :page-size="20"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page_num"
+            :page-sizes="[5, 10,20,30]"
+            :page-size="page_size"
+
             :pager-count="11"
             layout="prev, pager, next"
             :total="1000"
@@ -440,70 +449,29 @@ export default {
     return {
       page_num: 0,
       page_size: 10,
-      personList: [
-        {
-          personId: "1",
-          person: "何恺明",
-          hIndex: "60",
-          paperNum: "81",
-          reference: "132732",
-          department: "Facebook AI Research",
-        },
-        {
-          personId: "2",
-          person: "何明凯",
-          hIndex: "0",
-          paperNum: "2",
-          reference: "0",
-          department:
-            "Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China",
-        },
-        {
-          personId: "3",
-          person: "陶哲轩",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          department:
-            "Department of Mathematics,University of California,Los Angeles",
-        },
-        {
-          personId: "4",
-          person: "何恺明",
-          hIndex: "60",
-          paperNum: "81",
-          reference: "132732",
-          department: "Facebook AI Research",
-        },
-        {
-          personId: "5",
-          person: "何明凯",
-          hIndex: "0",
-          paperNum: "2",
-          reference: "0",
-          department:
-            "Guiyang Sinochem Kailin Chemical Fertilizer Co.,Ltd,Guiyang,Guizhou China",
-        },
-        {
-          personId: "6",
-          person: "陶哲轩",
-          hIndex: "81",
-          paperNum: "402",
-          reference: "59997",
-          department:
-            "Department of Mathematics,University of California,Los Angeles",
-        },
-      ],
+      personList:[]
+
     };
   },
   created: function () {
     this.getPersonList();
   },
   methods: {
+    //監聽pagesize改變的事件
+    handleSizeChange(newSize) {
+      this.page_size = newSize;
+      this.getPersonList();
+    },
+    // 監聽頁碼值改變的事件
+    handleCurrentChange(newPage) {
+      this.page_num = newPage;
+      this.getPersonList();
+    },
     getPersonList() {
       var url = "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" + this.$route.query.key_word + '/' + this.page_num + '/' + this.page_size;
       axios.get(url).then((res) => {
-        console.log(res.data.data.content[0].orgs[0]);
+        // console.log(res.data.data.content[0].orgs[0]);
+        console.log(res.data)
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
       });

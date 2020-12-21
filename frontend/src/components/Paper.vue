@@ -14,6 +14,7 @@
             end-placeholder="结束月份"
             :picker-options="pickerOptions"
             size="mini"
+            value-format="yyyy"
           >
           </el-date-picker>
         </div>
@@ -29,9 +30,11 @@
               <div class="title-zone">
                 <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title" @click="paper(item.pid)">
-                    {{ item.title }}
-                  </span>
+                  <div class="paper-title" @click="paper(item.pid)">
+                    <KeywordsText :keywords="keyword" :text="item.title"></KeywordsText>
+                  </div>
+
+
                 </div>
                 <!-- 右侧收藏按钮 -->
                 <div class="title-right-zone">
@@ -101,9 +104,16 @@
                 </div>
               </div>
 
+              <!-- 作者区域 -->
               <div class="person-zone">
-                <span class="person">
-                  {{ item.authors }}
+                <span class="person" v-if="item.authors.length >= 5">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 3">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
+                </span>
+                <span class="person" v-else>
+                  {{ "No author" +", et al." }}
                 </span>
               </div>
 
@@ -166,8 +176,16 @@
               </div>
             </div>
           </el-tab-pane>
+
+
+<!--          分页-->
           <el-pagination
-            :page-size="20"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page_num"
+            :page-sizes="[5, 10,20,30]"
+            :page-size="page_size"
+
             :pager-count="11"
             layout="prev, pager, next"
             :total="1000"
@@ -189,17 +207,20 @@
 </template>
 
 <script>
+import keyword from "@/components/keyword";
 import Qs from "qs";
 import axios from "axios";
 import store from "../store/index.js";
+import KeywordsText from "@/components/keyword";
 export default {
+  components: {KeywordsText},
   data() {
     return {
       start_year: 1900,
       end_year: 2029,
       page_num: 0,
       page_size: 10,
-
+      keyword:"",
       activeDate: "",
       paperList: [],
       pickerOptions: {
@@ -259,16 +280,38 @@ export default {
     };
   },
   created: function () {
+
     this.getPaperList();
+
   },
+  watch:{
+    activeDate:function (){
+      // console.log(this.activeDate);数组
+      this.start_year = parseInt(this.activeDate[0]);
+      this.end_year = parseInt(this.activeDate[1])
+      this.getPaperList();
+    }
+  },
+
   methods: {
+//監聽pagesize改變的事件
+    handleSizeChange(newSize) {
+      this.page_size = newSize;
+      this.getPaperList();
+    },
+    // 監聽頁碼值改變的事件
+    handleCurrentChange(newPage) {
+      this.page_num = newPage;
+      this.getPaperList();
+    },
     getPaperList() {
+      this.keyword = this.$route.query.key_word;
       var data = Qs.stringify({
         start_year: 1800,
         end_year: 2100,
         key_word: this.$route.query.key_word,
       });
-      console.log("I am here here here");
+      // console.log("I am here here here");
       // console.log("http://106.13.138.133:7001/search/keyword/" + this.$route.query.key_word + '/' + this.start_year + '/' + this.end_year + '/' + this.page_num + '/' + this.page_size);
       var url =
         "http://106.13.138.133:18090/search/keyword/" +
@@ -286,7 +329,7 @@ export default {
         console.log(res.data.data.content);
         this.paperList = res.data.data.content;
       });
-      console.log("post 1 finish");
+      // console.log("post 1 finish");
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);

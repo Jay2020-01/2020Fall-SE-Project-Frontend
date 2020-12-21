@@ -8,7 +8,7 @@
             <el-option label="搜索论文" value="1"></el-option>
             <el-option label="搜索专家" value="2"></el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-button slot="append" icon="el-icon-search" @click="handleClick"></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -35,10 +35,41 @@ export default {
         activeName:"paper"
     }
   },
-
+  mounted() {
+    this.createSearch();
+  },
   methods: {
-    handleClick(tab, event) {
-      this.$router.push("/search/"+tab.name);
+    createSearch(){
+      this.input = this.$route.query.key_word;
+      var paths = this.$route.path.split("/")
+      var path = paths.pop();
+      if(path=="paper"){
+        this.activeValue="1";
+      }else {
+        this.activeValue="2";
+      }
+
+    },
+    handleClick() {
+
+      if(this.input.length != 0) {
+        if(this.activeValue == 1) {  // 搜索论文
+          this.$router.push({
+            path: '/search/paper',
+            query: {
+              key_word: this.input
+            }
+          })
+        }else{
+          this.$router.push({
+            path: '/search/person',
+            query: {
+              key_word: this.input
+            }
+          })
+        }
+      }
+      location.reload();
     }
   }
 };
