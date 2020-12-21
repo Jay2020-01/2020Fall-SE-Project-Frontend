@@ -231,7 +231,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{item.tags[0].t}}</a>
@@ -243,7 +243,7 @@
                       <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
 
             </div>
@@ -315,7 +315,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{item.tags[0].t}}</a>
@@ -327,7 +327,7 @@
                       <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </el-tab-pane>
@@ -398,7 +398,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{item.tags[0].t}}</a>
@@ -410,7 +410,7 @@
                       <a class="tag">{{item.tags[2].t}}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </el-tab-pane>
