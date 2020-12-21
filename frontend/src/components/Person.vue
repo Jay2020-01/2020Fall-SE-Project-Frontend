@@ -185,7 +185,7 @@
                         <el-button
                           type="info"
                           class="btn"
-                          @click="followScholar(item.aid)"
+                          @click="followScholar(item.personId)"
                         >
                           <div>
                             <span>关注</span>
@@ -212,14 +212,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs ? item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation ? item.n_citation:0}}
                       </span>
                     </span>
                   </div>
@@ -296,14 +296,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs?item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation?item.n_citation:0 }}
                       </span>
                     </span>
                   </div>
@@ -379,14 +379,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs?item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation?item.n_citation:0 }}
                       </span>
                     </span>
                   </div>
@@ -499,7 +499,7 @@ export default {
       var data = Qs.stringify({
         person_id: personId,
       });
-      // console.log(data);
+      console.log(data);
       axios
         .post("http://106.13.138.133:18090/follow/follow_scholar/", data)
         .then((res) => {
