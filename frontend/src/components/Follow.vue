@@ -83,7 +83,7 @@
               <el-divider direction="vertical"></el-divider>
               <span
                 >单位：
-                <span v-for="com in item.company" :key="com">
+                <span v-for="(com,index) in item.company" :key="index">
                   {{ com }}
                 </span>
               </span>
@@ -93,8 +93,8 @@
             <div style="text-align: left; width: 70%; margin: 0px 0px 0px 60px">
               <div style="margin: 20px 0 0 90px; text-align: left">
                 <div
-                  v-for="i in item.fields"
-                  :key="i"
+                  v-for="(i,index) in item.fields"
+                  :key="index"
                   style="
                     margin: 10px 10px 0px 0px;
                     float: left;
@@ -189,9 +189,9 @@ export default {
           var following_list = res.data.data;
           for (let i = 0; i < following_list.length; i++) {
             if (following_list[i]) {
-              let end = following_list[i].tags.length
-              end = end > 8 ? 8 : end
-              console.log(end)
+              let end = following_list[i].tags.length;
+              end = end > 8 ? 8 : end;
+              console.log(end);
               // console.log(following_list[i].tags.slice(0, 8));
               this.person_list.push({
                 person: following_list[i].name,
@@ -213,7 +213,7 @@ export default {
       });
       console.log(data);
       axios
-        .delete("http://106.13.138.133:18090/follow/remove_scholar/", { data })
+        .post("http://106.13.138.133:18090/follow/remove_scholar/", data)
         .then((res) => {
           console.log(res);
           if (res.data.code == 200) {

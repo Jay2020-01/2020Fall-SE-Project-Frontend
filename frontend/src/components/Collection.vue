@@ -40,8 +40,8 @@
             <div style="text-align: left; width: 80%">
               <div style="margin: 20px 0 0 40px; text-align: left">
                 <div
-                  v-for="i in item.author"
-                  :key="i"
+                  v-for="(i,index) in item.author"
+                  :key="index"
                   style="
                     margin: 10px 10px 0px 0px;
                     float: left;

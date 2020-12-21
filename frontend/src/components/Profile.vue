@@ -17,7 +17,7 @@
                 <span >{{author.name}}</span>
               </el-col>
               <el-col class="follow_btn" :span="6">
-                <el-button icon="fa fa-plus-square-o">
+                <el-button icon="fa fa-plus-square-o" @click="followScholar()">
                   <span style="margin-left: 5px"> 关 注 </span>
                 </el-button>
               </el-col>
@@ -428,6 +428,39 @@ export default {
     },
     gotoPaper(pid) {
       this.$router.push("/details_paper/" + pid);
+    },
+    followScholar() {
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          showClose: true,
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
+      var data = Qs.stringify({
+        person_id: this.$route.query.aid,
+      });
+      // console.log(data);
+      axios
+        .post("http://106.13.138.133:18090/follow/follow_scholar/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已关注",
+              type: "success",
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+      console.log(data);
     },
   },
 };

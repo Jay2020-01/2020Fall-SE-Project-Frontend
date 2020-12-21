@@ -185,7 +185,7 @@
                         <el-button
                           type="info"
                           class="btn"
-                          @click="followScholar(item.personId)"
+                          @click="followScholar(item.aid)"
                         >
                           <div>
                             <span>关注</span>
@@ -499,7 +499,7 @@ export default {
       var data = Qs.stringify({
         person_id: personId,
       });
-      console.log(data);
+      // console.log(data);
       axios
         .post("http://106.13.138.133:18090/follow/follow_scholar/", data)
         .then((res) => {
