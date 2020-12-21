@@ -174,7 +174,7 @@
                 <div class="name-zone">
                   <!-- 学者名区域 -->
                   <div class="name-line">
-                    <span class="person-name" @click="person">
+                    <span class="person-name" @click="gotoProfile(item.aid)">
                       {{ item.name }}
                     </span>
                   </div>
@@ -262,7 +262,7 @@
               <div class="person-right-zone">
                 <div class="name-zone">
                   <div class="name-line">
-                    <span class="person-name">
+                    <span class="person-name" @click="gotoProfile(item.aid)">
                       {{ item.person }}
                     </span>
                   </div>
@@ -343,7 +343,7 @@
               <div class="person-right-zone">
                 <div class="name-zone">
                   <div class="name-line">
-                    <span class="person-name">
+                    <span class="person-name" @click="gotoProfile(item.aid)">
                       {{ item.person }}
                     </span>
                   </div>
@@ -510,6 +510,14 @@ export default {
     },
     person() {
       this.$router.push("/profile");
+    },
+    gotoProfile(aid){
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: aid
+        }
+      })
     },
     followScholar(personId) {
       if (!store.getters.isLoggedIn) {

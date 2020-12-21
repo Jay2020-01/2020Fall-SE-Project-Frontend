@@ -271,7 +271,7 @@
           <div class="box" v-for="item in papers" :key="item.pid">
             <div class="title-zone">
               <div class="title-line">
-                <span class="paper-title">
+                <span class="paper-title" @click="gotoPaper(item.pid)">
                   {{item.title}}
                 </span>
               </div>
@@ -425,6 +425,9 @@ export default {
     },
     changeFlag() {
       this.flag = !this.flag;
+    },
+    gotoPaper(pid) {
+      this.$router.push("/details_paper/" + pid);
     },
   },
 };
