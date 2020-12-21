@@ -15,6 +15,14 @@
             <el-row class="info_name">
               <el-col :span="18">
                 <span >{{author.name}}</span>
+                <svg class="icon bindsign" aria-hidden="true" v-if="bind">
+                  <use xlink:href="#icon-bind">
+                    <symbol id="icon-bind" viewBox="0 0 1024 1024">
+                      <path d="M509.9 129.1c51.9 0 102.2 10.1 149.5 30.2 45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.7-47 86.8-82.3 122.1s-76.4 63-122.1 82.3c-47.3 20-97.6 30.2-149.5 30.2S407.7 887 360.4 866.9c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5S136 410.9 156 363.6c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.1 149.5-30.1m0-64c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448-200.6-448-448-448z"></path>
+                      <path d="M444.3 710.8L248 514.5l45.3-45.3 151 151.1 282.2-282.2 45.3 45.2z"></path>
+                    </symbol>
+                  </use>
+                </svg>
               </el-col>
               <!-- <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o"> -->
@@ -343,6 +351,7 @@ export default {
     }
     return {
       followed:"",
+      bind:"",
       followCount:"",
       follow_content:'+关注',
       followed_content:'已关注',
@@ -415,6 +424,7 @@ export default {
           if(res.data.data.author.tags){
             this.chartData1.rows=res.data.data.author.tags;
           }
+          this.bind=res.data.data.author.user_id;
         });
     },
     getFollowStatus(){
@@ -601,6 +611,22 @@ button{
 //   position: relative;
 //   height: 15px;
 // }
+
+//
+
+//认领标志样式
+.bindsign{
+  vertical-align: middle;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+.icon{
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
 //研究领域样式
 .research-field .el-card {
     min-height: 0px;
