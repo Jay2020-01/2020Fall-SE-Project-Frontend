@@ -18,7 +18,14 @@
               </el-col>
               <!-- <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o"> -->
-                <div>
+                <div class="button_div">
+                  <button
+                    class="follow_button" >
+                    <div>
+                      <i class="el-icon-message"></i>
+                      <span>私信</span>
+                    </div>
+                  </button>
                   <button  v-if="!followed" @click="follow()"
                     class="follow_button" >
                     <div>
@@ -28,7 +35,7 @@
                   <button  v-if="followed" @click="unfollow()"
                     class="followed_button" >
                     <div>
-                      <span>{{followed_content}}</span>
+                      <span style="font-size:16px">{{followed_content}}</span>
                     </div>
                     <span class="follow_count">{{followCount}}</span>
                   </button>
@@ -542,6 +549,10 @@ export default {
 <style lang="less" scoped>
 
 //关注与取消关注按钮样式
+.button_div {
+  display: flex;
+  align-items: center;
+}
 button{
   outline:none;
 }
@@ -554,6 +565,8 @@ button{
   text-align: center;
   font-size: 16px;
   margin-left: 25px;
+  height: 50px;
+  width: 110px;
 }
 .follow_button:hover{
   background:#ff9999;
@@ -568,6 +581,11 @@ button{
   text-align: center;
   font-size: 16px;
   margin-left: 25px;
+  height: 50px;
+  width: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .followed_button:hover{
   background:#ff9999;
