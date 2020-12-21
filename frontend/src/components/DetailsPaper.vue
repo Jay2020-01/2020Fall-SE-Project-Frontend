@@ -25,7 +25,9 @@
                       :key="author"
                       style="margin-right: 10px"
                     >
-                      {{ author["name"] }}
+                    <span @click="gotoProfile(author.id)">
+                      {{ author.name }}
+                    </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -200,6 +202,14 @@ export default {
             });
           }
         });
+    },
+    gotoProfile(aid){
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: aid
+        }
+      })
     },
   },
 };
