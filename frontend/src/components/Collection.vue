@@ -40,7 +40,7 @@
             <div style="text-align: left; width: 80%">
               <div style="margin: 20px 0 0 40px; text-align: left">
                 <div
-                  v-for="(i,index) in item.author"
+                  v-for="(i, index) in item.author"
                   :key="index"
                   style="
                     margin: 10px 10px 0px 0px;
@@ -157,13 +157,13 @@ export default {
           console.log(collection_list.length);
           for (let i = 0; i < collection_list.length; i++) {
             if (collection_list[i]) {
-              this.paper_list.push({
-                title: collection_list[i].title,
-                paper_id: collection_list[i].pid,
-                reference: collection_list[i].ncitation,
-                periodical: collection_list[i].venue.raw,
-                author: collection_list[i].authors,
-              });
+              var paper = new Object();
+              paper.title = collection_list[i].title;
+              paper.paper_id = collection_list[i].pid;
+              paper.author = collection_list[i].authors;
+              paper.reference = collection_list[i].ncitation?collection_list[i].ncitation:0;
+              paper.periodical = collection_list[i].venue.raw?collection_list[i].venue.raw:'未知';
+              this.paper_list.push(paper);
             }
           }
         });

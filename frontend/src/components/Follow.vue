@@ -84,7 +84,7 @@
               <el-divider direction="vertical"></el-divider>
               <span
                 >单位：
-                <span v-for="(com,index) in item.company" :key="index">
+                <span v-for="(com, index) in item.company" :key="index">
                   {{ com }}
                 </span>
               </span>
@@ -94,7 +94,7 @@
             <div style="text-align: left; width: 70%; margin: 0px 0px 0px 60px">
               <div style="margin: 20px 0 0 90px; text-align: left">
                 <div
-                  v-for="(i,index) in item.fields"
+                  v-for="(i, index) in item.fields"
                   :key="index"
                   style="
                     margin: 10px 10px 0px 0px;
@@ -190,20 +190,21 @@ export default {
           var following_list = res.data.data;
           for (let i = 0; i < following_list.length; i++) {
             if (following_list[i]) {
-              let end = following_list[i].tags.length;
-              end = end > 8 ? 8 : end;
-              console.log(end);
               // console.log(following_list[i].tags.slice(0, 8));
-              this.person_list.push({
-                person: following_list[i].name,
-                personID: following_list[i].aid,
-                hIndex: following_list[i].hindex,
-                paperNum: following_list[i].npubs,
-                reference: following_list[i].ncitation,
-                occupation: following_list[i].position,
-                company: following_list[i].orgs,
-                fields: following_list[i].tags.slice(0, end),
-              });
+              var person = new Object();
+              person.person = following_list[i].name;
+              person.personID = following_list[i].aid;
+              person.hIndex = following_list[i].hindex ? following_list[i].hindex : 0;
+              person.paperNum = following_list[i].npubs ? following_list[i].npubs : 0;
+              person.reference = following_list[i].ncitation ? following_list[i].ncitation : 0;
+              person.occupation = following_list[i].position ? following_list[i].position : '未知';
+              person.company = following_list[i].orgs ? following_list[i].orgs : ['未知'];
+              let end = following_list[i].tags.length;
+              console.log(end);
+              end = end > 8 ? 8 : end;
+              person.fields = following_list[i].tags.slice(0, end);
+
+              this.person_list.push(person);
             }
           }
         });
@@ -236,14 +237,14 @@ export default {
           }
         });
     },
-      gotoProfile(aid){		
-       this.$router.push({		
-         path: '/profile',		
-         query: {		
-           aid: aid		
-         }		
-       })		
-     },
+    gotoProfile(aid) {
+      this.$router.push({
+        path: "/profile",
+        query: {
+          aid: aid,
+        },
+      });
+    },
   },
 };
 </script>

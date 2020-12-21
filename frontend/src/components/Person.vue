@@ -183,12 +183,23 @@
                     <div class="mark">
                       <div>
                         <el-button
+                          v-if="!(item.isFollowed)"
                           type="info"
                           class="btn"
-                          @click="followScholar(item.aid)"
+                          @click="followScholar(item)"
                         >
                           <div>
                             <span>关注</span>
+                          </div>
+                        </el-button>
+                        <el-button
+                          v-if="item.isFollowed"
+                          type="info"
+                          class="btn"
+                          @click="unfollow(item)"
+                        >
+                          <div>
+                            <span>已关注</span>
                           </div>
                         </el-button>
                       </div>
@@ -234,18 +245,17 @@
                 <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[0].t}}</a>
+                      <a class="tag">{{ item.tags[0].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[1].t}}</a>
+                      <a class="tag">{{ item.tags[1].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[2].t}}</a>
+                      <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
                 </div>
               </div>
-
             </div>
           </el-tab-pane>
           <!-- 按论文数排序 -->
@@ -318,13 +328,13 @@
                 <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[0].t}}</a>
+                      <a class="tag">{{ item.tags[0].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[1].t}}</a>
+                      <a class="tag">{{ item.tags[1].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[2].t}}</a>
+                      <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
                 </div>
@@ -401,13 +411,13 @@
                 <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[0].t}}</a>
+                      <a class="tag">{{ item.tags[0].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[1].t}}</a>
+                      <a class="tag">{{ item.tags[1].t }}</a>
                     </span>
                     <span v-if="item.tags">
-                      <a class="tag">{{item.tags[2].t}}</a>
+                      <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
                 </div>
@@ -418,9 +428,8 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="page_num"
-            :page-sizes="[5, 10,20,30]"
+            :page-sizes="[5, 10, 20, 30]"
             :page-size="page_size"
-
             :pager-count="11"
             layout="prev, pager, next"
             :total="1000"
@@ -449,8 +458,7 @@ export default {
     return {
       page_num: 0,
       page_size: 10,
-      personList:[]
-
+      personList: [],
     };
   },
   created: function () {
@@ -468,26 +476,53 @@ export default {
       this.getPersonList();
     },
     getPersonList() {
-      var url = "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" + this.$route.query.key_word + '/' + this.page_num + '/' + this.page_size;
+      var url =
+        "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" +
+        this.$route.query.key_word +
+        "/" +
+        this.page_num +
+        "/" +
+        this.page_size;
       axios.get(url).then((res) => {
         // console.log(res.data.data.content[0].orgs[0]);
-        console.log(res.data)
+        console.log(res.data);
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
+        this.personList.forEach(async (element) => {
+          const res = await this.getFollowStatus(element.aid);
+          element.isFollowed = res.data.data
+        });
+        console.log(this.personList);
       });
     },
     person() {
       this.$router.push("/profile");
     },
-    gotoProfile(aid){
+    gotoProfile(aid) {
       this.$router.push({
-        path: '/profile',
+        path: "/profile",
         query: {
-          aid: aid
-        }
-      })
+          aid: aid,
+        },
+      });
     },
-    followScholar(personId) {
+    getFollowStatus(person_id) {
+      return new Promise((resolve, reject) => {
+        var params = {
+          person_id: person_id,
+        };
+        var url = "http://106.13.138.133:18090/follow/isFollow";
+        axios
+          .get(url, { params })
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    followScholar(person) {
       if (!store.getters.isLoggedIn) {
         this.$message({
           showClose: true,
@@ -497,7 +532,7 @@ export default {
         return;
       }
       var data = Qs.stringify({
-        person_id: personId,
+        person_id: person.aid,
       });
       // console.log(data);
       axios
@@ -510,6 +545,8 @@ export default {
               message: "已关注",
               type: "success",
             });
+            person.isFollowed = !person.isFollowed
+            this.$forceUpdate();
           } else {
             this.$message({
               showClose: true,
@@ -519,6 +556,32 @@ export default {
           }
         });
       console.log(data);
+    },
+    unfollow(person) {
+      var data = Qs.stringify({
+        person_id: person.aid,
+      });
+      console.log(data);
+      axios
+        .post("http://106.13.138.133:18090/follow/remove_scholar/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已取消关注",
+              type: "success",
+            });
+            person.isFollowed = !person.isFollowed
+            this.$forceUpdate();
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
     },
   },
 };
