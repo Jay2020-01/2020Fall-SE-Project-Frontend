@@ -40,6 +40,7 @@
                   text-align: left;
                   float: left;
                 "
+                @click="gotoProfile(item.personID)"
               >
                 {{ item.person }}
               </h3>
@@ -235,6 +236,14 @@ export default {
           }
         });
     },
+      gotoProfile(aid){		
+       this.$router.push({		
+         path: '/profile',		
+         query: {		
+           aid: aid		
+         }		
+       })		
+     },
   },
 };
 </script>
