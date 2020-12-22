@@ -21,13 +21,13 @@
                   <el-row>
                     <el-col
                       class="authors"
-                      v-for="author in author_list"
-                      :key="author"
+                      v-for="(author, index) in author_list"
+                      :key="index"
                       style="margin-right: 10px"
                     >
-                    <span @click="gotoProfile(author.id)">
-                      {{ author.name }}
-                    </span>
+                      <span @click="gotoProfile(author.id)">
+                        {{ author.name }}
+                      </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -68,7 +68,7 @@
             </el-row>
             <!-- 论文按钮 -->
             <el-row class="button-row">
-              <el-col class="button-col" :span="3">
+              <el-col v-if="!isFavored" class="button-col" :span="3">
                 <el-button
                   icon="el-icon-star-off"
                   type="danger"
@@ -77,6 +77,17 @@
                   @click="collectPaper(paper_id)"
                 >
                   收藏
+                </el-button>
+              </el-col>
+              <el-col v-else class="button-col" :span="4">
+                <el-button
+                  icon="el-icon-star-off"
+                  type="danger"
+                  plain
+                  round
+                  @click="uncollectPaper(paper_id)"
+                >
+                  取消收藏
                 </el-button>
               </el-col>
               <el-col class="button-col" :span="3">
@@ -130,23 +141,24 @@ export default {
         "Regina Barzilay",
         "Tommi Jaakkola",
       ],
-      abstract:"",
-        // "This paper focuses on style transfer on the basis of \
-        // non-parallel text. This is an instance of a broad family of \
-        // problems including machine translation, decipherment, and \
-        // sentiment modification. The key challenge is to separate the \
-        // content from other aspects such as style. We assume a shared \
-        // latent content distribution across different text corpora, and \
-        // propose a method that leverages refined alignment of latent \
-        // representations to perform style transfer. The transferred \
-        // sentences from one style should match example sentences from \
-        // the other style as a population. We demonstrate the \
-        // effectiveness of this cross-alignment method on three tasks: \
-        // sentiment modification, decipherment of word substitution \
-        // ciphers, and recovery of word order.",
+      abstract: "",
+      // "This paper focuses on style transfer on the basis of \
+      // non-parallel text. This is an instance of a broad family of \
+      // problems including machine translation, decipherment, and \
+      // sentiment modification. The key challenge is to separate the \
+      // content from other aspects such as style. We assume a shared \
+      // latent content distribution across different text corpora, and \
+      // propose a method that leverages refined alignment of latent \
+      // representations to perform style transfer. The transferred \
+      // sentences from one style should match example sentences from \
+      // the other style as a population. We demonstrate the \
+      // effectiveness of this cross-alignment method on three tasks: \
+      // sentiment modification, decipherment of word substitution \
+      // ciphers, and recovery of word order.",
       citation: 77,
       publication_year: "2017",
-      paper_url:"",
+      paper_url: "",
+      isFavored: false,
       chartData: {
         columns: ["日期", "引用量"],
         rows: [
@@ -168,7 +180,7 @@ export default {
       var url =
         "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
       console.log(url);
-      axios.get(url).then((res) => {
+      axios.get(url).then(async (res) => {
         console.log(res.data.data);
         this.paper_id = res.data.data.pid;
         console.log(res.data.data.title);
@@ -177,7 +189,9 @@ export default {
         this.abstract = res.data.data.abstract;
         this.citation = res.data.data.n_citation;
         this.publication_year = res.data.data.year;
-        this.paper_url= res.data.data.url[0];
+        this.paper_url = res.data.data.url[0];
+        this.isFavored = await this.getCollectStatus(this.paper_id);
+        this.$forceUpdate();
       });
     },
     collectPaper(paperId) {
@@ -203,6 +217,8 @@ export default {
               message: "已收藏",
               type: "success",
             });
+            this.isFavored = true;
+            this.$forceUpdate();
           } else {
             this.$message({
               showClose: true,
@@ -212,13 +228,55 @@ export default {
           }
         });
     },
-    gotoProfile(aid){
+    uncollectPaper(paperId) {
+      var data = Qs.stringify({
+        paper_id: paperId,
+      });
+      axios
+        .post("http://106.13.138.133:18090/favor/remove_paper/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已取消收藏",
+              type: "success",
+            });
+            this.isFavored = false;
+            this.$forceUpdate();
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+    },
+    getCollectStatus(paper_id) {
+      return new Promise((resolve, reject) => {
+        var params = {
+          paper_id: paper_id,
+        };
+        console.log(paper_id);
+        var url = "http://106.13.138.133:18090/favor/isFavor";
+        axios
+          .get(url, { params })
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    gotoProfile(aid) {
       this.$router.push({
-        path: '/profile',
+        path: "/profile",
         query: {
-          aid: aid
-        }
-      })
+          aid: aid,
+        },
+      });
     },
   },
 };

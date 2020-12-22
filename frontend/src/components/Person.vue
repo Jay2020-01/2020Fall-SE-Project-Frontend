@@ -491,6 +491,7 @@ export default {
         this.personList.forEach(async (element) => {
           const res = await this.getFollowStatus(element.aid);
           element.isFollowed = res.data.data
+          this.$forceUpdate()
         });
         console.log(this.personList);
       });

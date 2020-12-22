@@ -31,22 +31,34 @@
                 <!-- 论文名称 -->
                 <div class="title-line">
                   <div class="paper-title" @click="paper(item.pid)">
-                    <KeywordsText :keywords="keyword" :text="item.title"></KeywordsText>
+                    <KeywordsText
+                      :keywords="keyword"
+                      :text="item.title"
+                    ></KeywordsText>
                   </div>
-
-
                 </div>
                 <!-- 右侧收藏按钮 -->
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
                       <el-button
+                        v-if="!item.isFavored"
                         type="info"
                         class="btn"
-                        @click="collectPaper(item.pid)"
+                        @click="collectPaper(item)"
                       >
                         <div>
                           <span>收藏</span>
+                        </div>
+                      </el-button>
+                      <el-button
+                        v-if="item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="uncollectPaper(item)"
+                      >
+                        <div>
+                          <span>已收藏</span>
                         </div>
                       </el-button>
                     </div>
@@ -62,7 +74,7 @@
                   {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author" +", et al." }}
+                  {{ "No author" + ", et al." }}
                 </span>
               </div>
               <!-- 发表时间区域 -->
@@ -113,7 +125,7 @@
                   {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author" +", et al." }}
+                  {{ "No author" + ", et al." }}
                 </span>
               </div>
 
@@ -177,15 +189,13 @@
             </div>
           </el-tab-pane>
 
-
-<!--          分页-->
+          <!--          分页-->
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="page_num"
-            :page-sizes="[5, 10,20,30]"
+            :page-sizes="[5, 10, 20, 30]"
             :page-size="page_size"
-
             :pager-count="11"
             layout="prev, pager, next"
             :total="1000"
@@ -213,14 +223,14 @@ import axios from "axios";
 import store from "../store/index.js";
 import KeywordsText from "@/components/keyword";
 export default {
-  components: {KeywordsText},
+  components: { KeywordsText },
   data() {
     return {
       start_year: 1900,
       end_year: 2029,
       page_num: 0,
       page_size: 10,
-      keyword:"",
+      keyword: "",
       activeDate: "",
       paperList: [],
       pickerOptions: {
@@ -280,21 +290,19 @@ export default {
     };
   },
   created: function () {
-
     this.getPaperList();
-
   },
-  watch:{
-    activeDate:function (){
+  watch: {
+    activeDate: function () {
       // console.log(this.activeDate);数组
       this.start_year = parseInt(this.activeDate[0]);
-      this.end_year = parseInt(this.activeDate[1])
+      this.end_year = parseInt(this.activeDate[1]);
       this.getPaperList();
-    }
+    },
   },
 
   methods: {
-//監聽pagesize改變的事件
+    //監聽pagesize改變的事件
     handleSizeChange(newSize) {
       this.page_size = newSize;
       this.getPaperList();
@@ -328,13 +336,37 @@ export default {
         console.log("get data from url");
         console.log(res.data.data.content);
         this.paperList = res.data.data.content;
+
+        this.paperList.forEach(async (element) => {
+          const res = await this.getCollectStatus(element.pid);
+          element.isFavored = res.data.data;
+          console.log(element.isFavored);
+          this.$forceUpdate();
+        });
       });
       // console.log("post 1 finish");
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);
     },
-    collectPaper(paperId) {
+    getCollectStatus(paper_id) {
+      return new Promise((resolve, reject) => {
+        var params = {
+          paper_id: paper_id,
+        };
+        console.log(paper_id);
+        var url = "http://106.13.138.133:18090/favor/isFavor";
+        axios
+          .get(url, { params })
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    collectPaper(paper) {
       if (!store.getters.isLoggedIn) {
         this.$message({
           showClose: true,
@@ -344,7 +376,7 @@ export default {
         return;
       }
       var data = Qs.stringify({
-        paper_id: paperId,
+        paper_id: paper.pid,
       });
       console.log(data);
       axios
@@ -357,6 +389,33 @@ export default {
               message: "已收藏",
               type: "success",
             });
+            paper.isFavored = !paper.isFavored;
+            this.$forceUpdate();
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
+    },
+    uncollectPaper(paper) {
+      var data = Qs.stringify({
+        paper_id: paper.pid,
+      });
+      axios
+        .post("http://106.13.138.133:18090/favor/remove_paper/", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              showClose: true,
+              message: "已取消收藏",
+              type: "success",
+            });
+            paper.isFavored = !paper.isFavored;
+            this.$forceUpdate();
           } else {
             this.$message({
               showClose: true,
