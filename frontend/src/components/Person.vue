@@ -223,14 +223,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs ? item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation ? item.n_citation:0}}
                       </span>
                     </span>
                   </div>
@@ -242,7 +242,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{ item.tags[0].t }}</a>
@@ -254,7 +254,7 @@
                       <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </el-tab-pane>
@@ -306,14 +306,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs?item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation?item.n_citation:0 }}
                       </span>
                     </span>
                   </div>
@@ -325,7 +325,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{ item.tags[0].t }}</a>
@@ -337,7 +337,7 @@
                       <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </el-tab-pane>
@@ -389,14 +389,14 @@
                       <span> 论文数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_pubs }}
+                        {{ item.n_pubs?item.n_pubs:0 }}
                       </span>
                     </span>
                     <span class="info-item">
                       <span> 引用数 </span>
                       <span>:</span>
                       <span class="info-count">
-                        {{ item.n_citation }}
+                        {{ item.n_citation?item.n_citation:0 }}
                       </span>
                     </span>
                   </div>
@@ -408,7 +408,7 @@
                 </div>
 
                 <!-- 学者标签区域 -->
-                <div class="tag-zone">
+                <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{ item.tags[0].t }}</a>
@@ -420,7 +420,7 @@
                       <a class="tag">{{ item.tags[2].t }}</a>
                     </span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </el-tab-pane>
@@ -534,7 +534,7 @@ export default {
       var data = Qs.stringify({
         person_id: person.aid,
       });
-      // console.log(data);
+      console.log(data);
       axios
         .post("http://106.13.138.133:18090/follow/follow_scholar/", data)
         .then((res) => {

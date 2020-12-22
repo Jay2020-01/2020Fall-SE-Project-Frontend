@@ -307,7 +307,7 @@ export default {
         if (valid) {
           var data = Qs.stringify({
             userId: this.user.id,
-            portalId: this.person_now.aid,
+            aid: this.person_now.aid,
             email: this.dynamicValidateForm.email,
             code: this.dynamicValidateForm.code,
           });

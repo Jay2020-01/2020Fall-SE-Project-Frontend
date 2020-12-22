@@ -25,7 +25,9 @@
                       :key="author"
                       style="margin-right: 10px"
                     >
-                      {{ author["name"] }}
+                    <span @click="gotoProfile(author.id)">
+                      {{ author.name }}
+                    </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -54,6 +56,13 @@
                 <el-col class="author-col label" :span="2"> 年份： </el-col>
                 <el-col class="author-col" :span="22">
                   {{ publication_year }}
+                </el-col>
+              </el-row>
+              <!-- 链接 -->
+              <el-row class="author-row" v-if="paper_url">
+                <el-col class="author-col label" :span="2"> 链接： </el-col>
+                <el-col class="author-col" :span="22">
+                  <a :href="paper_url">{{ paper_url }}</a>
                 </el-col>
               </el-row>
             </el-row>
@@ -121,22 +130,23 @@ export default {
         "Regina Barzilay",
         "Tommi Jaakkola",
       ],
-      abstract:
-        "This paper focuses on style transfer on the basis of \
-        non-parallel text. This is an instance of a broad family of \
-        problems including machine translation, decipherment, and \
-        sentiment modification. The key challenge is to separate the \
-        content from other aspects such as style. We assume a shared \
-        latent content distribution across different text corpora, and \
-        propose a method that leverages refined alignment of latent \
-        representations to perform style transfer. The transferred \
-        sentences from one style should match example sentences from \
-        the other style as a population. We demonstrate the \
-        effectiveness of this cross-alignment method on three tasks: \
-        sentiment modification, decipherment of word substitution \
-        ciphers, and recovery of word order.",
+      abstract:"",
+        // "This paper focuses on style transfer on the basis of \
+        // non-parallel text. This is an instance of a broad family of \
+        // problems including machine translation, decipherment, and \
+        // sentiment modification. The key challenge is to separate the \
+        // content from other aspects such as style. We assume a shared \
+        // latent content distribution across different text corpora, and \
+        // propose a method that leverages refined alignment of latent \
+        // representations to perform style transfer. The transferred \
+        // sentences from one style should match example sentences from \
+        // the other style as a population. We demonstrate the \
+        // effectiveness of this cross-alignment method on three tasks: \
+        // sentiment modification, decipherment of word substitution \
+        // ciphers, and recovery of word order.",
       citation: 77,
       publication_year: "2017",
+      paper_url:"",
       chartData: {
         columns: ["日期", "引用量"],
         rows: [
@@ -164,9 +174,10 @@ export default {
         console.log(res.data.data.title);
         this.paper_title = res.data.data.title;
         this.author_list = res.data.data.authors;
-        // this.abstract = res.data.data.abstracts
+        this.abstract = res.data.data.abstract;
         this.citation = res.data.data.n_citation;
         this.publication_year = res.data.data.year;
+        this.paper_url= res.data.data.url[0];
       });
     },
     collectPaper(paperId) {
@@ -200,6 +211,14 @@ export default {
             });
           }
         });
+    },
+    gotoProfile(aid){
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: aid
+        }
+      })
     },
   },
 };
