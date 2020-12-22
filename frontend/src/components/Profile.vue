@@ -27,7 +27,7 @@
               <!-- <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o"> -->
                 <div class="button_div">
-                  <button
+                  <button @click="sendMssage()"
                     class="follow_button" >
                     <div>
                       <i class="el-icon-message"></i>
@@ -490,6 +490,27 @@ export default {
     },
     gotoPaper(pid) {
       this.$router.push("/details_paper/" + pid);
+    },
+    sendMssage() {
+      var data = JSON.stringify({
+        content:"wodedsda",
+        target_user_id:this.$route.query.aid,
+      });
+      var url="http://106.13.138.133:18090/notice/post_message/";
+      axios.post(url,data,{headers: {'Content-Type': 'application/json;'}}).then((res)=>{
+        console.log(res);
+        if (res.data.code == 200) {
+          this.$message({
+            message: "成功",
+            type: "success",
+          });
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: "warning",
+          });
+        }
+      });
     },
     follow () {
       this.followed=!this.followed;

@@ -199,10 +199,12 @@ export default {
               person.reference = following_list[i].ncitation ? following_list[i].ncitation : 0;
               person.occupation = following_list[i].position ? following_list[i].position : '未知';
               person.company = following_list[i].orgs ? following_list[i].orgs : ['未知'];
-              let end = following_list[i].tags.length;
-              console.log(end);
-              end = end > 8 ? 8 : end;
-              person.fields = following_list[i].tags.slice(0, end);
+              if(following_list[i].tags){
+                let end = following_list[i].tags.length;
+                console.log(end);
+                end = end > 8 ? 8 : end;
+                person.fields = following_list[i].tags.slice(0, end);
+              }
 
               this.person_list.push(person);
             }
