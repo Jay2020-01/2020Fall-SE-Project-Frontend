@@ -475,6 +475,7 @@ export default {
             message: "修改成功",
             type: "success",
           });
+          this.$forceUpdate()
         } else {
           this.$message({
             message: res.data.message,
