@@ -38,7 +38,9 @@ export default new Vuex.Store({
                         if (resp.data.code == 200) {
                             const token = resp.data.data.token
                             const user = resp.data.data.name
+                            const user_id = resp.data.data.user_id;
                             localStorage.setItem('token', token)
+                            localStorage.setItem('user_id', user_id);
                             axios.defaults.headers.common.Authorization = token
                             commit('auth_success', token, user)
                         } else {
@@ -61,7 +63,9 @@ export default new Vuex.Store({
                         if (resp.data.code == 200) {
                             const token = resp.data.data.token
                             const user = resp.data.data.name
+                            const user_id = resp.data.data.user_id
                             localStorage.setItem('token', token)
+                            localStorage.setItem('user_id', user_id)
                             axios.defaults.headers.common.Authorization = token
                             commit('auth_success', token, user)
                             console.log('success')
