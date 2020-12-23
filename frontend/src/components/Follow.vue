@@ -19,7 +19,7 @@
             <!-- 头像 -->
             <div>
               <img
-                src="../assets/coffeelogo.png"
+                src="../assets/default.png"
                 alt="头像"
                 style="
                   width: 80px;

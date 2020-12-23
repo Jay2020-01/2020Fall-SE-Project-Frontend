@@ -7,7 +7,7 @@
         <el-card shadow="hover">
           <el-col :span="6" class="avator_zone">
             <img
-              src="../assets/default.jpg"
+              src="../assets/default.png"
               style="width: 90%; margin: auto; display: block"
             />
           </el-col>

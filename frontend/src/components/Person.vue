@@ -164,7 +164,8 @@
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg" />
+                    <img src="../assets/default.png"
+                    style="height: 90px; width: 90px" />
                   </div>
                 </div>
               </div>
@@ -268,7 +269,8 @@
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg" />
+                    <img src="../assets/default.png"
+                    style="height: 90px; width: 90px" />
                   </div>
                 </div>
               </div>
@@ -351,7 +353,8 @@
               <div class="person-left-zone">
                 <div class="imgBox">
                   <div class="person-img">
-                    <img src="../assets/default.jpg" />
+                    <img src="../assets/default.png"
+                    style="height: 90px; width: 90px" />
                   </div>
                 </div>
               </div>

@@ -35,7 +35,7 @@
                 <!-- 头像 -->
                 <div style="float: left; height: 120px">
                   <img
-                    src="../assets/coffeelogo.png"
+                    src="../assets/default.png"
                     alt="头像"
                     style="width: 80px; height: 80px"
                   />
@@ -103,7 +103,7 @@
               <!-- 头像 -->
               <div>
                 <img
-                  src="../assets/coffeelogo.png"
+                  src="../assets/default.png"
                   alt="头像"
                   style="width: 80px; height: 80px"
                 />
