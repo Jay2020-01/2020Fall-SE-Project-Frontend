@@ -74,7 +74,7 @@
                   {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author" + ", et al." }}
+                  {{ "No author"}}
                 </span>
               </div>
               <!-- 发表时间区域 -->
@@ -335,17 +335,17 @@ export default {
         (this.page_num - 1) +
         "/" +
         this.page_size;
-      console.log(this.page_num)
+      // console.log(this.page_num)
       axios.get(url).then((res) => {
-        console.log("get data from url");
-        console.log(res.data.data.content);
+        // console.log("get data from url");
+        // console.log(res.data.data.content);
         this.paperList = res.data.data.content;
         this.totalPapers = res.data.data.totalElements;
 
         this.paperList.forEach(async (element) => {
           const res = await this.getCollectStatus(element.pid);
           element.isFavored = res.data.data;
-          console.log(element.isFavored);
+          // console.log(element.isFavored);
           this.$forceUpdate();
         });
         this.loading = false;
@@ -360,7 +360,7 @@ export default {
         var params = {
           paper_id: paper_id,
         };
-        console.log(paper_id);
+        //console.log(paper_id);
         var url = "http://106.13.138.133:18090/favor/isFavor";
         axios
           .get(url, { params })

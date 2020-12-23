@@ -82,15 +82,22 @@ export default {
         const messages = [];
         axios.get(url).then((res)=>{
           for (let i = res.data.data.length-1; i >= 0; i--) {
+
             if(res.data.data[i].content == "") continue;
             var message = new Object();
+            var date = new Date(res.data.data[i].createTime)
             message._id = res.data.data[i].id;
             message.content = res.data.data[i].content;
             message.sender_id = res.data.data[i].notifierId;
-            message.date = res.data.data[i].createTime;
-            // console.log(message.sender_id)
-            // console.log(this.currentUserId)
-            message.date = "Nov 13";
+            message.timestamp = date.getFullYear() + '-'
+              // 因为js里month从0开始，所以要加1
+              + (parseInt(date.getMonth()) + 1) + '-'
+              + date.getDate() + '   ' + date.getHours() + ':' + (parseInt(date.getMinutes()))
+
+            // message.date = date.getFullYear() + '-'
+            //   // 因为js里month从0开始，所以要加1
+            //   + (parseInt(date.getMonth()) + 1) + '-'
+            //   + date.getDate();
             messages.push(message);
           }
           //console.log("get messages");
