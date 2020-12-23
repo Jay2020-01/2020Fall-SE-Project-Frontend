@@ -3,7 +3,14 @@
       <el-row>
       <el-col :span="22" :offset="1">
         <el-card class="box-card" shadow="hover">
-            <chat-window :currentUserId="currentUserId" :rooms="rooms" :messages="messages" @send-message="sendMessage" />
+            <chat-window 
+            :currentUserId="currentUserId" 
+            :rooms="rooms" 
+            :messagesLoaded="messagesLoaded"
+            :messages="messages"
+            @sendMessage="sendMessage" 
+            @fetchMessages="fetchMessage"
+            />
         </el-card>
       </el-col>
     </el-row>
@@ -20,54 +27,82 @@ export default {
     },
     data () {
       return {
-    rooms:[
-    {
-      roomId: 1,
-      roomName: 'Json',
-      avatar: 'assets/imgs/people.png',
-    }
-    ],
-    messages: [
-      {
-        _id: 7890,
-        content: 'message 1',
-        sender_id: 1234,
-        username: 'John Doe',
-      },
-      {
-        _id: 7890,
-        content: 'message 1',
-        sender_id: 1234,
-        username: 'John Doe',
-      }
-    ],
-      currentUserId: 1234,
-        
+        rooms:[],
+        messages: [],
+        currentUserId: -1, 
+        messagesLoaded:false,
       }
     },
     created: function () {
-      this.getTargetUserList();
+      this.getPersonList();
     },
     methods: {
       sendMessage({ roomId, content, file, replyMessage}) {
-        console.log("adsfasdfasdfasdfasdfasdfasdfasdf");
-      },
-      getTargetUserList() {
-        axios.get("http://localhost:8000/ajax/get_person_list/").then((res) => {
-          this.person_list = res.data.person_list;
+        var data = Qs.stringify({
+          content:content,
+          target_user_id:roomId,
+        });
+        var url="http://106.13.138.133:18090/notice/post_message/" + localStorage.getItem('user_id');
+        console.log(roomId);
+        axios.post(url, data).then((res)=>{
+          this.fetchMessage({room:{roomId:roomId}, options:null});
         });
       },
-      getMessageContent() {
-        axios.get("http://localhost:8000/ajax/get_message_content/").then((res) => {
-          
+      getPersonList() {
+        this.currentUserId = localStorage.getItem('user_id');
+        console.log(localStorage.getItem('user_id'));
+        const rooms = [];
+        // console.log("get person list");
+        var url = "http://106.13.138.133:18090/notice/get_person_list/" + localStorage.getItem('user_id') ;
+        axios.get(url).then((res)=>{
+          for (let i = 0; i < res.data.data.length; i++) {
+            var room = new Object();
+            room.roomId = res.data.data[i].id;
+            room.roomName = res.data.data[i].userName;
+            room.avatar = res.data.data[i].avatar;
+            room.users = [{
+              _id: res.data.data[i].id,
+              username: res.data.data[i].userName,
+              avatar: res.data.data[i].avatar,
+            }, {
+              _id: localStorage.getItem('user_id'),
+              username: "me",
+              avatar: null,
+            }]; 
+            rooms.push(room);
+          }
         })
+        this.rooms = rooms;
+      },
+      fetchMessage({room, options}) {
+        this.currentUserId = localStorage.getItem('user_id');
+        console.log("get message content");
+        var url = "http://106.13.138.133:18090/notice/get_message_content/" + localStorage.getItem('user_id') + '/' + "?target_user_id=" + room.roomId;
+        this.messagesLoaded = true;
+        const messages = [];
+        axios.get(url).then((res)=>{
+          for (let i = res.data.data.length-1; i >= 0; i--) {
+            var message = new Object();
+            message._id = res.data.data[i].id;
+            message.content = res.data.data[i].content;
+            message.sender_id = res.data.data[i].notifierId;
+            message.date = res.data.data[i].createTime;
+            console.log(message.sender_id)
+            console.log(this.currentUserId)
+            message.date = "Nov 13";
+            messages.push(message);
+          }
+          //console.log("get messages");
+          setTimeout(() => {
+            this.messagesLoaded = true
+          }, 0)
+          console.log(res.data.data);
+        })
+        this.messages = messages;
       },
       messageActionHandler({ roomId, action, message }) {
-  console.log("&&&&&&&&&&&");
-},
-sendMessage() {
-  alert("aaaa");
-}
+      console.log("&&&&&&&&&&&");
+    },
   }
 }
 </script>
