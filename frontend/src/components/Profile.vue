@@ -348,7 +348,6 @@ export default {
     }),
       (this.chartSettings2 = {});
     return {
-<<<<<<< HEAD
       target_user_id: -1,
       followed:"",
       bind:"",
@@ -357,15 +356,6 @@ export default {
       followed_content:'已关注',
       author:{},
       papers:{},
-=======
-      followed: "",
-      bind: "",
-      followCount: "",
-      follow_content: "+关注",
-      followed_content: "已关注",
-      author: {},
-      papers: {},
->>>>>>> 0f0ccf036469879f07961ce6fde1ff1f5ddb5584
       user_id: "",
       flag: false,
       name: "",
@@ -439,7 +429,6 @@ export default {
         aid: this.$route.query.aid,
       });
       var url = "http://106.13.138.133:18090/portal/profile/view/";
-<<<<<<< HEAD
       axios
         .post(url,data)
         .then((res) => {
@@ -471,32 +460,6 @@ export default {
           }
           this.bind=res.data.data.author.user_id;
         });
-=======
-      axios.post(url, data).then((res) => {
-        this.author = res.data.data.author;
-        this.papers = res.data.data.papers;
-        this.name = res.data.data.author.name;
-        this.phone = res.data.data.author.phone;
-        this.email = res.data.data.author.email;
-        if (res.data.data.author.orgination) {
-          this.orgination = res.data.data.author.orgination;
-        } else if (res.data.data.author.orgs && res.data.data.author.orgs[0]) {
-          this.orgination = res.data.data.author.orgs[0];
-        } else {
-          this.orgination = res.data.data.author.orgination;
-        }
-        this.address = res.data.data.author.address;
-        this.homepage = res.data.data.author.homepage;
-        this.sex = res.data.data.author.sex;
-        this.profileInfo = res.data.data.author.expertInfo;
-        this.workInfo = res.data.data.author.work;
-        this.eduInfo = res.data.data.author.edu;
-        if (res.data.data.author.tags) {
-          this.chartData1.rows = res.data.data.author.tags;
-        }
-        this.bind = res.data.data.author.user_id;
-      });
->>>>>>> 0f0ccf036469879f07961ce6fde1ff1f5ddb5584
     },
     getFollowStatus() {
       var params = {
@@ -581,7 +544,6 @@ export default {
       })
     },
     sendMssage() {
-<<<<<<< HEAD
       console.log("send message");
       console.log(this.target_user_id);
       var data = Qs.stringify({
@@ -592,11 +554,6 @@ export default {
       axios.post(url, data).then((res)=>{
         console.log(res);
         console.log("获取到了数据")
-=======
-      var data = JSON.stringify({
-        content: "wodedsda",
-        target_user_id: this.$route.query.aid,
->>>>>>> 0f0ccf036469879f07961ce6fde1ff1f5ddb5584
       });
       var url = "http://106.13.138.133:18090/notice/post_message/";
       axios
