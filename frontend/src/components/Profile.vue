@@ -459,8 +459,8 @@ export default {
       var url = "http://106.13.138.133:18090/follow/isFollow";
       axios.get(url, { params }).then((res) => {
         this.followed = res.data.data;
+        this.getFollowCount();
       });
-      this.getFollowCount();
     },
     getFollowCount() {
       var params = {
@@ -501,7 +501,8 @@ export default {
               message: "修改成功",
               type: "success",
             });
-            this.$forceUpdate();
+            this.getAuthorInfo();
+            // this.$forceUpdate();
           } else {
             this.$message({
               message: res.data.message,
@@ -510,7 +511,6 @@ export default {
           }
         });
       this.flag = !this.flag;
-      this.getAuthorInfo();
     },
     changeFlag() {
       this.flag = !this.flag;
@@ -542,7 +542,7 @@ export default {
         });
     },
     follow() {
-      this.followed = !this.followed;
+      // this.followed = !this.followed;
       if (!store.getters.isLoggedIn) {
         this.$message({
           message: "请先登录",
@@ -561,6 +561,7 @@ export default {
             message: "关注成功",
             type: "success",
           });
+          this.getFollowStatus()
         } else {
           this.$message({
             message: res.data.message,
@@ -570,7 +571,7 @@ export default {
       });
     },
     unfollow() {
-      this.followed = !this.followed;
+      // this.followed = !this.followed;
       if (!store.getters.isLoggedIn) {
         this.$message({
           message: "请先登录",
@@ -589,6 +590,7 @@ export default {
             message: "已取消关注",
             type: "success",
           });
+          this.getFollowStatus()
         } else {
           this.$message({
             message: res.data.message,
