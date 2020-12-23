@@ -21,7 +21,7 @@
       </el-col>
 
       <!-- 论文表格区域 -->
-      <el-col class="paper-col" :span="17" :offset="0">
+      <el-col class="paper-col" :span="17" :offset="0" v-loading="loading">
         <el-tabs type="border-card">
           <!-- 按时间排序 -->
           <el-tab-pane label="最新">
@@ -226,6 +226,7 @@ export default {
   components: { KeywordsText },
   data() {
     return {
+      loading: "",
       start_year: 1900,
       end_year: 2029,
       page_num: 0,
@@ -313,6 +314,7 @@ export default {
       this.getPaperList();
     },
     getPaperList() {
+      this.loading = true;
       this.keyword = this.$route.query.key_word;
       var data = Qs.stringify({
         start_year: 1800,
@@ -343,6 +345,7 @@ export default {
           console.log(element.isFavored);
           this.$forceUpdate();
         });
+        this.loading = false;
       });
       // console.log("post 1 finish");
     },

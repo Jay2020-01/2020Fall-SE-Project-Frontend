@@ -155,7 +155,7 @@
 
     <el-row class="person-row" :gutter="20">
       <!--学者表格区域-->
-      <el-col class="person-col" :span="18" :offset="3">
+      <el-col class="person-col" :span="18" :offset="3" v-loading="loading">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
@@ -456,6 +456,7 @@ import store from "../store/index";
 export default {
   data() {
     return {
+      loading: "",
       page_num: 0,
       page_size: 10,
       personList: [],
@@ -476,6 +477,7 @@ export default {
       this.getPersonList();
     },
     getPersonList() {
+      this.loading = true;
       var url =
         "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" +
         this.$route.query.key_word +
@@ -493,6 +495,7 @@ export default {
           element.isFollowed = res.data.data
           this.$forceUpdate()
         });
+        this.loading = false;
         console.log(this.personList);
       });
     },
