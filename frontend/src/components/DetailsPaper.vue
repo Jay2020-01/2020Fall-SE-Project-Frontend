@@ -28,6 +28,9 @@
                       <span @click="gotoProfile(author.id)">
                         {{ author.name }}
                       </span>
+                      <span v-if="index < author_list.length - 1">
+                        ,
+                      </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -44,11 +47,26 @@
                   {{ abstract }}
                 </el-col>
               </el-row>
-              <!-- 被引量 -->
+              <!-- 关键词 -->
               <el-row class="author-row">
-                <el-col class="author-col label" :span="2"> 被引量： </el-col>
+                <el-col class="author-col label" :span="2"> 关键词： </el-col>
                 <el-col class="author-col orange-color" :span="22">
-                  {{ citation }}
+                  <el-row>
+                    <el-col
+                      class="authors"
+                      v-for="(keyword, index) in keyword_list"
+                      :key="index"
+                      style="margin-right: 10px"
+                    >
+                      <span>
+                        {{ keyword }}
+                      </span>
+                      <span v-if="index < keyword_list.length - 1">
+                        ,
+                      </span>
+                    </el-col>
+                  </el-row>
+                  <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
                 </el-col>
               </el-row>
               <!-- 年份 -->
@@ -56,6 +74,20 @@
                 <el-col class="author-col label" :span="2"> 年份： </el-col>
                 <el-col class="author-col" :span="22">
                   {{ publication_year }}
+                </el-col>
+              </el-row>
+              <!-- 被引量 -->
+              <el-row class="author-row">
+                <el-col class="author-col label" :span="2"> 被引量： </el-col>
+                <el-col class="author-col orange-color" :span="22">
+                  {{ citation }}
+                </el-col>
+              </el-row>
+              <!-- doi -->
+              <el-row class="author-row">
+                <el-col class="author-col label" :span="2"> DOI： </el-col>
+                <el-col class="author-col" :span="22">
+                  {{ doi }}
                 </el-col>
               </el-row>
               <!-- 链接 -->
@@ -155,8 +187,13 @@ export default {
       // effectiveness of this cross-alignment method on three tasks: \
       // sentiment modification, decipherment of word substitution \
       // ciphers, and recovery of word order.",
+      keyword_list: [
+        "fish",
+        "penetration"
+      ],
       citation: 77,
       publication_year: "2017",
+      doi: "10.1016/j.exppara.2006.12.013",
       paper_url: "",
       isFavored: false,
       chartData: {
@@ -187,8 +224,10 @@ export default {
         this.paper_title = res.data.data.title;
         this.author_list = res.data.data.authors;
         this.abstract = res.data.data.abstract;
+        this.keyword_list = res.data.data.keywords;
         this.citation = res.data.data.n_citation;
         this.publication_year = res.data.data.year;
+        this.doi = res.data.data.doi;
         this.paper_url = res.data.data.url[0];
         this.isFavored = await this.getCollectStatus(this.paper_id);
         this.$forceUpdate();
@@ -364,5 +403,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+/* card边框样式 */
+.el-card:hover {
+  cursor: pointer;
+  border: 1px solid#ea6f5a;
 }
 </style>

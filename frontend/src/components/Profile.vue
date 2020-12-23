@@ -14,42 +14,51 @@
           <el-col :span="18" class="info_zone" style="padding-left: 10px">
             <el-row class="info_name">
               <el-col :span="18">
-                <span >{{author.name}}</span>
+                <span>{{ author.name }}</span>
                 <svg class="icon bindsign" aria-hidden="true" v-if="bind">
                   <use xlink:href="#icon-bind">
                     <symbol id="icon-bind" viewBox="0 0 1024 1024">
-                      <path d="M509.9 129.1c51.9 0 102.2 10.1 149.5 30.2 45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.7-47 86.8-82.3 122.1s-76.4 63-122.1 82.3c-47.3 20-97.6 30.2-149.5 30.2S407.7 887 360.4 866.9c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5S136 410.9 156 363.6c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.1 149.5-30.1m0-64c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448-200.6-448-448-448z"></path>
-                      <path d="M444.3 710.8L248 514.5l45.3-45.3 151 151.1 282.2-282.2 45.3 45.2z"></path>
+                      <path
+                        d="M509.9 129.1c51.9 0 102.2 10.1 149.5 30.2 45.7 19.3 86.8 47 122.1 82.3s63 76.4 82.3 122.1c20 47.3 30.2 97.6 30.2 149.5s-10.1 102.2-30.2 149.5c-19.3 45.7-47 86.8-82.3 122.1s-76.4 63-122.1 82.3c-47.3 20-97.6 30.2-149.5 30.2S407.7 887 360.4 866.9c-45.7-19.3-86.8-47-122.1-82.3s-63-76.4-82.3-122.1c-20-47.3-30.2-97.6-30.2-149.5S136 410.9 156 363.6c19.3-45.7 47-86.8 82.3-122.1s76.4-63 122.1-82.3c47.3-20 97.6-30.1 149.5-30.1m0-64c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448-200.6-448-448-448z"
+                      ></path>
+                      <path
+                        d="M444.3 710.8L248 514.5l45.3-45.3 151 151.1 282.2-282.2 45.3 45.2z"
+                      ></path>
                     </symbol>
                   </use>
                 </svg>
               </el-col>
               <!-- <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o"> -->
-                <div class="button_div">
-                  <button @click="sendMssage()"
-                    class="follow_button" >
-                    <div>
-                      <i class="el-icon-message"></i>
-                      <span>私信</span>
-                    </div>
-                  </button>
-                  <button  v-if="!followed" @click="follow()"
-                    class="follow_button" >
-                    <div>
-                      <span>{{follow_content}}</span>
-                    </div>
-                  </button>
-                  <button  v-if="followed" @click="unfollow()"
-                    class="followed_button" >
-                    <div>
-                      <span style="font-size:16px">{{followed_content}}</span>
-                    </div>
-                    <span class="follow_count">{{followCount}}</span>
-                  </button>
-                </div>
-                  <!-- <span style="margin-left: 5px"> 关 注 </span> -->
-                <!-- </el-button> -->
+              <div class="button_div">
+                <button @click="sendMssage()" class="follow_button">
+                  <div>
+                    <i class="el-icon-message"></i>
+                    <span>私信</span>
+                  </div>
+                </button>
+                <button
+                  v-if="!followed"
+                  @click="follow()"
+                  class="follow_button"
+                >
+                  <div>
+                    <span>{{ follow_content }}</span>
+                  </div>
+                </button>
+                <button
+                  v-if="followed"
+                  @click="unfollow()"
+                  class="followed_button"
+                >
+                  <div>
+                    <span style="font-size: 16px">{{ followed_content }}</span>
+                  </div>
+                  <span class="follow_count">{{ followCount }}</span>
+                </button>
+              </div>
+              <!-- <span style="margin-left: 5px"> 关 注 </span> -->
+              <!-- </el-button> -->
               <!-- </el-col> -->
             </el-row>
 
@@ -63,32 +72,37 @@
                 style="float: right"
               ></i>
               <el-row class="info_line" v-if="author.position">
-                <i class="fa fa-id-card-o info_icon"></i><span>{{author.position}}</span>
+                <i class="fa fa-id-card-o info_icon"></i
+                ><span>{{ author.position }}</span>
               </el-row>
 
               <el-row class="info_line" v-if="author.orgination">
                 <i class="fa fa-institution info_icon"></i>
-                <span >{{author.orgination}}</span>
+                <span>{{ author.orgination }}</span>
               </el-row>
-              <el-row class="info_line" v-else-if="author.orgs&&author.orgs[0]">
+              <el-row
+                class="info_line"
+                v-else-if="author.orgs && author.orgs[0]"
+              >
                 <i class="fa fa-institution info_icon"></i>
-                <span v-if="author.orgs&&author.orgs[0]">{{author.orgs[0]}}</span>
+                <span v-if="author.orgs && author.orgs[0]">{{
+                  author.orgs[0]
+                }}</span>
               </el-row>
-              
 
               <el-row class="info_line" v-if="author.phone">
                 <i class="fa fa-phone info_icon"></i>
-                <span>{{author.phone}}</span>
+                <span>{{ author.phone }}</span>
               </el-row>
 
               <el-row class="info_line" v-if="author.email">
                 <i class="fa fa-envelope-o info_icon"></i>
-                <span>{{author.email}}</span>
+                <span>{{ author.email }}</span>
               </el-row>
 
               <el-row class="info_line" v-if="author.address">
                 <i class="fa fa-location-arrow info_icon"></i>
-                <span>{{author.address}}</span>
+                <span>{{ author.address }}</span>
               </el-row>
 
               <el-row class="info_line" v-if="author.homepage">
@@ -98,14 +112,14 @@
                   rel="noopener noreferrer"
                   style="color: black"
                 >
-                  {{author.homepage}}
+                  {{ author.homepage }}
                 </a>
               </el-row>
 
               <el-row class="info_line" v-if="author.sex">
                 <i class="fa fa-child info_icon"></i>
                 <span>
-                  {{author.sex}}
+                  {{ author.sex }}
                 </span>
               </el-row>
             </el-row>
@@ -153,17 +167,15 @@
           <div slot="header" class="clearfix">
             <span> 作者统计 </span>
           </div>
-          <ve-radar
-            :data="chartData2"
-          ></ve-radar>
+          <ve-radar :data="chartData2"></ve-radar>
         </el-card>
       </el-col>
     </el-row>
 
     <!-- 第二行 -->
-    <el-row class="research-field" :gutter="10" >
+    <el-row class="research-field" :gutter="10">
       <el-col :span="14" :offset="2">
-        <el-card shadow="hover" class="box-card" >
+        <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 研究领域</span>
           </div>
@@ -200,15 +212,11 @@
               v-if="flag == true"
             ></i>
           </div>
-          <div v-if="flag == false"> 
-            <p>{{author.work}}</p>
+          <div v-if="flag == false">
+            <p>{{ author.work }}</p>
           </div>
 
-          <el-form
-            v-if="flag == true"
-            style="float: left"
-            label-width="100px"
-          >
+          <el-form v-if="flag == true" style="float: left" label-width="100px">
             <el-form-item>
               <el-input
                 v-model="workInfo"
@@ -237,13 +245,9 @@
             ></i>
           </div>
           <p v-if="flag == false">
-            {{author.edu}}
+            {{ author.edu }}
           </p>
-          <el-form
-            v-if="flag == true"
-            style="float: left"
-            label-width="100px"
-          >
+          <el-form v-if="flag == true" style="float: left" label-width="100px">
             <el-form-item>
               <el-input
                 v-model="eduInfo"
@@ -272,13 +276,9 @@
             ></i>
           </div>
           <p style="text-indent: 2em" v-if="flag == false">
-            {{author.expertInfo}}
+            {{ author.expertInfo }}
           </p>
-          <el-form
-            v-if="flag == true"
-            style="float: left"
-            label-width="100px"
-          >
+          <el-form v-if="flag == true" style="float: left" label-width="100px">
             <el-form-item>
               <el-input
                 v-model="profileInfo"
@@ -303,7 +303,7 @@
             <div class="title-zone">
               <div class="title-line">
                 <span class="paper-title" @click="gotoPaper(item.pid)">
-                  {{item.title}}
+                  {{ item.title }}
                 </span>
               </div>
             </div>
@@ -342,49 +342,78 @@ import Qs from "qs";
 import store from "../store/index.js";
 export default {
   data() {
-    this.chartSettings1={
+    (this.chartSettings1 = {
       sizeMin: 30,
       sizeMax: 60,
-    },
-    this.chartSettings2={
-      
-    }
+    }),
+      (this.chartSettings2 = {});
     return {
-      followed:"",
-      bind:"",
-      followCount:"",
-      follow_content:'+关注',
-      followed_content:'已关注',
-      author:{},
-      papers:{},
+      followed: "",
+      bind: "",
+      followCount: "",
+      follow_content: "+关注",
+      followed_content: "已关注",
+      author: {},
+      papers: {},
       user_id: "",
       flag: false,
-      name:"",
-      phone:"",
-      email:"",
-      orgination:"",
-      address:"",
-      homepage:"",
-      sex:"",
-      workInfo:"",
-      eduInfo:"",
-      profileInfo:"",
+      name: "",
+      phone: "",
+      email: "",
+      orgination: "",
+      address: "",
+      homepage: "",
+      sex: "",
+      workInfo: "",
+      eduInfo: "",
+      profileInfo: "",
       chartData1: {
         columns: ["t", "w"],
-        rows: [
-        ],
+        rows: [],
       },
     };
   },
-  computed:{
-    chartData2(){
-      return{
-        columns:['对象','H指数','论文数','引用数','L指数','影响力','活跃度'],
-        rows:[
-        {'对象':'平均水准','H指数':6.06,'论文数':33.89,'引用数':854.77,'L指数':Math.log(6.06).toFixed(3),'影响力':Math.log(854.77).toFixed(3),'活跃度':Math.log(33.89).toFixed(3)},
-        {'对象':'顶峰水准','H指数':250,'论文数':2500,'引用数':450000,'L指数':Math.log(250).toFixed(3),'影响力':Math.log(450000).toFixed(3),'活跃度':Math.log(2500).toFixed(3)},
-        {'对象':this.author.name,'H指数':this.author.h_index,'论文数':this.author.n_pubs,'引用数':this.author.n_citation,'L指数':Math.log(this.author.h_index).toFixed(3),'影响力':Math.log(this.author.n_citation).toFixed(3),'活跃度':Math.log(this.author.n_pubs).toFixed(3)},
-        ]
+  computed: {
+    chartData2() {
+      return {
+        columns: [
+          "对象",
+          "H指数",
+          "论文数",
+          "引用数",
+          "L指数",
+          "影响力",
+          "活跃度",
+        ],
+        rows: [
+          {
+            对象: "平均水准",
+            H指数: 6.06,
+            论文数: 33.89,
+            引用数: 854.77,
+            L指数: Math.log(6.06).toFixed(3),
+            影响力: Math.log(854.77).toFixed(3),
+            活跃度: Math.log(33.89).toFixed(3),
+          },
+          {
+            对象: "顶峰水准",
+            H指数: 250,
+            论文数: 2500,
+            引用数: 450000,
+            L指数: Math.log(250).toFixed(3),
+            影响力: Math.log(450000).toFixed(3),
+            活跃度: Math.log(2500).toFixed(3),
+          },
+          {
+            对象: this.author.name,
+            H指数: this.author.h_index,
+            论文数: this.author.n_pubs,
+            引用数: this.author.n_citation,
+            L指数: Math.log(this.author.h_index).toFixed(3),
+            影响力: Math.log(this.author.n_citation).toFixed(3),
+            活跃度: Math.log(this.author.n_pubs).toFixed(3),
+          },
+        ],
       };
     },
   },
@@ -395,57 +424,52 @@ export default {
   methods: {
     getAuthorInfo() {
       var data = Qs.stringify({
-        aid:this.$route.query.aid,
+        aid: this.$route.query.aid,
       });
       var url = "http://106.13.138.133:18090/portal/profile/view/";
-      axios
-        .post(url,data)
-        .then((res) => {
-          this.author=res.data.data.author;
-          this.papers=res.data.data.papers;
-          this.name=res.data.data.author.name;
-          this.phone=res.data.data.author.phone;
-          this.email=res.data.data.author.email;
-          if(res.data.data.author.orgination){
-            this.orgination=res.data.data.author.orgination;
-          }
-          else if(res.data.data.author.orgs&&res.data.data.author.orgs[0]){
-            this.orgination=res.data.data.author.orgs[0];
-          }
-          else{
-            this.orgination=res.data.data.author.orgination;
-          }
-          this.address=res.data.data.author.address;
-          this.homepage=res.data.data.author.homepage;
-          this.sex=res.data.data.author.sex;
-          this.profileInfo=res.data.data.author.expertInfo;
-          this.workInfo=res.data.data.author.work;
-          this.eduInfo=res.data.data.author.edu;
-          if(res.data.data.author.tags){
-            this.chartData1.rows=res.data.data.author.tags;
-          }
-          this.bind=res.data.data.author.user_id;
-        });
+      axios.post(url, data).then((res) => {
+        this.author = res.data.data.author;
+        this.papers = res.data.data.papers;
+        this.name = res.data.data.author.name;
+        this.phone = res.data.data.author.phone;
+        this.email = res.data.data.author.email;
+        if (res.data.data.author.orgination) {
+          this.orgination = res.data.data.author.orgination;
+        } else if (res.data.data.author.orgs && res.data.data.author.orgs[0]) {
+          this.orgination = res.data.data.author.orgs[0];
+        } else {
+          this.orgination = res.data.data.author.orgination;
+        }
+        this.address = res.data.data.author.address;
+        this.homepage = res.data.data.author.homepage;
+        this.sex = res.data.data.author.sex;
+        this.profileInfo = res.data.data.author.expertInfo;
+        this.workInfo = res.data.data.author.work;
+        this.eduInfo = res.data.data.author.edu;
+        if (res.data.data.author.tags) {
+          this.chartData1.rows = res.data.data.author.tags;
+        }
+        this.bind = res.data.data.author.user_id;
+      });
     },
-    getFollowStatus(){
-      var params={
-        person_id:this.$route.query.aid,
+    getFollowStatus() {
+      var params = {
+        person_id: this.$route.query.aid,
       };
       var url = "http://106.13.138.133:18090/follow/isFollow";
-      axios.get(url,{params}).then((res)=>{
-        this.followed=res.data.data;
-      })
+      axios.get(url, { params }).then((res) => {
+        this.followed = res.data.data;
+      });
       this.getFollowCount();
     },
-    getFollowCount(){
-      var params={
-        person_id:this.$route.query.aid,
+    getFollowCount() {
+      var params = {
+        person_id: this.$route.query.aid,
       };
-      var url= "http://106.13.138.133:18090/follow/followerNum";
-      axios.get(url,{params}).then((res)=>{
-        this.followCount=res.data.data;
+      var url = "http://106.13.138.133:18090/follow/followerNum";
+      axios.get(url, { params }).then((res) => {
+        this.followCount = res.data.data;
       });
-      
     },
     // goto(pos) {
     //   document.querySelector(pos).scrollIntoView();
@@ -455,34 +479,36 @@ export default {
     // },
     edit() {
       var data = JSON.stringify({
-        aid:this.$route.query.aid,
-        expertName:this.name,
-        phoneNumber:this.phone,
-        email:this.email,
-        orgination:this.orgination,
-        address:this.address,
-        homepage:this.homepage,
-        sex:this.sex,
-        expertInfo:this.profileInfo,
-        work:this.workInfo,
-        edu:this.eduInfo
+        aid: this.$route.query.aid,
+        expertName: this.name,
+        phoneNumber: this.phone,
+        email: this.email,
+        orgination: this.orgination,
+        address: this.address,
+        homepage: this.homepage,
+        sex: this.sex,
+        expertInfo: this.profileInfo,
+        work: this.workInfo,
+        edu: this.eduInfo,
       });
-      var url="http://106.13.138.133:18090/portal/profile/modify";
-      axios.post(url,data,{headers: {'Content-Type': 'application/json;'}}).then((res)=>{
-        console.log(res);
-        if (res.data.code == 200) {
-          this.$message({
-            message: "修改成功",
-            type: "success",
-          });
-          this.$forceUpdate()
-        } else {
-          this.$message({
-            message: res.data.message,
-            type: "warning",
-          });
-        }
-      });
+      var url = "http://106.13.138.133:18090/portal/profile/modify";
+      axios
+        .post(url, data, { headers: { "Content-Type": "application/json;" } })
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              message: "修改成功",
+              type: "success",
+            });
+            this.$forceUpdate();
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: "warning",
+            });
+          }
+        });
       this.flag = !this.flag;
       this.getAuthorInfo();
     },
@@ -494,45 +520,17 @@ export default {
     },
     sendMssage() {
       var data = JSON.stringify({
-        content:"wodedsda",
-        target_user_id:this.$route.query.aid,
+        content: "wodedsda",
+        target_user_id: this.$route.query.aid,
       });
-      var url="http://106.13.138.133:18090/notice/post_message/";
-      axios.post(url,data,{headers: {'Content-Type': 'application/json;'}}).then((res)=>{
-        console.log(res);
-        if (res.data.code == 200) {
-          this.$message({
-            message: "成功",
-            type: "success",
-          });
-        } else {
-          this.$message({
-            message: res.data.message,
-            type: "warning",
-          });
-        }
-      });
-    },
-    follow () {
-      this.followed=!this.followed;
-      if (!store.getters.isLoggedIn) {
-        this.$message({
-          message: "请先登录",
-          type: "warning",
-        });
-        return;
-      }
-      var data = Qs.stringify({
-        person_id: this.$route.query.aid,
-      });
-      var url="http://106.13.138.133:18090/follow/follow_scholar/";
+      var url = "http://106.13.138.133:18090/notice/post_message/";
       axios
-        .post(url, data)
+        .post(url, data, { headers: { "Content-Type": "application/json;" } })
         .then((res) => {
           console.log(res);
           if (res.data.code == 200) {
             this.$message({
-              message: "关注成功",
+              message: "成功",
               type: "success",
             });
           } else {
@@ -543,8 +541,36 @@ export default {
           }
         });
     },
-    unfollow () {
-      this.followed=!this.followed;
+    follow() {
+      this.followed = !this.followed;
+      if (!store.getters.isLoggedIn) {
+        this.$message({
+          message: "请先登录",
+          type: "warning",
+        });
+        return;
+      }
+      var data = Qs.stringify({
+        person_id: this.$route.query.aid,
+      });
+      var url = "http://106.13.138.133:18090/follow/follow_scholar/";
+      axios.post(url, data).then((res) => {
+        console.log(res);
+        if (res.data.code == 200) {
+          this.$message({
+            message: "关注成功",
+            type: "success",
+          });
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: "warning",
+          });
+        }
+      });
+    },
+    unfollow() {
+      this.followed = !this.followed;
       if (!store.getters.isLoggedIn) {
         this.$message({
           message: "请先登录",
@@ -556,39 +582,35 @@ export default {
         person_id: this.$route.query.aid,
       });
       var url = "http://106.13.138.133:18090/follow/remove_scholar/";
-      axios
-        .post(url, data)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code == 200) {
-            this.$message({
-              message: "已取消关注",
-              type: "success",
-            });
-          } else {
-            this.$message({
-              message: res.data.message,
-              type: "warning",
-            });
-          }
-        });
-      
+      axios.post(url, data).then((res) => {
+        console.log(res);
+        if (res.data.code == 200) {
+          this.$message({
+            message: "已取消关注",
+            type: "success",
+          });
+        } else {
+          this.$message({
+            message: res.data.message,
+            type: "warning",
+          });
+        }
+      });
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-
 //关注与取消关注按钮样式
 .button_div {
   display: flex;
   align-items: center;
 }
-button{
-  outline:none;
+button {
+  outline: none;
 }
-.follow_button{
+.follow_button {
   color: #f56c6c;
   background: #fef0f0;
   border: #fbc4c4 solid;
@@ -600,12 +622,12 @@ button{
   height: 50px;
   width: 110px;
 }
-.follow_button:hover{
-  background:#ff9999;
-  color:#fef0f0;
+.follow_button:hover {
+  background: #ff9999;
+  color: #fef0f0;
 }
-.followed_button{
-  color:#fef0f0;
+.followed_button {
+  color: #fef0f0;
   background: #f56c6c;
   border: #fbc4c4 solid;
   border-radius: 20px;
@@ -619,9 +641,9 @@ button{
   justify-content: center;
   align-items: center;
 }
-.followed_button:hover{
-  background:#ff9999;
-  color:#fef0f0;
+.followed_button:hover {
+  background: #ff9999;
+  color: #fef0f0;
 }
 // .follow_count::before{
 //   border-color: #fff;
@@ -637,21 +659,21 @@ button{
 //
 
 //认领标志样式
-.bindsign{
+.bindsign {
   vertical-align: middle;
   font-size: 18px;
   font-weight: 700;
   margin-left: 6px;
 }
 
-.icon{
+.icon {
   width: 1em;
   height: 1em;
   fill: currentColor;
 }
 //研究领域样式
 .research-field .el-card {
-    min-height: 0px;
+  min-height: 0px;
 }
 //论文表格样式
 .paper-row {
@@ -732,13 +754,12 @@ button{
   text-align: start;
 }
 
-
 /* card边框样式 */
 .el-card:hover {
   cursor: pointer;
   border: 1px solid#ea6f5a;
 }
-.el-card{
+.el-card {
   line-height: 22px;
 }
 </style>
