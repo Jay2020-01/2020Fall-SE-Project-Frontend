@@ -65,11 +65,12 @@
             <el-divider class="divider"></el-divider>
 
             <el-row></el-row>
-            <el-row v-if="flag == false&&bind">
+            <el-row v-if="flag == false">
               <i
                 class="el-icon-edit"
                 @click="changeFlag"
                 style="float: right"
+                v-if="bind"
               ></i>
               <el-row class="info_line" v-if="author.position">
                 <i class="fa fa-id-card-o info_icon"></i
