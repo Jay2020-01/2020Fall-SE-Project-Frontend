@@ -198,7 +198,7 @@
             :page-size="page_size"
             :pager-count="11"
             layout="prev, pager, next"
-            :total="1000"
+            :total="totalPapers"
           >
           </el-pagination>
         </el-tabs>
@@ -229,10 +229,11 @@ export default {
       loading: "",
       start_year: 1900,
       end_year: 2029,
-      page_num: 0,
+      page_num: 1,
       page_size: 10,
       keyword: "",
       activeDate: "",
+      totalPapers: 0,
       paperList: [],
       pickerOptions: {
         shortcuts: [
@@ -331,13 +332,15 @@ export default {
         "/" +
         this.end_year +
         "/" +
-        this.page_num +
+        (this.page_num - 1) +
         "/" +
         this.page_size;
+      console.log(this.page_num)
       axios.get(url).then((res) => {
         console.log("get data from url");
         console.log(res.data.data.content);
         this.paperList = res.data.data.content;
+        this.totalPapers = res.data.data.totalElements;
 
         this.paperList.forEach(async (element) => {
           const res = await this.getCollectStatus(element.pid);

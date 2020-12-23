@@ -436,7 +436,7 @@
             :page-size="page_size"
             :pager-count="11"
             layout="prev, pager, next"
-            :total="1000"
+            :total="totalPersons"
           >
           </el-pagination>
         </el-tabs>
@@ -461,8 +461,9 @@ export default {
   data() {
     return {
       loading: "",
-      page_num: 0,
+      page_num: 1,
       page_size: 10,
+      totalPersons: 0,
       personList: [],
     };
   },
@@ -486,7 +487,7 @@ export default {
         "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" +
         this.$route.query.key_word +
         "/" +
-        this.page_num +
+        (this.page_num - 1) +
         "/" +
         this.page_size;
       axios.get(url).then((res) => {
@@ -494,6 +495,7 @@ export default {
         console.log(res.data);
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
+        this.totalPersons = res.data.data.totalElements;
         this.personList.forEach(async (element) => {
           const res = await this.getFollowStatus(element.aid);
           element.isFollowed = res.data.data

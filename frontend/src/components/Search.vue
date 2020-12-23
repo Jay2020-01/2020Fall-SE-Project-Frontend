@@ -3,12 +3,22 @@
     <!-- 搜索框 -->
     <el-row class="search-row">
       <el-col class="search-col" :span="12" :offset="6">
-        <el-input class="search-input input-with-select" clearable placeholder="请输入内容" v-model="input">
+        <el-input
+          class="search-input input-with-select"
+          clearable
+          placeholder="请输入内容"
+          v-model="input"
+          @keyup.enter.native="handleClick"
+        >
           <el-select v-model="activeValue" slot="prepend" placeholder="请选择">
             <el-option label="搜索论文" value="1"></el-option>
             <el-option label="搜索专家" value="2"></el-option>
           </el-select>
-          <el-button slot="append" icon="el-icon-search" @click="handleClick"></el-button>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="handleClick"
+          ></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -29,49 +39,48 @@
 <script>
 export default {
   data() {
-      return {
-        input: '',
-        activeValue:"1",
-        activeName:"paper"
-    }
+    return {
+      input: "",
+      activeValue: "1",
+      activeName: "paper",
+    };
   },
   mounted() {
     this.createSearch();
   },
   methods: {
-    createSearch(){
+    createSearch() {
       this.input = this.$route.query.key_word;
-      var paths = this.$route.path.split("/")
+      var paths = this.$route.path.split("/");
       var path = paths.pop();
-      if(path=="paper"){
-        this.activeValue="1";
-      }else {
-        this.activeValue="2";
+      if (path == "paper") {
+        this.activeValue = "1";
+      } else {
+        this.activeValue = "2";
       }
-
     },
     handleClick() {
-
-      if(this.input.length != 0) {
-        if(this.activeValue == 1) {  // 搜索论文
+      if (this.input.length != 0) {
+        if (this.activeValue == 1) {
+          // 搜索论文
           this.$router.push({
-            path: '/search/paper',
+            path: "/search/paper",
             query: {
-              key_word: this.input
-            }
-          })
-        }else{
+              key_word: this.input,
+            },
+          });
+        } else {
           this.$router.push({
-            path: '/search/person',
+            path: "/search/person",
             query: {
-              key_word: this.input
-            }
-          })
+              key_word: this.input,
+            },
+          });
         }
       }
       location.reload();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -85,16 +94,16 @@ export default {
   left: 20%;
 }
 /deep/.el-tabs__active-bar {
-  background-color:#ea6f5a;
+  background-color: #ea6f5a;
 }
 /deep/.el-tabs__item.is-active {
-    color: #ea6f5a;
+  color: #ea6f5a;
 }
 /deep/.el-tabs__item:hover {
-    color: #ea6f5a;
+  color: #ea6f5a;
 }
 // 搜索栏样式
-.search-row{
+.search-row {
   margin-top: 5px;
 }
 .search-col {
@@ -134,13 +143,10 @@ export default {
 }
 
 //搜索结果样式
-.result-row{
+.result-row {
   margin-top: 8px;
 }
-.result-col{
+.result-col {
   line-height: 10px;
 }
-
-
-
 </style>
