@@ -61,17 +61,13 @@
           <div slot="header">
             <span>科技资讯</span>
           </div>
-          <div v-for="(item,index) in paper" :key="index" class="text item_2" v-show="index<5">
-            <!-- <span style="background-color: #f2f6fc;
-                    line-height: 20px;
-                    border-radius: 4px;
-                    border: 2px solid #ebeef5;">{{index+1}}</span>  -->
+          <div v-for="(item,index) in paper" :key="index" class="text item_2" v-show="index<5" @click="goto_paper(item.pid)">
             <span>{{item.title}}</span>
           </div>
         </el-card>
       </el-col>
     </el-row>
-    <!-- {{h_index}} -->
+    <!-- {{this.paper_now.pid}} -->
   </div>
 </template>
 
@@ -137,6 +133,10 @@ export default {
           aid: this.person_now.aid
         }
       })
+    },
+    
+    goto_paper(pid) {
+      this.$router.push("/details_paper/" + pid);
     },
     search() {
       if(this.input.length != 0) {
