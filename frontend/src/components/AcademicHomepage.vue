@@ -5,7 +5,7 @@
       <!-- 根据名字检索的可能是该用户的card -->
       <el-input
         class="search-input"
-        placeholder="请输入内容"
+        placeholder="请输入您要认领的门户"
         v-model="key_word"
         @keyup.enter.native="init();getPersonList()"
       >
@@ -17,7 +17,11 @@
       </el-input>
     </el-row>
     <!-- 中间部分 -->
-    <el-row :gutter="20">
+    <div class="empty_content" v-if="totalCount==0">
+      <p><span>暂无门户结果</span></p>
+      <img src="../assets/findPortalEmpty.png">
+    </div>
+    <el-row :gutter="20" v-if="totalCount>0">
       <!-- 左边竖列:搜索按钮及搜索结果 -->
       <el-col :span="16" style="">
         <el-row>
@@ -82,7 +86,9 @@
                   ><span style="font-style: italic">{{ item.position }}</span>
                   <el-divider direction="vertical"></el-divider>
                   <span>单位：</span
-                  ><span style="font-style: italic" v-if="item.orgs">{{ item.orgs[0]}}</span>
+                  >
+                  <span style="font-style: italic" v-if="item.orgination">{{ item.orgination}}</span>
+                  <span style="font-style: italic" v-else-if="item.orgs&&item.orgs[0]">{{ item.orgs[0]}}</span>
                 </div>
               </div>
             </el-card>
@@ -130,8 +136,9 @@
               <!-- 单位&身份 -->
               <div style="">
                 <span v-if="person_now.position">身份：{{ this.person_now.position }}</span>
-                <el-divider direction="vertical" v-if="person_now.position&&person_now.orgs"></el-divider>
-                <span v-if="person_now.orgs">单位：{{ this.person_now.orgs[0]}}</span>
+                <el-divider direction="vertical" v-if="person_now.position&&((person_now.orgs&&person_now.orgs[0])||person_now.orgination)"></el-divider>
+                <span v-if="person_now.orgination">单位：{{ this.person_now.orgination}}</span>
+                <span v-else-if="person_now.orgs&&person_now.orgs[0]">单位：{{ this.person_now.orgs[0]}}</span>
               </div>
               <br />
               <el-button type="primary" @click="dialogFormVisible = true"
@@ -211,8 +218,8 @@
     <el-row style="margin-top: 10px">
       <el-col :span="12" :offset="6">
         <div >
-          <el-button @click="prepage()">上一页</el-button>
-          <el-button @click="nextpage()">下一页</el-button>
+          <el-button v-if="(totalCount||(pageNum>0&&totalCount==0))&&pageNum" @click="prepage()">上一页</el-button>
+          <el-button v-if="totalCount" @click="nextpage()">下一页</el-button>
         </div>
       </el-col>
     </el-row>
@@ -342,9 +349,11 @@ export default {
       console.log(this.pageNum);
     },
     nextpage(){
-      this.pageNum++;
-      this.getPersonList();
-      console.log(this.pageNum);
+      if(this.pageNum>=0&&this.totalCount>0){
+        this.pageNum++;
+        this.getPersonList();
+        console.log(this.pageNum);
+      }
     },
   },
 };
@@ -380,5 +389,20 @@ export default {
 .el-card:hover {
   cursor: pointer;
   border: 1px solid#ea6f5a;
+}
+
+/* 空结果显示 */
+.empty_content{
+  width: 80%;
+  padding-top: 70px;
+  text-align: center;
+  font-size: 1.77777778em;
+  color: #000e28;
+  font-style: italic;
+  font-weight: lighter;
+  margin-top: -100px;
+}
+.empty_content img{
+  width: 50%;
 }
 </style>
