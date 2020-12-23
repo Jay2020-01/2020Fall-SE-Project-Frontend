@@ -555,23 +555,6 @@ export default {
         console.log(res);
         console.log("获取到了数据")
       });
-      var url = "http://106.13.138.133:18090/notice/post_message/";
-      axios
-        .post(url, data, { headers: { "Content-Type": "application/json;" } })
-        .then((res) => {
-          console.log(res);
-          if (res.data.code == 200) {
-            this.$message({
-              message: "成功",
-              type: "success",
-            });
-          } else {
-            this.$message({
-              message: res.data.message,
-              type: "warning",
-            });
-          }
-        });
     },
     follow() {
       // this.followed = !this.followed;
