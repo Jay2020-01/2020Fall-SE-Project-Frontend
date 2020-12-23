@@ -65,7 +65,7 @@
             <el-divider class="divider"></el-divider>
 
             <el-row></el-row>
-            <el-row v-if="flag == false">
+            <el-row v-if="flag == false&&bind">
               <i
                 class="el-icon-edit"
                 @click="changeFlag"
@@ -199,11 +199,11 @@
         <el-card shadow="hover" class="box-card">
           <div slot="header" class="clearfix">
             <span> 工作经历 </span
-            ><i
+            ><i 
               class="el-icon-edit"
               @click="changeFlag"
               style="float: right"
-              v-if="flag == false"
+              v-if="flag == false&&bind"
             ></i>
             <i
               class="el-icon-close"
@@ -235,7 +235,7 @@
               class="el-icon-edit"
               @click="changeFlag"
               style="float: right"
-              v-if="flag == false"
+              v-if="flag == false&&bind"
             ></i>
             <i
               class="el-icon-close"
@@ -266,7 +266,7 @@
               class="el-icon-edit"
               @click="changeFlag"
               style="float: right"
-              v-if="flag == false"
+              v-if="flag == false&&bind"
             ></i>
             <i
               class="el-icon-close"
