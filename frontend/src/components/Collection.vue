@@ -26,6 +26,7 @@
                   margin: 0px 0px 0px 40px;
                   text-align: left;
                 "
+                @click="toPaper(item.paper_id)"
               >
                 {{ item.title }}
               </h3>
@@ -51,12 +52,9 @@
                     border: 2px solid #ebeef5;
                   "
                 >
-                  <router-link
-                    :to="{ path: '/person' }"
-                    style="text-decoration: none; color: #2f4f2f"
-                  >
+                  <span style="text-decoration: none; color: #2f4f2f">
                     {{ "\xa0" + i["name"] + "\xa0" }}
-                  </router-link>
+                  </span>
                 </div>
               </div>
             </div>
@@ -199,6 +197,9 @@ export default {
             });
           }
         });
+    },
+    toPaper(pid) {
+      this.$router.push("/details_paper/" + pid);
     },
   },
 };

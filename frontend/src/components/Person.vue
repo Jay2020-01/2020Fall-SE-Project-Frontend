@@ -503,9 +503,6 @@ export default {
         console.log(this.personList);
       });
     },
-    person() {
-      this.$router.push("/profile");
-    },
     gotoProfile(aid) {
       this.$router.push({
         path: "/profile",
