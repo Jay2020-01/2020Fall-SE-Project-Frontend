@@ -237,7 +237,11 @@
                 </div>
 
                 <!-- 学者机构区域 -->
-                <div class="department-zone" v-if="item.orgs">
+                <!-- orgination是门户修改信息中机构的字段 -->
+                <div class="department-zone" v-if="item.orgination">
+                  <span class="department"> 机构：{{ item.orgination }} </span>
+                </div>
+                <div class="department-zone" v-else-if="item.orgs">
                   <span class="department"> 机构：{{ item.orgs[0] }} </span>
                 </div>
 
