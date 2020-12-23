@@ -43,14 +43,14 @@ export default {
           target_user_id:roomId,
         });
         var url="http://106.13.138.133:18090/notice/post_message/" + localStorage.getItem('user_id');
-        console.log(roomId);
+        // console.log(roomId);
         axios.post(url, data).then((res)=>{
           this.fetchMessage({room:{roomId:roomId}, options:null});
         });
       },
       getPersonList() {
-        this.currentUserId = localStorage.getItem('user_id');
-        console.log(localStorage.getItem('user_id'));
+        this.currentUserId = parseInt(localStorage.getItem('user_id'));
+        // console.log(localStorage.getItem('user_id'));
         const rooms = [];
         // console.log("get person list");
         var url = "http://106.13.138.133:18090/notice/get_person_list/" + localStorage.getItem('user_id') ;
@@ -75,8 +75,8 @@ export default {
         this.rooms = rooms;
       },
       fetchMessage({room, options}) {
-        this.currentUserId = localStorage.getItem('user_id');
-        console.log("get message content");
+        this.currentUserId = parseInt(localStorage.getItem('user_id'));
+        // console.log("get message content");
         var url = "http://106.13.138.133:18090/notice/get_message_content/" + localStorage.getItem('user_id') + '/' + "?target_user_id=" + room.roomId;
         this.messagesLoaded = true;
         const messages = [];
@@ -87,8 +87,8 @@ export default {
             message.content = res.data.data[i].content;
             message.sender_id = res.data.data[i].notifierId;
             message.date = res.data.data[i].createTime;
-            console.log(message.sender_id)
-            console.log(this.currentUserId)
+            // console.log(message.sender_id)
+            // console.log(this.currentUserId)
             message.date = "Nov 13";
             messages.push(message);
           }
@@ -96,13 +96,10 @@ export default {
           setTimeout(() => {
             this.messagesLoaded = true
           }, 0)
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         this.messages = messages;
       },
-      messageActionHandler({ roomId, action, message }) {
-      console.log("&&&&&&&&&&&");
-    },
   }
 }
 </script>
