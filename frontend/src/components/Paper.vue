@@ -24,7 +24,7 @@
       <el-col class="paper-col" :span="17" :offset="0" v-loading="loading">
         <el-tabs type="border-card">
           <!-- 按时间排序 -->
-          <el-tab-pane label="最新">
+          <el-tab-pane label="最新" @click="changeSort(1)">
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <!-- 标题区域 -->
               <div class="title-zone">
@@ -94,7 +94,7 @@
             </div>
           </el-tab-pane>
           <!-- 按综合排序 -->
-          <el-tab-pane label="综合">
+          <el-tab-pane label="综合" @click=changeSort(2)>
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <div class="title-zone">
                 <div class="title-line">
@@ -102,7 +102,6 @@
                     {{ item.title }}
                   </span>
                 </div>
-
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
@@ -144,8 +143,9 @@
               </div>
             </div>
           </el-tab-pane>
+
           <!-- 按引用数排序 -->
-          <el-tab-pane label="引用数">
+          <el-tab-pane label="引用数" @click="changeSort(3)">
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <div class="title-zone">
                 <div class="title-line">
@@ -217,6 +217,12 @@
 </template>
 
 <script>
+function sortByYear(a, b) {
+    return b.year - a.year;
+}
+function sortByCite(a, b) {
+    return b.n_citation - a.n_citation;
+}
 import keyword from "@/components/keyword";
 import Qs from "qs";
 import axios from "axios";
@@ -226,6 +232,7 @@ export default {
   components: { KeywordsText },
   data() {
     return {
+      sortValue:1,
       loading: "",
       start_year: 1900,
       end_year: 2029,
@@ -338,8 +345,14 @@ export default {
       // console.log(this.page_num)
       axios.get(url).then((res) => {
         // console.log("get data from url");
-        // console.log(res.data.data.content);
-        this.paperList = res.data.data.content;
+        console.log(res.data.data.content);
+        if(this.sortValue == 1) {
+          this.paperList = res.data.data.content.sort(sortByYear);
+        }else if(this.sortValue == 3) {
+          this.paperList = res.data.data.content.sort(sortByCite);
+        }else {
+          this.paperList = res.data.data.content;
+        }
         this.totalPapers = res.data.data.totalElements;
 
         this.paperList.forEach(async (element) => {
@@ -351,6 +364,11 @@ export default {
         this.loading = false;
       });
       // console.log("post 1 finish");
+    },
+    changeSort(sortValue) {
+      console.log("change sort");
+      this.sortValue = sortValue;
+      this.getPaperList();
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);
