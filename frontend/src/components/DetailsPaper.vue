@@ -229,8 +229,10 @@ export default {
         this.publication_year = res.data.data.year;
         this.doi = res.data.data.doi;
         this.paper_url = res.data.data.url[0];
-        this.isFavored = await this.getCollectStatus(this.paper_id);
+        let resp = await this.getCollectStatus(this.paper_id);
+        this.isFavored = resp.data.data
         this.$forceUpdate();
+        console.log(this.isFavored)
       });
     },
     collectPaper(paperId) {

@@ -160,9 +160,14 @@ export default {
               var paper = new Object();
               paper.title = collection_list[i].title;
               paper.paper_id = collection_list[i].pid;
-              paper.author = collection_list[i].authors;
               paper.reference = collection_list[i].ncitation?collection_list[i].ncitation:0;
               paper.periodical = collection_list[i].venue.raw?collection_list[i].venue.raw:'未知';
+              if(collection_list[i].authors){
+                let end = collection_list[i].authors.length;
+                console.log(end);
+                end = end > 8 ? 8 : end;
+                paper.author = collection_list[i].authors.slice(0, end);
+              }
               this.paper_list.push(paper);
             }
           }
