@@ -82,6 +82,7 @@ export default {
         const messages = [];
         axios.get(url).then((res)=>{
           for (let i = res.data.data.length-1; i >= 0; i--) {
+            if(res.data.data[i].content == "") continue;
             var message = new Object();
             message._id = res.data.data[i].id;
             message.content = res.data.data[i].content;
