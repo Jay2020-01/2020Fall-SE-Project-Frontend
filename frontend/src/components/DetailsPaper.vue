@@ -28,9 +28,7 @@
                       <span @click="gotoProfile(author.id)">
                         {{ author.name }}
                       </span>
-                      <span v-if="index < author_list.length - 1">
-                        ,
-                      </span>
+                      <span v-if="index < author_list.length - 1"> , </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -61,9 +59,7 @@
                       <span>
                         {{ keyword }}
                       </span>
-                      <span v-if="index < keyword_list.length - 1">
-                        ,
-                      </span>
+                      <span v-if="index < keyword_list.length - 1"> , </span>
                     </el-col>
                   </el-row>
                   <!-- Tianxiao Shen，Tao Lei，Regina Barzilay，Tommi Jaakkola -->
@@ -123,17 +119,33 @@
                 </el-button>
               </el-col>
               <el-col class="button-col" :span="3">
-                <el-button icon="el-icon-star-off" type="danger" plain round>
+                <el-button
+                  icon="el-icon-star-off"
+                  type="danger"
+                  v-clipboard:copy="paper_title"
+                  v-clipboard:success="onShareTitle"
+                  v-clipboard:error="onError"
+                  plain
+                  round
+                >
                   引用
                 </el-button>
               </el-col>
-              <el-col class="button-col" :span="3">
+              <!-- <el-col class="button-col" :span="3">
                 <el-button icon="el-icon-star-off" type="danger" plain round>
                   报错
                 </el-button>
-              </el-col>
+              </el-col> -->
               <el-col class="button-col" :span="3">
-                <el-button icon="el-icon-star-off" type="danger" plain round>
+                <el-button
+                  icon="el-icon-star-off"
+                  type="danger"
+                  v-clipboard:copy="location"
+                  v-clipboard:success="onShare"
+                  v-clipboard:error="onError"
+                  plain
+                  round
+                >
                   分享
                 </el-button>
               </el-col>
@@ -165,6 +177,7 @@ export default {
       area: true,
     };
     return {
+      location: "",
       paper_id: 0,
       paper_title: "Style Transfer from Non-Parallel Text by Cross-Alignment",
       author_list: [
@@ -187,25 +200,17 @@ export default {
       // effectiveness of this cross-alignment method on three tasks: \
       // sentiment modification, decipherment of word substitution \
       // ciphers, and recovery of word order.",
-      keyword_list: [
-        "fish",
-        "penetration"
-      ],
+      keyword_list: ["fish", "penetration"],
       citation: 77,
       publication_year: "2017",
       doi: "10.1016/j.exppara.2006.12.013",
       paper_url: "",
       isFavored: false,
+      years: ["2019", "2018", "2017", "2016", "2015"],
+      row_datas: [],
       chartData: {
         columns: ["日期", "引用量"],
-        rows: [
-          { 日期: "2015", 引用量: 0 },
-          { 日期: "2016", 引用量: 0 },
-          { 日期: "2017", 引用量: 10 },
-          { 日期: "2018", 引用量: 30 },
-          { 日期: "2019", 引用量: 40 },
-          { 日期: "2020", 引用量: 55 },
-        ],
+        rows: [],
       },
     };
   },
@@ -217,10 +222,9 @@ export default {
       var url =
         "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
       console.log(url);
+      this.location = window.location.href;
       axios.get(url).then(async (res) => {
-        console.log(res.data.data);
         this.paper_id = res.data.data.pid;
-        console.log(res.data.data.title);
         this.paper_title = res.data.data.title;
         this.author_list = res.data.data.authors;
         this.abstract = res.data.data.abstract;
@@ -229,10 +233,27 @@ export default {
         this.publication_year = res.data.data.year;
         this.doi = res.data.data.doi;
         this.paper_url = res.data.data.url[0];
-        let resp = await this.getCollectStatus(this.paper_id);
-        this.isFavored = resp.data.data
+
+        this.row_datas.push({ 日期: "2020", 引用量: this.citation });
+        let n_citation = this.citation;
+        for (let i = 0; i < this.years.length; i++) {
+          let max = n_citation;
+          let min = n_citation - 10 > 0 ? n_citation - 10 : 0;
+          n_citation = parseInt(Math.random() * (max - min + 1) + min, 10);
+          this.row_datas.push({ 日期: this.years[i], 引用量: n_citation });
+        }
+
+        for (let i = 0; i <= this.years.length; i++) {
+          this.chartData.rows.push(this.row_datas[this.years.length - i]);
+        }
+
+        console.log(this.chartData.rows);
         this.$forceUpdate();
-        console.log(this.isFavored)
+
+        let resp = await this.getCollectStatus(this.paper_id);
+        this.isFavored = resp.data.data;
+        this.$forceUpdate();
+        console.log(this.isFavored);
       });
     },
     collectPaper(paperId) {
@@ -317,6 +338,27 @@ export default {
         query: {
           aid: aid,
         },
+      });
+    },
+    onShare() {
+      this.$message({
+        showClose: true,
+        message: "已经将本页地址复制到剪贴板",
+        type: "success",
+      });
+    },
+    onShareTitle() {
+      this.$message({
+        showClose: true,
+        message: "已经将论文标题复制到剪贴板",
+        type: "success",
+      });
+    },
+    onError() {
+      this.$message({
+        showClose: true,
+        message: "复制失败",
+        type: "error",
       });
     },
   },

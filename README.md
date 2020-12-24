@@ -24,3 +24,10 @@
   ```
 
 + 网址：https://v-charts.js.org/#/
+
+3. vue-clipboard2
+
++ ```
+  npm install vue-clipboard2 --save
+  ```
+  
