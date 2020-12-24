@@ -13,8 +13,8 @@
           </el-col>
           <el-col :span="18" class="info_zone" style="padding-left: 10px">
             <el-row class="info_name">
-              <el-col :span="18">
-                <span>{{ author.name }}</span>
+              <el-col :span="18" style="letter-spacing:1px; font-size: 30px">
+                <span >{{ author.name }}</span>
                 <svg class="icon bindsign" aria-hidden="true" v-if="bind">
                   <use xlink:href="#icon-bind">
                     <symbol id="icon-bind" viewBox="0 0 1024 1024">
@@ -468,7 +468,8 @@ export default {
           if(res.data.data.author.tags){
             this.chartData1.rows=res.data.data.author.tags;
           }
-          this.bind=res.data.data.author.user_id;
+          // this.bind = true;
+          this.bind= (localStorage.getItem("user_id") == res.data.data.author.user_id);
         });
     },
     getFollowStatus() {
