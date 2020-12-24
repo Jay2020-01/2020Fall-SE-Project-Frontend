@@ -54,8 +54,8 @@ export default {
         this.currentUserId = parseInt(localStorage.getItem('user_id'));
         // console.log(localStorage.getItem('user_id'));
         const rooms = [];
-        // console.log("get person list");
         var url = "http://106.13.138.133:18090/notice/get_person_list/" + localStorage.getItem('user_id') ;
+        console.log("get person list");
         axios.get(url).then((res)=>{
           console.log(res);
           for (let i = 0; i < res.data.data.length; i++) {
@@ -72,15 +72,18 @@ export default {
               username: "me",
               avatar: null,
             }]; 
+            if(res.data.data[i].authorName != null) {
+              room.roomName = room.roomName + '(' + res.data.data[i].authorName + ')' 
+            }
             rooms.push(room);
           }
         })
         this.rooms = rooms;
         setTimeout(() => {
           if(this.$route.query.target_user_id) {
-            this.roomId = this.$route.query.target_user_id;
+            this.roomId = parseInt(this.$route.query.target_user_id);
           }
-        }, 2000)
+        }, 1000)
       },
       fetchMessage({room, options}) {
         this.currentUserId = parseInt(localStorage.getItem('user_id'));
