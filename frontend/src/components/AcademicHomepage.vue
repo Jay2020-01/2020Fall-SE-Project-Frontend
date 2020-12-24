@@ -17,13 +17,135 @@
       </el-input>
     </el-row>
     <!-- 中间部分 -->
-    <div class="empty_content" v-if="totalCount==0">
+    <!-- 若该用户已经认领了门户 -->
+    <div v-if="totalCount==0&&bindId!=undefined&&bindId.length&&key_word==''">
+      <div style="" >
+        <el-card style="" >
+          <div style="line-height: 20px">
+            <div>
+              <img
+                src="../assets/default.png"
+                alt="头像"
+                style="width: 80px; height: 80px"
+              />
+            </div>
+            <div style="">
+              <h4  @click="gotoProfile">{{ person_now.name }}</h4>
+            </div>
+            <div style="">
+              <span
+                >h-index：<span style="color: #409eff">
+                  {{person_now.h_index }}
+                </span></span
+              >
+              <el-divider direction="vertical"></el-divider>
+              <span
+                >论文数：<span style="color: #409eff">{{
+                  person_now.n_pubs
+                }}</span></span
+              >
+              <el-divider direction="vertical"></el-divider>
+              <span
+                >引用数：<span style="color: #409eff">{{
+                  person_now.n_citation
+                }}</span></span
+              >
+            </div>
+            <br />
+            <div style="">
+              <span v-if="person_now.position">身份：{{ person_now.position }}</span>
+              <el-divider direction="vertical" v-if="person_now.position&&((person_now.orgs&&person_now.orgs[0])||person_now.orgination)"></el-divider>
+              <span v-if="person_now.orgination">单位：{{ person_now.orgination}}</span>
+              <span v-else-if="person_now.orgs&&person_now.orgs[0]">单位：{{ person_now.orgs[0]}}</span>
+            </div>
+            <br />
+            <el-button type="primary" @click="dialogFormVisible = true" v-if="person_now.user_id==undefined"
+              >绑定</el-button
+            >
+            <el-button type="primary" @click="unbind()" v-if="person_now.user_id&&(person_now.user_id==user.id)"
+              >解除绑定</el-button
+            >
+            <br/>
+            <br/>
+            <span v-if="person_now.user_id&&(person_now.user_id==user.id)">该门户已被您认领</span>
+            <span v-else-if="person_now.user_id&&(person_now.user_id!=user.id)">该门户已被其他用户认领</span>
+            <el-dialog
+              width="35%"
+              title="请输入邮箱"
+              :visible.sync="dialogFormVisible"
+            >
+              <el-form
+                :model="dynamicValidateForm"
+                ref="dynamicValidateForm"
+                label-width="100px"
+                class="demo-dynamic"
+              >
+                <el-form-item
+                  prop="email"
+                  label="邮箱"
+                  :rules="[
+                    {
+                      required: true,
+                      message: '请输入邮箱地址',
+                      trigger: 'blur',
+                    },
+                    {
+                      type: 'email',
+                      message: '请输入正确的邮箱地址',
+                      trigger: ['blur', 'change'],
+                    },
+                  ]"
+                >
+                  <el-input
+                    v-model="dynamicValidateForm.email"
+                    style="width: 50%; float: left"
+                  ></el-input>
+                  <el-button
+                    type="primary"
+                    @click="sendEmail(dynamicValidateForm.email)"
+                    >发送验证码</el-button
+                  >
+                </el-form-item>
+                <el-form-item prop="code" label="验证码">
+                  <el-input
+                    v-model="dynamicValidateForm.code"
+                    style="width: 50%; float: left"
+                  ></el-input>
+                </el-form-item>
+              </el-form>
+
+              <div
+                slot="footer"
+                class="dialog-footer"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <el-button @click="dialogFormVisible = false"
+                  >取 消</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="submitForm('dynamicValidateForm')"
+                  >确 定</el-button
+                >
+              </div>
+            </el-dialog>
+          </div>
+          <div></div>
+        </el-card>
+      </div>
+    </div>
+    <!-- 搜索结果为空 -->
+    <div class="empty_content" v-else-if="totalCount==0">
       <p><span>暂无门户结果</span></p>
       <img src="../assets/findPortalEmpty.png">
     </div>
-    <el-row :gutter="20" v-if="totalCount>0">
+    <el-row :gutter="20">
       <!-- 左边竖列:搜索按钮及搜索结果 -->
-      <el-col :span="16" style="">
+      <el-col :span="16" style="" v-if="totalCount>0">
         <el-row>
           <el-col :span="12" v-for="item in person_list" :key="item.aid" @click.native="clickHandler(item,index)">
             <el-card
@@ -96,8 +218,8 @@
         </el-row>
       </el-col>
       <!-- 右边竖列:需要绑定的信息 -->
-      <el-col :span="8">
-        <div style="" v-if="totalCount>0">
+      <el-col :span="8" v-if="totalCount>0">
+        <div style="" >
           <el-card style="" >
             <div style="line-height: 20px">
               <!-- 头像 -->
@@ -110,40 +232,47 @@
               </div>
               <!-- 名字 -->
               <div style="">
-                <h4  @click="gotoProfile">{{ this.person_now.name }}</h4>
+                <h4  @click="gotoProfile">{{ person_now.name }}</h4>
               </div>
               <!-- 指数 -->
               <div style="">
                 <span
                   >h-index：<span style="color: #409eff">
-                    {{ this.person_now.h_index }}
+                    {{person_now.h_index }}
                   </span></span
                 >
                 <el-divider direction="vertical"></el-divider>
                 <span
                   >论文数：<span style="color: #409eff">{{
-                    this.person_now.n_pubs
+                    person_now.n_pubs
                   }}</span></span
                 >
                 <el-divider direction="vertical"></el-divider>
                 <span
                   >引用数：<span style="color: #409eff">{{
-                    this.person_now.n_citation
+                    person_now.n_citation
                   }}</span></span
                 >
               </div>
               <br />
               <!-- 单位&身份 -->
               <div style="">
-                <span v-if="person_now.position">身份：{{ this.person_now.position }}</span>
+                <span v-if="person_now.position">身份：{{ person_now.position }}</span>
                 <el-divider direction="vertical" v-if="person_now.position&&((person_now.orgs&&person_now.orgs[0])||person_now.orgination)"></el-divider>
-                <span v-if="person_now.orgination">单位：{{ this.person_now.orgination}}</span>
-                <span v-else-if="person_now.orgs&&person_now.orgs[0]">单位：{{ this.person_now.orgs[0]}}</span>
+                <span v-if="person_now.orgination">单位：{{ person_now.orgination}}</span>
+                <span v-else-if="person_now.orgs&&person_now.orgs[0]">单位：{{ person_now.orgs[0]}}</span>
               </div>
               <br />
-              <el-button type="primary" @click="dialogFormVisible = true"
+              <el-button type="primary" @click="dialogFormVisible = true" v-if="person_now.user_id==undefined"
                 >绑定</el-button
               >
+              <el-button type="primary" @click="unbind()" v-if="person_now.user_id&&(person_now.user_id==user.id)"
+                >解除绑定</el-button
+              >
+              <br/>
+              <br/>
+              <span v-if="person_now.user_id&&(person_now.user_id==user.id)">该门户已被您认领</span>
+              <span v-else-if="person_now.user_id&&(person_now.user_id!=user.id)">该门户已被其他用户认领</span>
               <el-dialog
                 width="35%"
                 title="请输入邮箱"
@@ -215,14 +344,14 @@
       </el-col>
     </el-row>
     <!-- 分页部分 -->
-    <el-row style="margin-top: 10px">
+    <div style="margin-top: 10px">
       <el-col :span="12" :offset="6">
         <div >
-          <el-button v-if="(totalCount||(pageNum>0&&totalCount==0))&&pageNum" @click="prepage()">上一页</el-button>
+          <el-button v-if="(totalCount||(pageNum>0&&totalCount==0))&&pageNum&&key_word" @click="prepage()">上一页</el-button>
           <el-button v-if="totalCount" @click="nextpage()">下一页</el-button>
         </div>
       </el-col>
-    </el-row>
+    </div>
   </div>
 </template>
 <script>
@@ -233,6 +362,7 @@ export default {
   data() {
     return {
       key_word: "",
+      bindId: "",//当前user的绑定的aid
       pageNum: 0,//当前页数
       pageSize: 8,
       person_list: [],
@@ -264,11 +394,20 @@ export default {
       var url = "http://106.13.138.133:18090/user/my_info";
       axios.get(url).then((res)=>{
         this.user = res.data.data;
+        this.bindId = res.data.data.aid;
+        if(this.bindId!=undefined&&this.bindId.length){
+          this.getAuthorInfo(this.bindId);
+        }
       });
     },
     getPersonList() {
       console.log(this.key_word);
-      var url =
+      if(this.key_word==''){
+        this.getUserInfo();
+        this.init();
+      }
+      else{
+        var url =
         "http://106.13.138.133:18090/portal/personal_center/academic_homepage/search/" +
         this.key_word +
         "/" +
@@ -279,9 +418,11 @@ export default {
         this.person_list = res.data.data.content;
         this.totalCount = res.data.data.numberOfElements;
       });
+      }
     },
     init(){
       this.pageNum=0;
+      this.totalCount=0;
     },
     clickHandler(data,num){
       this.person_now = data;
@@ -318,7 +459,7 @@ export default {
             email: this.dynamicValidateForm.email,
             code: this.dynamicValidateForm.code,
           });
-          console.log(this.person_now.aid);
+          // console.log(this.person_now.aid);
           var url =
             "http://106.13.138.133:18090/portal/personal_center/academic_homepage/check";
           axios.post(url, data).then((res) => {
@@ -327,6 +468,9 @@ export default {
                 message: "绑定成功",
                 type: "success",
               });
+              this.getPersonList();
+              this.getAuthorInfo(this.person_now.aid);
+              console.log(this.person_now);
             } else {
               this.$message({
                 message: res.data.message,
@@ -340,6 +484,41 @@ export default {
         }
       });
       this.dialogFormVisible = false;
+    },
+    unbind(){
+      var data = Qs.stringify({
+        aid: this.person_now.aid,
+      });
+      var url = "http://106.13.138.133:18090/portal/personal_center/academic_homepage/unbind";
+      axios.post(url,data).then((res)=>{
+        if (res.data.code == 200) {
+          this.$message({
+            message: "解绑成功",
+            type: "success",
+          });
+          this.getPersonList();
+          this.getAuthorInfo(this.person_now.aid);
+          console.log(this.person_now);
+        }
+        else {
+          this.$message({
+            message: res.data.message,
+            type: "error",
+          });
+        }
+      });
+    },
+    getAuthorInfo(aid) {
+      console.log("get author info")
+      var data = Qs.stringify({
+        aid: aid,//this.user.aid
+      });
+      var url = "http://106.13.138.133:18090/portal/profile/view/";
+      axios
+        .post(url,data)
+        .then((res) => {
+          this.person_now=res.data.data.author;
+        });
     },
     prepage(){
       if(this.pageNum>0){
@@ -358,7 +537,7 @@ export default {
   },
 };
 </script>
-<style scoped >
+<style lang="less" scoped >
 .text {
   font-size: 14px;
 }
