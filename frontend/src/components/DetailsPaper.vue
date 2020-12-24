@@ -119,17 +119,33 @@
                 </el-button>
               </el-col>
               <el-col class="button-col" :span="3">
-                <el-button icon="el-icon-star-off" type="danger" plain round>
+                <el-button
+                  icon="el-icon-star-off"
+                  type="danger"
+                  v-clipboard:copy="paper_title"
+                  v-clipboard:success="onShareTitle"
+                  v-clipboard:error="onError"
+                  plain
+                  round
+                >
                   引用
                 </el-button>
               </el-col>
-              <el-col class="button-col" :span="3">
+              <!-- <el-col class="button-col" :span="3">
                 <el-button icon="el-icon-star-off" type="danger" plain round>
                   报错
                 </el-button>
-              </el-col>
+              </el-col> -->
               <el-col class="button-col" :span="3">
-                <el-button icon="el-icon-star-off" type="danger" plain round>
+                <el-button
+                  icon="el-icon-star-off"
+                  type="danger"
+                  v-clipboard:copy="location"
+                  v-clipboard:success="onShare"
+                  v-clipboard:error="onError"
+                  plain
+                  round
+                >
                   分享
                 </el-button>
               </el-col>
@@ -161,6 +177,7 @@ export default {
       area: true,
     };
     return {
+      location: "",
       paper_id: 0,
       paper_title: "Style Transfer from Non-Parallel Text by Cross-Alignment",
       author_list: [
@@ -205,10 +222,9 @@ export default {
       var url =
         "http://106.13.138.133:18090/search/id/" + this.$route.params.paper_id;
       console.log(url);
+      this.location = window.location.href;
       axios.get(url).then(async (res) => {
-        console.log(res.data.data);
         this.paper_id = res.data.data.pid;
-        console.log(res.data.data.title);
         this.paper_title = res.data.data.title;
         this.author_list = res.data.data.authors;
         this.abstract = res.data.data.abstract;
@@ -228,10 +244,10 @@ export default {
         }
 
         for (let i = 0; i <= this.years.length; i++) {
-          this.chartData.rows.push(this.row_datas[this.years.length - i])
+          this.chartData.rows.push(this.row_datas[this.years.length - i]);
         }
 
-        console.log(this.chartData.rows)
+        console.log(this.chartData.rows);
         this.$forceUpdate();
 
         let resp = await this.getCollectStatus(this.paper_id);
@@ -322,6 +338,27 @@ export default {
         query: {
           aid: aid,
         },
+      });
+    },
+    onShare() {
+      this.$message({
+        showClose: true,
+        message: "已经将本页地址复制到剪贴板",
+        type: "success",
+      });
+    },
+    onShareTitle() {
+      this.$message({
+        showClose: true,
+        message: "已经将论文标题复制到剪贴板",
+        type: "success",
+      });
+    },
+    onError() {
+      this.$message({
+        showClose: true,
+        message: "复制失败",
+        type: "error",
       });
     },
   },
