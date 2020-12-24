@@ -435,6 +435,15 @@ export default {
         .then((res) => {
           // console.log("res data");
           // console.log(res);
+          if (!res.data.data.author) {
+            this.$message({
+              message: "该学者尚无主页",
+              type: "warning",
+            });
+            history.go(-1)
+            return;
+          }
+
           this.author=res.data.data.author;
           this.papers=res.data.data.papers;
           this.target_user_id=res.data.data.author.user_id;
