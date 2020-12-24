@@ -22,9 +22,9 @@
 
       <!-- 论文表格区域 -->
       <el-col class="paper-col" :span="17" :offset="0" v-loading="loading">
-        <el-tabs type="border-card">
+        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
           <!-- 按时间排序 -->
-          <el-tab-pane label="最新" @click="changeSort(1)">
+          <el-tab-pane label="最新" name="1">
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <!-- 标题区域 -->
               <div class="title-zone">
@@ -94,27 +94,47 @@
             </div>
           </el-tab-pane>
           <!-- 按综合排序 -->
-          <el-tab-pane label="综合" @click=changeSort(2)>
+          <el-tab-pane label="综合" name="2">
             <div class="box" v-for="item in paperList" :key="item.paperId">
+              <!-- 标题区域 -->
               <div class="title-zone">
+                <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title">
-                    {{ item.title }}
-                  </span>
+                  <div class="paper-title" @click="paper(item.pid)">
+                    <KeywordsText
+                      :keywords="keyword"
+                      :text="item.title"
+                    ></KeywordsText>
+                  </div>
                 </div>
+                <!-- 右侧收藏按钮 -->
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
-                      <el-button type="info" class="btn">
+                      <el-button
+                        v-if="!item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="collectPaper(item)"
+                      >
                         <div>
                           <span>收藏</span>
+                        </div>
+                      </el-button>
+                      <el-button
+                        v-if="item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="uncollectPaper(item)"
+                      >
+                        <div>
+                          <span>已收藏</span>
                         </div>
                       </el-button>
                     </div>
                   </div>
                 </div>
               </div>
-
               <!-- 作者区域 -->
               <div class="person-zone">
                 <span class="person" v-if="item.authors.length >= 5">
@@ -124,17 +144,17 @@
                   {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author" + ", et al." }}
+                  {{ "No author"}}
                 </span>
               </div>
-
+              <!-- 发表时间区域 -->
               <div class="time-zone">
                 <div class="time">
                   <span>发表时间：</span>
                   {{ item.year }}
                 </div>
               </div>
-
+              <!-- 引用区域 -->
               <div class="reference-zone">
                 <div class="reference">
                   <span>被引用:</span>
@@ -145,45 +165,71 @@
           </el-tab-pane>
 
           <!-- 按引用数排序 -->
-          <el-tab-pane label="引用数" @click="changeSort(3)">
+          <el-tab-pane label="引用数" name="3">
             <div class="box" v-for="item in paperList" :key="item.paperId">
+              <!-- 标题区域 -->
               <div class="title-zone">
+                <!-- 论文名称 -->
                 <div class="title-line">
-                  <span class="paper-title">
-                    {{ item.title }}
-                  </span>
+                  <div class="paper-title" @click="paper(item.pid)">
+                    <KeywordsText
+                      :keywords="keyword"
+                      :text="item.title"
+                    ></KeywordsText>
+                  </div>
                 </div>
-
+                <!-- 右侧收藏按钮 -->
                 <div class="title-right-zone">
                   <div class="mark">
                     <div>
-                      <el-button type="info" class="btn">
+                      <el-button
+                        v-if="!item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="collectPaper(item)"
+                      >
                         <div>
                           <span>收藏</span>
+                        </div>
+                      </el-button>
+                      <el-button
+                        v-if="item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="uncollectPaper(item)"
+                      >
+                        <div>
+                          <span>已收藏</span>
                         </div>
                       </el-button>
                     </div>
                   </div>
                 </div>
               </div>
-
+              <!-- 作者区域 -->
               <div class="person-zone">
-                <span class="person" v-if="item.authors.length >= 3">
-                  {{ item.authors[0].name + item.authors[1].name + item.authors[2].name +", et al." }}
+                <span class="person" v-if="item.authors.length >= 5">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 3">
+                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
+                </span>
+                <span class="person" v-else>
+                  {{ "No author"}}
                 </span>
               </div>
-
+              <!-- 发表时间区域 -->
               <div class="time-zone">
                 <div class="time">
                   <span>发表时间：</span>
-                  {{ item.time }}
+                  {{ item.year }}
                 </div>
               </div>
-
+              <!-- 引用区域 -->
               <div class="reference-zone">
                 <div class="reference">
                   <span>被引用:</span>
-                  <strong>{{ item.reference }}</strong>
+                  <strong>{{ item.n_citation }}</strong>
                 </div>
               </div>
             </div>
@@ -232,6 +278,7 @@ export default {
   components: { KeywordsText },
   data() {
     return {
+      activeName: "1",
       sortValue:1,
       loading: "",
       start_year: 1900,
@@ -365,10 +412,17 @@ export default {
       });
       // console.log("post 1 finish");
     },
-    changeSort(sortValue) {
-      console.log("change sort");
-      this.sortValue = sortValue;
-      this.getPaperList();
+    handleClick(tab, event) {
+      if(tab.name === "1") {
+        this.sortValue = 1;
+        this.getPaperList();
+      }else if(tab.name === "2") {
+        this.sortValue = 2;
+        this.getPaperList();
+      }else {
+        this.sortValue = 3;
+        this.getPaperList();
+      }
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);
