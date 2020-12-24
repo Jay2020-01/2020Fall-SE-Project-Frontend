@@ -130,51 +130,7 @@ export default {
   data() {
     return {
       person_list: [
-        // {
-        //   person: "很长的名字Going Deeper with Convolutions",
-        //   personID: "1",
-        //   hIndex: "60",
-        //   paperNum: "81",
-        //   reference: "132732",
-        //   occupation: "教授",
-        //   company: "北京航空航天大学",
-        //   fields: [
-        //     "ai",
-        //     "Computer Vision",
-        //     "sxdsjniauhvnv",
-        //     "scasds",
-        //     "xxxxxxx",
-        //     "samxihvrwcccvvfd",
-        //     "zhoujielun",
-        //     "小红",
-        //     "sheqmocubeuxvzksswd",
-        //     "12345",
-        //     "sohe",
-        //     "djivr",
-        //     "dhslaciugy",
-        //     "ahahaha",
-        //   ],
-        // },
-        // {
-        //   person: "何明凯",
-        //   personID: "2",
-        //   hIndex: "0",
-        //   paperNum: "2",
-        //   reference: "0",
-        //   occupation: "教授",
-        //   company: "北京航空航天大学",
-        //   fields: ["ai", "Computer Vision"],
-        // },
-        // {
-        //   person: "陶哲轩",
-        //   personID: "3",
-        //   hIndex: "81",
-        //   paperNum: "402",
-        //   reference: "59997",
-        //   occupation: "教授",
-        //   company: "北京航空航天大学",
-        //   fields: ["ai", "Computer Vision"],
-        // },
+        
       ],
     };
   },
@@ -186,7 +142,7 @@ export default {
       axios
         .get("http://106.13.138.133:18090/follow/my_following/")
         .then((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           var following_list = res.data.data;
           for (let i = 0; i < following_list.length; i++) {
             if (following_list[i]) {
@@ -194,9 +150,9 @@ export default {
               var person = new Object();
               person.person = following_list[i].name;
               person.personID = following_list[i].aid;
-              person.hIndex = following_list[i].hindex ? following_list[i].hindex : 0;
-              person.paperNum = following_list[i].npubs ? following_list[i].npubs : 0;
-              person.reference = following_list[i].ncitation ? following_list[i].ncitation : 0;
+              person.hIndex = following_list[i].h_index ? following_list[i].h_index : 0;
+              person.paperNum = following_list[i].n_pubs ? following_list[i].n_pubs : 0;
+              person.reference = following_list[i].n_citation ? following_list[i].n_citation : 0;
               person.occupation = following_list[i].position ? following_list[i].position : '未知';
               person.company = following_list[i].orgs ? following_list[i].orgs : ['未知'];
               if(following_list[i].tags){

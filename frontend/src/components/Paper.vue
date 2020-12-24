@@ -28,9 +28,9 @@
 
       <!-- 论文表格区域 -->
       <el-col class="paper-col" :span="16" :offset="0" v-loading="loading">
+        <el-card shadow="hover">
         <el-tabs
           v-model="activeName"
-          type="border-card"
           @tab-click="handleClick"
         >
           <!-- 按综合排序 -->
@@ -323,6 +323,8 @@
           >
           </el-pagination>
         </el-tabs>
+
+        </el-card>
       </el-col>
 
       <!-- 备用栏 -->
@@ -407,6 +409,15 @@ export default {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 180);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "全部文章",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 1200);
               picker.$emit("pick", [start, end]);
             },
           },
@@ -755,5 +766,58 @@ export default {
 .block {
   width: 100%;
   height: 300px;
+}
+
+// 搜索栏样式
+.search-row {
+  margin-top: 5px;
+}
+.search-col {
+  height: 80px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  // border: 1px blue solid;
+}
+
+.search-input {
+  border: 1px solid #c5c5c5;
+  border-radius: 5px;
+}
+
+.el-select {
+  width: 150px;
+}
+
+/deep/ .el-input__inner {
+  height: 45px;
+  border: none;
+  font-size: 16px;
+}
+
+
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+
+.input-with-select:hover {
+  border: 1px solid #ea6f5a;
+  // background: #fff;
+}
+
+/deep/ .el-input-group__prepend {
+  border: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #f6f6f6;
+}
+
+.input-with-select {
+  background-color: #fff;
+}
+
+/deep/ .el-input-group__append {
+  border: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #fff;
 }
 </style>

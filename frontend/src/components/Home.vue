@@ -10,16 +10,15 @@
             <span class="site-name">咖啡学术</span>
           </div>
         </el-col>
-        <el-col :span="5" :offset="6">
-          <div class="grid-content head-box2 bg-purple-light">
-            <!-- 搜索框 -->
-            <!-- <el-input
-              placeholder="搜索内容"
-              v-model="input"
-              clearable
-            ></el-input> -->
-          </div>
-        </el-col>
+        <!-- 励志句子 -->
+          <el-col :span="11" :offset="0">
+            <div class="grid-content head-box2 bg-purple-light">
+              <div class="title-sentence">
+                <span>让阅读文章像品尝咖啡一般享受</span>
+              </div>
+              <!-- <el-input placeholder="搜索内容" v-model="input" size="small" clearable></el-input> -->
+            </div>
+          </el-col>
         <el-col :span="7">
           <div class="grid-content head-box3 bg-purple">
             <!-- <div>
@@ -210,5 +209,11 @@ body > .el-container {
 // 右上角头像
 .el-dropdown-menu__item {
   text-align: center;
+}
+
+// 顶栏句子
+.title-sentence {
+  font-size: 16px;
+  color: #ea6f5a;
 }
 </style>

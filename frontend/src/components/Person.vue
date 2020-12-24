@@ -156,98 +156,103 @@
     <el-row class="person-row" :gutter="20">
       <!--学者表格区域-->
       <el-col class="person-col" :span="16" :offset="4" v-loading="loading">
-        <el-tabs type="border-card">
-          <!-- 按h指数排序 -->
-          <el-tab-pane label="h指数">
-            <div class="box" v-for="item in personList" :key="item.personId">
-              <!-- 头像区域 -->
-              <div class="person-left-zone">
-                <div class="imgBox">
-                  <div class="person-img">
-                    <img src="../assets/default.png"
-                    style="height: 90px; width: 90px" />
-                  </div>
-                </div>
-              </div>
-
-              <!-- 学者主要信息区域 -->
-              <div class="person-right-zone">
-                <div class="name-zone">
-                  <!-- 学者名区域 -->
-                  <div class="name-line">
-                    <span class="person-name" @click="gotoProfile(item.aid)">
-                      {{ item.name }}
-                    </span>
-                  </div>
-                  <!-- 右侧关注按钮 -->
-                  <div class="name-right-zone">
-                    <div class="mark">
-                      <div>
-                        <el-button
-                          v-if="!(item.isFollowed)"
-                          type="info"
-                          class="btn"
-                          @click="followScholar(item)"
-                        >
-                          <div>
-                            <span>关注</span>
-                          </div>
-                        </el-button>
-                        <el-button
-                          v-if="item.isFollowed"
-                          type="info"
-                          class="btn"
-                          @click="unfollow(item)"
-                        >
-                          <div>
-                            <span>已关注</span>
-                          </div>
-                        </el-button>
-                      </div>
+        <el-card shadow="hover">
+          <el-tabs>
+            <!-- 按h指数排序 -->
+            <el-tab-pane label="搜索专家结果">
+              <div class="box" v-for="item in personList" :key="item.personId">
+                <!-- 头像区域 -->
+                <div class="person-left-zone">
+                  <div class="imgBox">
+                    <div class="person-img">
+                      <img
+                        src="../assets/default.png"
+                        style="height: 90px; width: 90px"
+                      />
                     </div>
                   </div>
                 </div>
-                <!-- 学者各项信息区域 -->
-                <div class="info-zone">
-                  <div class="info-row">
-                    <span class="info-item">
-                      <span>
-                        <em>h</em>
-                        -index
+
+                <!-- 学者主要信息区域 -->
+                <div class="person-right-zone">
+                  <div class="name-zone">
+                    <!-- 学者名区域 -->
+                    <div class="name-line">
+                      <span class="person-name" @click="gotoProfile(item.aid)">
+                        {{ item.name }}
                       </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.h_index }}
+                    </div>
+                    <!-- 右侧关注按钮 -->
+                    <div class="name-right-zone">
+                      <div class="mark">
+                        <div>
+                          <el-button
+                            v-if="!item.isFollowed"
+                            type="info"
+                            class="btn"
+                            @click="followScholar(item)"
+                          >
+                            <div>
+                              <span>关注</span>
+                            </div>
+                          </el-button>
+                          <el-button
+                            v-if="item.isFollowed"
+                            type="info"
+                            class="btn"
+                            @click="unfollow(item)"
+                          >
+                            <div>
+                              <span>已关注</span>
+                            </div>
+                          </el-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 学者各项信息区域 -->
+                  <div class="info-zone">
+                    <div class="info-row">
+                      <span class="info-item">
+                        <span>
+                          <em>h</em>
+                          -index
+                        </span>
+                        <span>:</span>
+                        <span class="info-count">
+                          {{ item.h_index }}
+                        </span>
                       </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 论文数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_pubs ? item.n_pubs:0 }}
+                      <span class="info-item">
+                        <span> 论文数 </span>
+                        <span>:</span>
+                        <span class="info-count">
+                          {{ item.n_pubs ? item.n_pubs : 0 }}
+                        </span>
                       </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 引用数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_citation ? item.n_citation:0}}
+                      <span class="info-item">
+                        <span> 引用数 </span>
+                        <span>:</span>
+                        <span class="info-count">
+                          {{ item.n_citation ? item.n_citation : 0 }}
+                        </span>
                       </span>
+                    </div>
+                  </div>
+
+                  <!-- 学者机构区域 -->
+                  <!-- orgination是门户修改信息中机构的字段 -->
+                  <div class="department-zone" v-if="item.orgination">
+                    <span class="department">
+                      机构：{{ item.orgination }}
                     </span>
                   </div>
-                </div>
+                  <div class="department-zone" v-else-if="item.orgs">
+                    <span class="department"> 机构：{{ item.orgs[0] }} </span>
+                  </div>
 
-                <!-- 学者机构区域 -->
-                <!-- orgination是门户修改信息中机构的字段 -->
-                <div class="department-zone" v-if="item.orgination">
-                  <span class="department"> 机构：{{ item.orgination }} </span>
-                </div>
-                <div class="department-zone" v-else-if="item.orgs">
-                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
-                </div>
-
-                <!-- 学者标签区域 -->
-                <!-- <div class="tag-zone">
+                  <!-- 学者标签区域 -->
+                  <!-- <div class="tag-zone">
                   <div class="tags">
                     <span v-if="item.tags">
                       <a class="tag">{{ item.tags[0].t }}</a>
@@ -260,186 +265,23 @@
                     </span>
                   </div>
                 </div> -->
-              </div>
-            </div>
-          </el-tab-pane>
-          <!-- 按论文数排序 -->
-          <el-tab-pane label="论文数">
-            <div class="box" v-for="item in personList" :key="item.personId">
-              <div class="person-left-zone">
-                <div class="imgBox">
-                  <div class="person-img">
-                    <img src="../assets/default.png"
-                    style="height: 90px; width: 90px" />
-                  </div>
                 </div>
               </div>
-
-              <div class="person-right-zone">
-                <div class="name-zone">
-                  <div class="name-line">
-                    <span class="person-name" @click="gotoProfile(item.aid)">
-                      {{ item.name }}
-                    </span>
-                  </div>
-
-                  <div class="name-right-zone">
-                    <div class="mark">
-                      <div>
-                        <el-button type="info" class="btn">
-                          <div>
-                            <span>关注</span>
-                          </div>
-                        </el-button>
-                      </div>
-                    </div>
-                  </div>
+            </el-tab-pane>
+            <el-row style="margin-top: 25px">
+              <el-col :span="12" :offset="6">
+                <div>
+                  <el-button v-if="!isFirst" @click="prepage()"
+                    >上一页</el-button
+                  >
+                  <el-button v-if="!isLast" @click="nextpage()"
+                    >下一页</el-button
+                  >
                 </div>
-
-                <div class="info-zone">
-                  <div class="info-row">
-                    <span class="info-item">
-                      <span>
-                        <em>h</em>
-                        -index
-                      </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.h_index }}
-                      </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 论文数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_pubs?item.n_pubs:0 }}
-                      </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 引用数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_citation?item.n_citation:0 }}
-                      </span>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- 学者机构区域 -->
-                <div class="department-zone" v-if="item.orgs">
-                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
-                </div>
-
-                <!-- 学者标签区域 -->
-                <!-- <div class="tag-zone">
-                  <div class="tags">
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[0].t }}</a>
-                    </span>
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[1].t }}</a>
-                    </span>
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[2].t }}</a>
-                    </span>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-          </el-tab-pane>
-          <!-- 按引用数排序 -->
-          <el-tab-pane label="引用数">
-            <div class="box" v-for="item in personList" :key="item.personId">
-              <div class="person-left-zone">
-                <div class="imgBox">
-                  <div class="person-img">
-                    <img src="../assets/default.png"
-                    style="height: 90px; width: 90px" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="person-right-zone">
-                <div class="name-zone">
-                  <div class="name-line">
-                    <span class="person-name" @click="gotoProfile(item.aid)">
-                      {{ item.name }}
-                    </span>
-                  </div>
-
-                  <div class="name-right-zone">
-                    <div class="mark">
-                      <div>
-                        <el-button type="info" class="btn">
-                          <div>
-                            <span>关注</span>
-                          </div>
-                        </el-button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="info-zone">
-                  <div class="info-row">
-                    <span class="info-item">
-                      <span>
-                        <em>h</em>
-                        -index
-                      </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.h_index }}
-                      </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 论文数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_pubs?item.n_pubs:0 }}
-                      </span>
-                    </span>
-                    <span class="info-item">
-                      <span> 引用数 </span>
-                      <span>:</span>
-                      <span class="info-count">
-                        {{ item.n_citation?item.n_citation:0 }}
-                      </span>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- 学者机构区域 -->
-                <div class="department-zone" v-if="item.orgs">
-                  <span class="department"> 机构：{{ item.orgs[0] }} </span>
-                </div>
-
-                <!-- 学者标签区域 -->
-                <!-- <div class="tag-zone">
-                  <div class="tags">
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[0].t }}</a>
-                    </span>
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[1].t }}</a>
-                    </span>
-                    <span v-if="item.tags">
-                      <a class="tag">{{ item.tags[2].t }}</a>
-                    </span>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-          </el-tab-pane>
-          <el-row style="margin-top: 25px">
-            <el-col :span="12" :offset="6">
-              <div >
-                <el-button v-if="!isFirst" @click="prepage()">上一页</el-button>
-                <el-button v-if="!isLast" @click="nextpage()">下一页</el-button>
-              </div>
-            </el-col>
-          </el-row>
-        </el-tabs>
+              </el-col>
+            </el-row>
+          </el-tabs>
+        </el-card>
       </el-col>
       <!-- 备用栏 -->
       <!-- <el-col class="card-col" :span="6" :offset="0">
@@ -464,19 +306,19 @@ export default {
       page_num: 1,
       page_size: 10,
       personList: [],
-      isFirst:true,
-      isLast:false,
+      isFirst: true,
+      isLast: false,
     };
   },
   created: function () {
     this.getPersonList();
   },
   methods: {
-    prepage(){
+    prepage() {
       this.page_num--;
       this.getPersonList();
     },
-    nextpage(){
+    nextpage() {
       this.page_num++;
       this.getPersonList();
     },
@@ -494,13 +336,13 @@ export default {
         console.log(res.data);
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
-        this.isFirst = res.data.data.first
-        this.isLast = res.data.data.last
+        this.isFirst = res.data.data.first;
+        this.isLast = res.data.data.last;
 
         this.personList.forEach(async (element) => {
           const res = await this.getFollowStatus(element.aid);
-          element.isFollowed = res.data.data
-          this.$forceUpdate()
+          element.isFollowed = res.data.data;
+          this.$forceUpdate();
         });
 
         this.loading = false;
@@ -554,7 +396,7 @@ export default {
               message: "已关注",
               type: "success",
             });
-            person.isFollowed = !person.isFollowed
+            person.isFollowed = !person.isFollowed;
             this.$forceUpdate();
           } else {
             this.$message({
@@ -581,7 +423,7 @@ export default {
               message: "已取消关注",
               type: "success",
             });
-            person.isFollowed = !person.isFollowed
+            person.isFollowed = !person.isFollowed;
             this.$forceUpdate();
           } else {
             this.$message({
