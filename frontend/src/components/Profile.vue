@@ -31,7 +31,7 @@
               <!-- <el-col class="follow_btn" :span="6">
                 <el-button icon="fa fa-plus-square-o"> -->
               <div class="button_div">
-                <button @click="sendMssage()" class="follow_button">
+                <button v-if="this.target_user_id" @click="sendMssage()" class="follow_button">
                   <div>
                     <i class="el-icon-message"></i>
                     <span>私信</span>
@@ -537,34 +537,17 @@ export default {
     gotoPaper(pid) {
       this.$router.push("/details_paper/" + pid);
     },
-    getPersonList() {
-      console.log("get data");
-      var url = "http://106.13.138.133:18090/notice/get_person_list/" + localStorage.getItem('user_id') ;
-      axios.get(url).then((res)=>{
-        console.log("get data");
-        console.log(res);
-      })
-    },
-    getMssageContent() {
-      console.log("get message content");
-      var url = "http://106.13.138.133:18090/notice/get_message_content/" + localStorage.getItem('user_id') + '/' + "?target_user_id=" + this.target_user_id;
-      axios.get(url).then((res)=>{
-        console.log("get data message content");
-        console.log(res);
-      })
-    },
     sendMssage() {
       console.log("send message");
       console.log(this.target_user_id);
       var data = Qs.stringify({
-        content:"测试数据测试数据",
+        content:"",
         target_user_id: this.target_user_id,
       });
       var url="http://106.13.138.133:18090/notice/post_message/" + localStorage.getItem('user_id');
       axios.post(url, data).then((res)=>{
-        console.log(res);
-        console.log("获取到了数据")
       });
+      this.$router.push("/personal_center/chat/");
     },
     follow() {
       // this.followed = !this.followed;
