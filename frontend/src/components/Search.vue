@@ -129,16 +129,29 @@ export default {
   font-size: 16px;
 }
 
+
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+
+.input-with-select:hover {
+  border: 1px solid #ea6f5a;
+  // background: #fff;
+}
+
 /deep/ .el-input-group__prepend {
   border: none;
-  border-radius: 5px 0 0 5px;
+  border-radius: 10px 0 0 10px;
+  background-color: #f6f6f6;
 }
+
+.input-with-select {
+  background-color: #fff;
+}
+
 /deep/ .el-input-group__append {
   border: none;
   border-radius: 0 5px 5px 0;
-}
-
-.input-with-select .el-input-group__prepend {
   background-color: #fff;
 }
 
