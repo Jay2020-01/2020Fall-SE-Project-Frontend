@@ -8,6 +8,7 @@
         placeholder="请输入您要认领的门户"
         v-model="key_word"
         @keyup.enter.native="init();getPersonList()"
+        v-if="!(totalCount==0&&bindId!=undefined&&bindId.length&&key_word=='')"
       >
         <el-button
           slot="append"
@@ -20,7 +21,7 @@
     <!-- 若该用户已经认领了门户 -->
     <div v-if="totalCount==0&&bindId!=undefined&&bindId.length&&key_word==''">
       <div style="" >
-        <el-card style="" >
+        <el-card style="width: 40%; height: 400px" shadow="hover" >
           <div style="line-height: 20px">
             <div>
               <img
