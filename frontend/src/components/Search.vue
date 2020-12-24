@@ -24,7 +24,7 @@
     </el-row>
     <!-- 搜索结果 -->
     <el-row class="result-row">
-      <el-col class="result-col" :span="20" :offset="2">
+      <el-col class="result-col" :span="22" :offset="1">
         <!-- 路由占位符 -->
         <router-view />
         <!-- <el-tabs v-model="activeName" @tab-click="handleClick">

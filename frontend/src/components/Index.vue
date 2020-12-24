@@ -59,7 +59,7 @@
       <el-col class="card-col" :span="6">
         <el-card class="box-card" shadow="hover">
           <div slot="header">
-            <span>科技资讯</span>
+            <span>热门经典</span>
           </div>
           <div v-for="(item,index) in paper" :key="index" class="text item_2" v-show="index<5" @click="goto_paper(item.pid)">
             <span>{{item.title}}</span>

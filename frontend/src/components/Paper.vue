@@ -2,97 +2,37 @@
   <div>
     <el-row class="paper-row" :gutter="20">
       <!-- 日期选择器区域 -->
-      <el-col class="date-col" :span="4" :offset="0">
+      <el-col class="date-col" :span="5" :offset="0">
         <div class="block">
-          <el-date-picker
-            v-model="activeDate"
-            type="monthrange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始月份"
-            end-placeholder="结束月份"
-            :picker-options="pickerOptions"
-            size="mini"
-            value-format="yyyy"
-          >
-          </el-date-picker>
+          <el-card shadow="hover" style="min-height: 180px">
+            <div slot="header">
+              <span>时间筛选</span>
+            </div>
+            <el-date-picker
+              v-model="activeDate"
+              type="monthrange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始年份"
+              end-placeholder="结束年份"
+              :picker-options="pickerOptions"
+              size="small"
+              value-format="yyyy"
+              style="width: 100%; height: 100%"
+            >
+            </el-date-picker>
+          </el-card>
         </div>
       </el-col>
 
       <!-- 论文表格区域 -->
-      <el-col class="paper-col" :span="17" :offset="0" v-loading="loading">
-        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-          <!-- 按时间排序 -->
-          <el-tab-pane label="最新" name="1">
-            <div class="box" v-for="item in paperList" :key="item.paperId">
-              <!-- 标题区域 -->
-              <div class="title-zone">
-                <!-- 论文名称 -->
-                <div class="title-line">
-                  <div class="paper-title" @click="paper(item.pid)">
-                    <KeywordsText
-                      :keywords="keyword"
-                      :text="item.title"
-                    ></KeywordsText>
-                  </div>
-                </div>
-                <!-- 右侧收藏按钮 -->
-                <div class="title-right-zone">
-                  <div class="mark">
-                    <div>
-                      <el-button
-                        v-if="!item.isFavored"
-                        type="info"
-                        class="btn"
-                        @click="collectPaper(item)"
-                      >
-                        <div>
-                          <span>收藏</span>
-                        </div>
-                      </el-button>
-                      <el-button
-                        v-if="item.isFavored"
-                        type="info"
-                        class="btn"
-                        @click="uncollectPaper(item)"
-                      >
-                        <div>
-                          <span>已收藏</span>
-                        </div>
-                      </el-button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- 作者区域 -->
-              <div class="person-zone">
-                <span class="person" v-if="item.authors.length >= 5">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
-                </span>
-                <span class="person" v-else-if="item.authors.length >= 3">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
-                </span>
-                <span class="person" v-else>
-                  {{ "No author"}}
-                </span>
-              </div>
-              <!-- 发表时间区域 -->
-              <div class="time-zone">
-                <div class="time">
-                  <span>发表时间：</span>
-                  {{ item.year }}
-                </div>
-              </div>
-              <!-- 引用区域 -->
-              <div class="reference-zone">
-                <div class="reference">
-                  <span>被引用:</span>
-                  <strong>{{ item.n_citation }}</strong>
-                </div>
-              </div>
-            </div>
-          </el-tab-pane>
+      <el-col class="paper-col" :span="16" :offset="0" v-loading="loading">
+        <el-tabs
+          v-model="activeName"
+          type="border-card"
+          @tab-click="handleClick"
+        >
           <!-- 按综合排序 -->
           <el-tab-pane label="综合" name="2">
             <div class="box" v-for="item in paperList" :key="item.paperId">
@@ -138,13 +78,141 @@
               <!-- 作者区域 -->
               <div class="person-zone">
                 <span class="person" v-if="item.authors.length >= 5">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", " +
+                    item.authors[3].name +
+                    ", " +
+                    item.authors[4].name +
+                    ", et al."
+                  }}
                 </span>
                 <span class="person" v-else-if="item.authors.length >= 3">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 2">
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 1">
+                  {{ item.authors[0].name + ", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author"}}
+                  {{ "No author" }}
+                </span>
+              </div>
+              <!-- 发表时间区域 -->
+              <div class="time-zone">
+                <div class="time">
+                  <span>发表时间：</span>
+                  {{ item.year }}
+                </div>
+              </div>
+              <!-- 引用区域 -->
+              <div class="reference-zone">
+                <div class="reference">
+                  <span>被引用:</span>
+                  <strong>{{ item.n_citation }}</strong>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+          <!-- 按时间排序 -->
+          <el-tab-pane label="最新" name="1">
+            <div class="box" v-for="item in paperList" :key="item.paperId">
+              <!-- 标题区域 -->
+              <div class="title-zone">
+                <!-- 论文名称 -->
+                <div class="title-line">
+                  <div class="paper-title" @click="paper(item.pid)">
+                    <KeywordsText
+                      :keywords="keyword"
+                      :text="item.title"
+                    ></KeywordsText>
+                  </div>
+                </div>
+                <!-- 右侧收藏按钮 -->
+                <div class="title-right-zone">
+                  <div class="mark">
+                    <div>
+                      <el-button
+                        v-if="!item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="collectPaper(item)"
+                      >
+                        <div>
+                          <span>收藏</span>
+                        </div>
+                      </el-button>
+                      <el-button
+                        v-if="item.isFavored"
+                        type="info"
+                        class="btn"
+                        @click="uncollectPaper(item)"
+                      >
+                        <div>
+                          <span>已收藏</span>
+                        </div>
+                      </el-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 作者区域 -->
+              <div class="person-zone">
+                <span class="person" v-if="item.authors.length >= 5">
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", " +
+                    item.authors[3].name +
+                    ", " +
+                    item.authors[4].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 3">
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 2">
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 1">
+                  {{ item.authors[0].name + ", et al." }}
+                </span>
+                <span class="person" v-else>
+                  {{ "No author" }}
                 </span>
               </div>
               <!-- 发表时间区域 -->
@@ -209,13 +277,42 @@
               <!-- 作者区域 -->
               <div class="person-zone">
                 <span class="person" v-if="item.authors.length >= 5">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name+ ", " + item.authors[3].name+ ", " + item.authors[4].name +", et al." }}
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", " +
+                    item.authors[3].name +
+                    ", " +
+                    item.authors[4].name +
+                    ", et al."
+                  }}
                 </span>
                 <span class="person" v-else-if="item.authors.length >= 3">
-                  {{ item.authors[0].name + ", " +  item.authors[1].name + ", " + item.authors[2].name +", et al." }}
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", " +
+                    item.authors[2].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 2">
+                  {{
+                    item.authors[0].name +
+                    ", " +
+                    item.authors[1].name +
+                    ", et al."
+                  }}
+                </span>
+                <span class="person" v-else-if="item.authors.length >= 1">
+                  {{ item.authors[0].name + ", et al." }}
                 </span>
                 <span class="person" v-else>
-                  {{ "No author"}}
+                  {{ "No author" }}
                 </span>
               </div>
               <!-- 发表时间区域 -->
@@ -245,6 +342,7 @@
             :pager-count="11"
             layout="prev, pager, next"
             :total="totalPapers"
+            style="margin-top: 25px"
           >
           </el-pagination>
         </el-tabs>
@@ -264,10 +362,10 @@
 
 <script>
 function sortByYear(a, b) {
-    return b.year - a.year;
+  return b.year - a.year;
 }
 function sortByCite(a, b) {
-    return b.n_citation - a.n_citation;
+  return b.n_citation - a.n_citation;
 }
 import keyword from "@/components/keyword";
 import Qs from "qs";
@@ -278,8 +376,8 @@ export default {
   components: { KeywordsText },
   data() {
     return {
-      activeName: "1",
-      sortValue:1,
+      activeName: "2",
+      sortValue: 1,
       loading: "",
       start_year: 1900,
       end_year: 2029,
@@ -292,25 +390,10 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "本月",
-            onClick(picker) {
-              picker.$emit("pick", [new Date(), new Date()]);
-            },
-          },
-          {
             text: "本年至今",
             onClick(picker) {
               const end = new Date();
               const start = new Date(new Date().getFullYear(), 0);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-          {
-            text: "最近半年",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setMonth(start.getMonth() - 6);
               picker.$emit("pick", [start, end]);
             },
           },
@@ -338,6 +421,15 @@ export default {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 120);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近十五年",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setMonth(start.getMonth() - 180);
               picker.$emit("pick", [start, end]);
             },
           },
@@ -393,11 +485,11 @@ export default {
       axios.get(url).then((res) => {
         // console.log("get data from url");
         console.log(res.data.data.content);
-        if(this.sortValue == 1) {
+        if (this.sortValue == 1) {
           this.paperList = res.data.data.content.sort(sortByYear);
-        }else if(this.sortValue == 3) {
+        } else if (this.sortValue == 3) {
           this.paperList = res.data.data.content.sort(sortByCite);
-        }else {
+        } else {
           this.paperList = res.data.data.content;
         }
         this.totalPapers = res.data.data.totalElements;
@@ -413,13 +505,13 @@ export default {
       // console.log("post 1 finish");
     },
     handleClick(tab, event) {
-      if(tab.name === "1") {
+      if (tab.name === "1") {
         this.sortValue = 1;
         this.getPaperList();
-      }else if(tab.name === "2") {
+      } else if (tab.name === "2") {
         this.sortValue = 2;
         this.getPaperList();
-      }else {
+      } else {
         this.sortValue = 3;
         this.getPaperList();
       }
@@ -547,6 +639,7 @@ export default {
   width: calc(100% - 49px);
   background-color: transparent;
   border-bottom: 1px solid #d5d5d5;
+  margin-bottom: 6px;
   /*在父容器中输入display: flex就是启动了flex布局*/
 }
 
@@ -566,6 +659,7 @@ export default {
   color: #000;
   line-height: 22px;
   margin-bottom: 0;
+  font-size: 18px;
   vertical-align: middle;
   cursor: pointer;
 }
@@ -579,17 +673,17 @@ export default {
   justify-content: flex-end;
   position: relative;
   align-items: center;
-  line-height: 18px;
+  line-height: 20px;
 }
 .btn {
-  height: 24px;
+  height: 28px;
   padding: 0 10px;
   border: none;
   border-radius: 2px;
   background-color: #f0f1f4;
   color: #000e28;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 // 作者样式
@@ -601,7 +695,7 @@ export default {
 }
 
 .person {
-  font-size: 14px;
+  font-size: 15px;
   color: #067c08;
   cursor: pointer;
 }
@@ -629,8 +723,8 @@ export default {
 }
 
 .time {
-  font-size: 13px;
-  color: #444;
+  font-size: 15px;
+  color: rgb(54, 50, 50);
   margin: 5px 0 0;
 }
 
@@ -638,7 +732,7 @@ export default {
 .reference-zone {
   flex-wrap: wrap;
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: 10px;
   border-top: 1px dashed #dfdfdf;
   padding: 6px 0 3px;
 }

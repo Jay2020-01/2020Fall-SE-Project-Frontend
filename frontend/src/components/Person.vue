@@ -742,24 +742,24 @@ export default {
   justify-content: flex-end;
   position: relative;
   align-items: center;
-  line-height: 18px;
+  line-height: 20px;
 }
 .btn {
-  height: 24px;
+  height: 28px;
   padding: 0 10px;
   border: none;
   border-radius: 2px;
   background-color: #f0f1f4;
   color: #000e28;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 //学者各项信息展示样式
 .info-row {
   display: flex;
   flex-wrap: wrap;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .info-item {
