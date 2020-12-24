@@ -539,7 +539,7 @@ export default {
     },
     sendMssage() {
       console.log("send message");
-      console.log(this.target_user_id);
+      console.log("target_user_id:" + this.target_user_id);
       var data = Qs.stringify({
         content:"",
         target_user_id: this.target_user_id,
@@ -547,7 +547,12 @@ export default {
       var url="http://106.13.138.133:18090/notice/post_message/" + localStorage.getItem('user_id');
       axios.post(url, data).then((res)=>{
       });
-      this.$router.push("/personal_center/chat/");
+      this.$router.push({
+        path: '/personal_center/chat/',
+        query: {
+          target_user_id: this.target_user_id
+        }
+      })
     },
     follow() {
       // this.followed = !this.followed;
