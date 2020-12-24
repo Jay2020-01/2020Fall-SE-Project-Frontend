@@ -155,7 +155,7 @@
 
     <el-row class="person-row" :gutter="20">
       <!--学者表格区域-->
-      <el-col class="person-col" :span="18" :offset="3" v-loading="loading">
+      <el-col class="person-col" :span="16" :offset="4" v-loading="loading">
         <el-tabs type="border-card">
           <!-- 按h指数排序 -->
           <el-tab-pane label="h指数">
@@ -431,7 +431,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-row style="margin-top: 10px">
+          <el-row style="margin-top: 25px">
             <el-col :span="12" :offset="6">
               <div >
                 <el-button v-if="!isFirst" @click="prepage()">上一页</el-button>
