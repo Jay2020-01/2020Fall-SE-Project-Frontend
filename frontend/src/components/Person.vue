@@ -431,17 +431,14 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="page_num"
-            :page-sizes="[5, 10, 20, 30]"
-            :page-size="page_size"
-            :pager-count="11"
-            layout="prev, pager, next"
-            :total="totalPersons"
-          >
-          </el-pagination>
+          <el-row style="margin-top: 10px">
+            <el-col :span="12" :offset="6">
+              <div >
+                <el-button v-if="!isFirst" @click="prepage()">上一页</el-button>
+                <el-button v-if="!isLast" @click="nextpage()">下一页</el-button>
+              </div>
+            </el-col>
+          </el-row>
         </el-tabs>
       </el-col>
       <!-- 备用栏 -->
@@ -466,22 +463,21 @@ export default {
       loading: "",
       page_num: 1,
       page_size: 10,
-      totalPersons: 0,
       personList: [],
+      isFirst:true,
+      isLast:false,
     };
   },
   created: function () {
     this.getPersonList();
   },
   methods: {
-    //監聽pagesize改變的事件
-    handleSizeChange(newSize) {
-      this.page_size = newSize;
+    prepage(){
+      this.page_num--;
       this.getPersonList();
     },
-    // 監聽頁碼值改變的事件
-    handleCurrentChange(newPage) {
-      this.page_num = newPage;
+    nextpage(){
+      this.page_num++;
       this.getPersonList();
     },
     getPersonList() {
@@ -498,12 +494,15 @@ export default {
         console.log(res.data);
         //console.log(res.data.data.content);
         this.personList = res.data.data.content;
-        this.totalPersons = res.data.data.totalElements;
+        this.isFirst = res.data.data.first
+        this.isLast = res.data.data.last
+
         this.personList.forEach(async (element) => {
           const res = await this.getFollowStatus(element.aid);
           element.isFollowed = res.data.data
           this.$forceUpdate()
         });
+
         this.loading = false;
         console.log(this.personList);
       });

@@ -78,39 +78,16 @@
               <!-- 作者区域 -->
               <div class="person-zone">
                 <span class="person" v-if="item.authors.length >= 5">
-                  {{
-                    item.authors[0].name +
-                    ", " +
-                    item.authors[1].name +
-                    ", " +
-                    item.authors[2].name +
-                    ", " +
-                    item.authors[3].name +
-                    ", " +
-                    item.authors[4].name +
-                    ", et al."
-                  }}
+                  <span v-for="index in 5" :key="index" @click="toProfile(item.authors[index-1].id)">
+                    {{ item.authors[index - 1].name }},
+                  </span>
+                  et al.
                 </span>
                 <span class="person" v-else-if="item.authors.length >= 3">
-                  {{
-                    item.authors[0].name +
-                    ", " +
-                    item.authors[1].name +
-                    ", " +
-                    item.authors[2].name +
-                    ", et al."
-                  }}
-                </span>
-                <span class="person" v-else-if="item.authors.length >= 2">
-                  {{
-                    item.authors[0].name +
-                    ", " +
-                    item.authors[1].name +
-                    ", et al."
-                  }}
-                </span>
-                <span class="person" v-else-if="item.authors.length >= 1">
-                  {{ item.authors[0].name + ", et al." }}
+                  <span v-for="index in 3" :key="index" @click="toProfile(item.authors[index-1].id)">
+                    {{ item.authors[index - 1].name }},
+                  </span>
+                  et al.
                 </span>
                 <span class="person" v-else>
                   {{ "No author" }}
@@ -518,6 +495,14 @@ export default {
     },
     paper(pid) {
       this.$router.push("/details_paper/" + pid);
+    },
+    toProfile(aid) {
+      this.$router.push({
+        path: '/profile',
+        query: {
+          aid: aid
+        }
+      })
     },
     getCollectStatus(paper_id) {
       return new Promise((resolve, reject) => {
