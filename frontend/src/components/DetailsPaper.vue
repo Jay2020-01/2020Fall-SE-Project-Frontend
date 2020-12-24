@@ -238,7 +238,7 @@ export default {
         let n_citation = this.citation;
         for (let i = 0; i < this.years.length; i++) {
           let max = n_citation;
-          let min = n_citation - 10 > 0 ? n_citation - 10 : 0;
+          let min = n_citation * 0.8 > 0 ? n_citation * 0.8 : 0;
           n_citation = parseInt(Math.random() * (max - min + 1) + min, 10);
           this.row_datas.push({ 日期: this.years[i], 引用量: n_citation });
         }
