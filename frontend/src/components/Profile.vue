@@ -538,8 +538,6 @@ export default {
       this.$router.push("/details_paper/" + pid);
     },
     sendMssage() {
-      console.log("send message");
-      console.log("target_user_id:" + this.target_user_id);
       var data = Qs.stringify({
         content:"",
         target_user_id: this.target_user_id,

@@ -34,7 +34,7 @@
           @tab-click="handleClick"
         >
           <!-- 按综合排序 -->
-          <el-tab-pane label="综合" name="2">
+          <el-tab-pane label="综合" name="1">
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <!-- 标题区域 -->
               <div class="title-zone">
@@ -110,7 +110,7 @@
             </div>
           </el-tab-pane>
           <!-- 按时间排序 -->
-          <el-tab-pane label="最新" name="1">
+          <el-tab-pane label="最新" name="2">
             <div class="box" v-for="item in paperList" :key="item.paperId">
               <!-- 标题区域 -->
               <div class="title-zone">
@@ -353,7 +353,7 @@ export default {
   components: { KeywordsText },
   data() {
     return {
-      activeName: "2",
+      activeName: "1",
       sortValue: 1,
       loading: "",
       start_year: 1900,
@@ -462,7 +462,7 @@ export default {
       axios.get(url).then((res) => {
         // console.log("get data from url");
         console.log(res.data.data.content);
-        if (this.sortValue == 1) {
+        if (this.sortValue == 2) {
           this.paperList = res.data.data.content.sort(sortByYear);
         } else if (this.sortValue == 3) {
           this.paperList = res.data.data.content.sort(sortByCite);

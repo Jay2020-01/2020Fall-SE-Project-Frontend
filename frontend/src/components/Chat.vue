@@ -57,6 +57,7 @@ export default {
         // console.log("get person list");
         var url = "http://106.13.138.133:18090/notice/get_person_list/" + localStorage.getItem('user_id') ;
         axios.get(url).then((res)=>{
+          console.log(res);
           for (let i = 0; i < res.data.data.length; i++) {
             var room = new Object();
             room.roomId = res.data.data[i].id;
